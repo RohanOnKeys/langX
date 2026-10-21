@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/assets/banner.png" alt="langX" width="600"></p>
+
 # langX
 
 Research prototype: LangGraph agent steps executed on HPX localities, with HPX supervision fencing and a coordinator-side commit fence, so that a worker failure neither loses nor double-commits a step.
