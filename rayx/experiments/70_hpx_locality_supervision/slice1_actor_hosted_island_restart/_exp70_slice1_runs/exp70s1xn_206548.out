@@ -1,0 +1,104 @@
+=== identity gate: fixed HPX install SHA ===
+ok: /work/rohan/apps/hpx-master-install carries cc2be553fac9b1f2a372f4277d7c708e70bf7eb4
+=== allocation ===
+SLURM_JOB_ID=206548
+SLURM_JOB_NODELIST=medusa[00-01]
+nodeA(controller/head/root/actorA)=medusa00  nodeB(actorB=victim)=medusa01  host=medusa00.rostam.cct.lsu.edu
+=== environment identity ===
+2026-10-10T13:54:28Z
+
+Currently Loaded Modules:
+  1) binutils/2.44   3) cmake/3.29.2           5) hwloc/2.12.0
+  2) gcc/15.1.0      4) boost/1.91.0-release   6) python/3.12.3
+
+ 
+
+Python 3.12.3
+ray 2.55.1
+3: eno16    inet 10.42.5.30/24 brd 10.42.5.255 scope global dynamic noprefixroute eno16\       valid_lft 1172sec preferred_lft 1172sec
+5: ibp94s0    inet 10.42.6.30/24 brd 10.42.6.255 scope global dynamic noprefixroute ibp94s0\       valid_lft 1602sec preferred_lft 1602sec
+7be9f757df3449dca37ccec9b924f045efb57163150681fcc8aeaf09ebffa7d4  /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice1_actor_hosted_island_restart/run_slice1.py
+2490e9fa32ff1c9e530d515f7eb9d7d5c8b15afabec609a149ac48fffa6edfc9  /work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer
+d17a0f06faf9cefba3e37e2bdaf3c379bfed4c74642b25f8148bcc44dc1c651a  /work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_actor_ext.cpython-312-x86_64-linux-gnu.so
+=== exp68 artifacts (must already exist; this launcher never rebuilds) ===
+=== syntax + selftest (inside allocation) ===
+  PASS  exp68 module importable with required surface (incl. crossnode helpers)
+  PASS  clean synthetic run passes all gates
+  PASS  clean run states exactly the supported negative claims, all true
+  PASS  clean run interprets stale membership verbatim
+  PASS  unrelated machine-wide exp68_peer hit is informational (clean run passes with one)
+  PASS  victim pid cross-check mismatch -> invalid_instrumentation
+  PASS  invalid victim key -> invalid_instrumentation
+  PASS  epoch0 root not locality 0 -> epoch0_join_failed
+  PASS  epoch0 actor has HPX child process -> epoch0_inprocess_proof_failed
+  PASS  epoch0 oracle float32 bit mismatch -> epoch0_workload_failed
+  PASS  injection not recorded as sent -> injection_not_observed
+  PASS  failed injection precondition -> injection_not_observed
+  PASS  victim process still alive -> island_failure_not_classified
+  PASS  graceful leave must NOT classify as island failure -> island_failure_not_classified
+  PASS  classifier is injection-blind (same verdict with injection record erased)
+  PASS  membership_shrank is observational; run still passes
+  PASS  membership_query_timeout is observational; run still passes
+  PASS  invalid membership category -> post_loss_observation_incomplete
+  PASS  unbounded survivor probe -> post_loss_observation_incomplete
+  PASS  survivor result not recorded verbatim -> post_loss_observation_incomplete
+  PASS  mislabelled root-liveness witness kind -> post_loss_observation_incomplete
+  PASS  categorize: membership 2 -> shrank
+  PASS  categorize: membership 3 -> stale
+  PASS  categorize: bounded timeout -> query_timeout
+  PASS  categorize: bounded exception -> query_error
+  PASS  categorize: membership 5 -> other
+  PASS  application work after classification -> app_work_after_classification
+  PASS  surviving connector not terminated -> epoch0_teardown_incomplete
+  PASS  graceful application completion on poisoned island violates policy -> epoch0_teardown_incomplete
+  PASS  root.done written on poisoned epoch violates policy -> epoch0_teardown_incomplete
+  PASS  teardown before classification breaks ordering -> invalid_ordering
+  PASS  missing final orphan sweep breaks ordering -> invalid_ordering
+  PASS  epoch1 reuses an epoch0 port -> epoch_isolation_violated
+  PASS  epoch1 reuses epoch0 root pid -> epoch_isolation_violated
+  PASS  epoch1 reuses an epoch0 actor identity -> epoch_isolation_violated
+  PASS  epoch0 marker visible to epoch1 -> epoch_isolation_violated
+  PASS  epoch1 oracle token-id mismatch -> epoch1_workload_failed
+  PASS  epoch1 non-graceful actor stop -> epoch1_shutdown_failed
+  PASS  epoch1 root did not observe leave -> epoch1_shutdown_failed
+  PASS  recorded Slice 1 process still alive fails cleanup -> orphan_detected
+  PASS  owned records missing an epoch fails coverage -> orphan_detected
+  PASS  run-dir-scoped process fails cleanup -> orphan_detected
+  PASS  cleanup-after-intermediate-failure not run -> cleanup_incomplete
+  PASS  owned sweep: gone process -> all_owned_gone
+  PASS  owned sweep: matching identity -> alive_ours (fails)
+  PASS  owned sweep: PID reuse (different start identity) is NOT ours
+  PASS  owned sweep: epoch1 record still alive is detected (both epochs checked)
+  PASS  clean cross-node synthetic run passes all gates
+  PASS  same-node placement rejected -> crossnode_placement_failed
+  PASS  soft placement rejected -> crossnode_placement_failed
+  PASS  epoch1 placement record missing rejected (placement freshness) -> crossnode_placement_failed
+  PASS  missing Slurm job id rejected -> crossnode_attestation_failed
+  PASS  unresolved Ray node ids rejected (cluster-artifact schema) -> crossnode_attestation_failed
+  PASS  off-subnet parcelport endpoint rejected -> crossnode_placement_failed
+  PASS  victim-node selection: victim on head node fails victim_on_remote_node
+  PASS  local synthetic run carries no placement gates
+  PASS  preflight cleanly reports missing artifacts (skip path)
+  PASS  crossnode preflight without Slurm env cleanly skips
+  PASS  local root command contains no srun/Slurm invocation
+  PASS  preflight sees real exp68 artifacts (informational)
+
+selftest: 60/60 passed
+=== cross-node run 1 start 2026-10-10T13:54:32Z ===
+2026-10-10 08:54:34,909	INFO worker.py:1814 -- Connecting to existing Ray cluster at address: 10.42.5.30:6479...
+2026-10-10 08:54:38,169	INFO worker.py:2012 -- Connected to Ray cluster.
+/work/rohan/venvs/rayx/lib/python3.12/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+[33m(raylet)[0m A worker died or was killed while executing a task by an unexpected system error. To troubleshoot the problem, check the logs for the dead worker. Lease ID: 020000003af55a3cfb8c7ac1434be7932b27c353a8557dc49dca3a1be1a5e942 Worker ID: b97353a406fc36911b463e6eb530abf65cae1142d4618daf2f6da128 Node ID: bd05b7c7ae3de28a1f44572648701e1b45397d7ecc919e7cbd9c8539 Worker IP address: 10.42.5.31 Worker port: 10002 Worker PID: 3139323 Worker exit type: SYSTEM_ERROR Worker exit detail: Worker unexpectedly exits with a connection error code 2. End of file. Some common causes include: (1) the process was killed by the OOM killer due to high memory usage, (2) ray stop --force was called, or (3) the worker crashed unexpectedly due to SIGSEGV or another unexpected error.
+[slice1] overall: pass (pass) post_loss=membership_stale -> /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085432Z/aggregate.json
+[launcher] verdict: overall=pass class=pass post_loss=membership_stale runid=20261010T085432Z
+=== first run PASS; starting repeatability run ===
+=== cross-node run 2 start 2026-10-10T13:54:48Z ===
+2026-10-10 08:54:50,935	INFO worker.py:1814 -- Connecting to existing Ray cluster at address: 10.42.5.30:6479...
+2026-10-10 08:54:52,011	INFO worker.py:2012 -- Connected to Ray cluster.
+/work/rohan/venvs/rayx/lib/python3.12/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+[33m(raylet)[0m A worker died or was killed while executing a task by an unexpected system error. To troubleshoot the problem, check the logs for the dead worker. Lease ID: 020000000b4333b8afb8911b2f7042a91a446946c3b0e9ba95adc4e2255022a0 Worker ID: 0313c2c11b9ff7af333aede15bdb0165c7efa51e0ffcfa09c58be0e5 Node ID: 4b2c978f4ce40268a5b1e2537ff55da90c6568bc243f96f9fa409cd9 Worker IP address: 10.42.5.31 Worker port: 10003 Worker PID: 3141505 Worker exit type: SYSTEM_ERROR Worker exit detail: Worker unexpectedly exits with a connection error code 2. End of file. Some common causes include: (1) the process was killed by the OOM killer due to high memory usage, (2) ray stop --force was called, or (3) the worker crashed unexpectedly due to SIGSEGV or another unexpected error.
+[slice1] overall: pass (pass) post_loss=membership_stale -> /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085449Z/aggregate.json
+[launcher] verdict: overall=pass class=pass post_loss=membership_stale runid=20261010T085449Z
+=== done: 2026-10-10T13:55:03Z ===

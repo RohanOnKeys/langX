@@ -1,0 +1,223 @@
+{
+  "artifact_sha256": {
+    "crossnode_206559_20261010T110522Z/aggregate.json": "53756b817c83f9fa8e996ed0b8573c160d422fee6358356a9cf799b092dcb5cb",
+    "crossnode_206559_20261010T110522Z/head.log": "a0658e7365750aeeb13cb7adbeb8c9b3f03589c9c22dd3f8b5d2dd874bcabbb9",
+    "crossnode_206559_20261010T110522Z/loss/island/root.alive": "f22225688f860f7f66e651cd1d27d8859f979195bc514b13dee4c22f70526234",
+    "crossnode_206559_20261010T110522Z/loss/island/root.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "crossnode_206559_20261010T110522Z/loss/island/root.ready": "cd09a9ec8053801cc36ec33d505ca5e5f85897d7dfc6e787c8b3d32757f298e2",
+    "crossnode_206559_20261010T110522Z/loss/stale_control/root.alive": "9277b298f48bf69c9845c9977dbbf97ed6a36b9310665cbc862984dcd50d34b2",
+    "crossnode_206559_20261010T110522Z/loss/stale_control/root.completion": "21f3884d3eb58ed369506cbaf936a9a12304c872af29f7d7bc6ce5337e68e2f3",
+    "crossnode_206559_20261010T110522Z/markers.json": "29332d0e7ca4f69641ee19aaa2c0a9f28e9b50c3601d16a3385e2528d7577e3c",
+    "crossnode_206559_20261010T110522Z/normal/island/root.alive": "f22225688f860f7f66e651cd1d27d8859f979195bc514b13dee4c22f70526234",
+    "crossnode_206559_20261010T110522Z/normal/island/root.completion": "c64de2f681e2d3a43530de3265b88c09089c34a52fdb19fbae2f188dc2c70504",
+    "crossnode_206559_20261010T110522Z/normal/island/root.done": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "crossnode_206559_20261010T110522Z/normal/island/root.final": "0a1ae398e4fef86dc95d0229e5f00fd37eee2d629f5e33184908b7ca69c289cd",
+    "crossnode_206559_20261010T110522Z/normal/island/root.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "crossnode_206559_20261010T110522Z/normal/island/root.ready": "a12e0037b47c1b1203c49318244d4eea08fb3cd48a3248d7a23cdc5dc0940d91",
+    "crossnode_206559_20261010T110522Z/normal/stale_control/root.alive": "9277b298f48bf69c9845c9977dbbf97ed6a36b9310665cbc862984dcd50d34b2",
+    "crossnode_206559_20261010T110522Z/normal/stale_control/root.completion": "8d4bacbbe2e620afd9f39ff122024b37a873cf120f16dd75fb247caba7fcd655",
+    "crossnode_206559_20261010T110522Z/worker_b.log": "68934036dc227f69c7db79dc6f0c69473e948b6db410f715cc66bf84ea193eed",
+    "crossnode_206559_20261010T110552Z/aggregate.json": "05da4782122700701aa4def8621480035729ab1456ad937130e174e6c4204fc0",
+    "crossnode_206559_20261010T110552Z/head.log": "56aad5ff5d1e95bf427352b27a19fb850f6066840a75ab42d7258627ade0965f",
+    "crossnode_206559_20261010T110552Z/loss/island/root.alive": "f22225688f860f7f66e651cd1d27d8859f979195bc514b13dee4c22f70526234",
+    "crossnode_206559_20261010T110552Z/loss/island/root.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "crossnode_206559_20261010T110552Z/loss/island/root.ready": "0c64802abd48965b181df19942b7a4fbf4582f77e98c533f74d8be9a3b21f49a",
+    "crossnode_206559_20261010T110552Z/loss/stale_control/root.alive": "9277b298f48bf69c9845c9977dbbf97ed6a36b9310665cbc862984dcd50d34b2",
+    "crossnode_206559_20261010T110552Z/loss/stale_control/root.completion": "48ec24cb8475e63a1acee29726fee87807808e8e94dd293d0c6c04d7e49fe277",
+    "crossnode_206559_20261010T110552Z/markers.json": "929e4f637b9311151527b24c4e277bd1a8e6be589b5e90bae546a3991c133d23",
+    "crossnode_206559_20261010T110552Z/normal/island/root.alive": "f22225688f860f7f66e651cd1d27d8859f979195bc514b13dee4c22f70526234",
+    "crossnode_206559_20261010T110552Z/normal/island/root.completion": "77805cc95ebacb59d9dee970b013f1f41e4b6ff79adcb077f87d5e6608f3fe65",
+    "crossnode_206559_20261010T110552Z/normal/island/root.done": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "crossnode_206559_20261010T110552Z/normal/island/root.final": "4774da7e2143c8760763b84dc2f82fd771b8cd631116243d068160286cc02ef3",
+    "crossnode_206559_20261010T110552Z/normal/island/root.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "crossnode_206559_20261010T110552Z/normal/island/root.ready": "f03a4142d023dbf12cad1d9d26d97da385d61a19ec6e9b75538e865824e20086",
+    "crossnode_206559_20261010T110552Z/normal/stale_control/root.alive": "9277b298f48bf69c9845c9977dbbf97ed6a36b9310665cbc862984dcd50d34b2",
+    "crossnode_206559_20261010T110552Z/normal/stale_control/root.completion": "b4978d40b6e263cfcdf5123ffbae6e50268bec53c44ac7e727c14b30b62e40b4",
+    "crossnode_206559_20261010T110552Z/worker_b.log": "6a89a17268a3d34f60885b4ea68ec98cff174420179fc3f473f7f46ae5e24219",
+    "hardware_identity_206559.txt": "74a575f2f2164e5c1c5714498e9e4bfa3ab605bfa920781de136c13b2cd327ea",
+    "orphan_sweep_206559.txt": "449da7b9a3d17137defda5a34290af3f9edd9be4f6b58b910c61546f7d4d0963",
+    "sacct_206559.txt": "e4379bbd81469b6d375e6f7109a854acf3184ac642ec42292c69b450d392e3e6"
+  },
+  "commands": [
+    "sbatch --wait experiments/70_hpx_locality_supervision/slice4_root_loss_event/exp70_slice4_crossnode.sbatch",
+    "python -m py_compile run_slice4.py",
+    "python run_slice4.py --selftest  (inside allocation)",
+    "python run_slice4.py --phase rostam-cross-node --exp68-build-dir <exp68>/build_rostam --subnet 10.42.5.  (x2, fresh runid/ports/dirs/actors/root each)"
+  ],
+  "created_utc": "2026-10-10T16:06:22Z",
+  "environment": {
+    "hpx_fixed_sha": "cc2be553fac9b1f2a372f4277d7c708e70bf7eb4",
+    "hpx_install": "/work/rohan/apps/hpx-master-install",
+    "identity_file": "hardware_identity_206559.txt",
+    "modules": "gcc/15.1.0 cmake/3.29.2 boost/1.91.0-release hwloc/2.12.0 python/3.12.3 (module purge first)",
+    "subnet": "10.42.5.",
+    "venv": "/work/rohan/venvs/rayx"
+  },
+  "evidence_pointers": {
+    "actor_observations": "per-run aggregate.json gates.loss_actor_observations + loss_actor_observation_categories",
+    "arm_isolation": "per-run aggregate.json gates.arm_isolation",
+    "blindness": "per-run aggregate.json gates.<arm>_blindness + classifier_allowlist; the injection record lives at markers.json arms.loss.injection_record_private, outside the evidence",
+    "cleanup": "per-run aggregate.json gates.final + orphan_sweep file",
+    "disposal": "per-run aggregate.json gates.<arm>_disposal (loss arm: poisoned-island discard, no root.done, no completion witness, root.final absent)",
+    "in_process_hosting": "per-run aggregate.json gates.<arm>_inprocess",
+    "monotonic": "per-run aggregate.json gates.<arm>_monotonic and markers.json arms.<arm>.monotonic (expected_refresh_s, last_advance_monotonic, classification_bound_s, observed_silence_s, classification_elapsed_s)",
+    "no_post_event_dispatch": "per-run aggregate.json gates.loss_no_post_event_dispatch",
+    "placement": "per-run aggregate.json gates.placement (per-arm hard NodeAffinity soft=False attestation) + markers.json crossnode section",
+    "pre_bound_negative": "markers.json arms.loss.pre_bound_probe (healthy root observed below the bound must NOT yield suspicion)",
+    "result_verification": "per-run aggregate.json gates.<arm>_result_verification",
+    "root_event": "per-run aggregate.json normal_event / loss_event + gates.classifier_equivalence",
+    "root_injection_preconditions": "per-run aggregate.json gates.loss_injection_preconditions (10 checks before the root is killed)",
+    "workload": "per-run aggregate.json gates.<arm>_work (bit-exact vs exp68 oracle, both coordinator directions), verified in BOTH arms before any transition"
+  },
+  "exp68_built_artifacts": {
+    "exp68_actor_ext.cpython-312-x86_64-linux-gnu.so": "d17a0f06faf9cefba3e37e2bdaf3c379bfed4c74642b25f8148bcc44dc1c651a",
+    "exp68_peer": "2490e9fa32ff1c9e530d515f7eb9d7d5c8b15afabec609a149ac48fffa6edfc9"
+  },
+  "exp68_dependency_hashes": {
+    "CMakeLists.txt": "dd0ed720ac88bab6dcf4967ede4e342819ebd067f83b562e93b8df7aa50aa91c",
+    "actor_ext.cpp": "bc1631ee3b0cec81d7139b9d35f4f29770e764fc6cd26d603a2043e62791f268",
+    "exp68_peer.cpp": "bbff2902f7a1e47da1f06e0c961b25201c51b261249707b2e1b876e67f8b6862",
+    "run_exp68.py": "517095b0d220220e6a27b74e3662b784a5547efb8aa2c8816ea658001c755b86",
+    "shared_topk.hpp": "941cd05dc23685178d9a8ee9c1a3369b3ecebbb0586bb3659356340728a11037",
+    "topk_action.hpp": "d60832b1cb2f30ba80378771e0ce6ab78f5142cd5021ff375ab2100544845f8a"
+  },
+  "experiment": "exp70_slice4a_root_loss_event",
+  "hashing_protocol": "in-job manifest covers only files that are closed and stable. The Slurm stdout file is still being appended to by this job and is listed under post_job_hash_required; it is hashed on the analysis host after `sbatch --wait` returns. Final copy-back verification must be exact for every artifact.",
+  "manifest_scope": "hardware-evidence inventory over CLOSED artifacts only; no result analysis performed on Rostam",
+  "phase": "rostam-cross-node",
+  "post_job_hash_required": [
+    "exp70s4xn_206559.out"
+  ],
+  "runs": [
+    {
+      "classifier_allowlist": [
+        "classification_bound_s",
+        "completion_witness_epoch_match",
+        "completion_witness_present",
+        "epoch_id",
+        "expected_refresh_s",
+        "observation_deadline_exceeded",
+        "observed_silence_s",
+        "root_pid_alive",
+        "witness_read_error"
+      ],
+      "classifier_fingerprint": "774ebdc6147bad94220fe34d374c84769dab32b89c19e974d1627bec053809d0",
+      "epoch_ids": {
+        "loss": "exp70s4a-loss-20261010T110522Z",
+        "normal": "exp70s4a-normal-20261010T110522Z"
+      },
+      "expected_refresh_s": 0.2,
+      "failure_class": "pass",
+      "files": [
+        "aggregate.json",
+        "head.log",
+        "loss",
+        "markers.json",
+        "normal",
+        "worker_b.log"
+      ],
+      "gates_failed": [],
+      "loss_actor_observation_categories": {
+        "a": "call_error_result",
+        "b": "call_error_result"
+      },
+      "loss_classification_elapsed_s": 5.013519246014766,
+      "loss_event": "suspected_root_loss",
+      "loss_observed_silence_s": 5.013438822003081,
+      "normal_event": "explicit_completion",
+      "overall": "pass",
+      "runid": "20261010T110522Z",
+      "runs_dir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/_exp70_slice4_runs/crossnode_206559_20261010T110522Z",
+      "suspicion_bound_s": 5.0
+    },
+    {
+      "classifier_allowlist": [
+        "classification_bound_s",
+        "completion_witness_epoch_match",
+        "completion_witness_present",
+        "epoch_id",
+        "expected_refresh_s",
+        "observation_deadline_exceeded",
+        "observed_silence_s",
+        "root_pid_alive",
+        "witness_read_error"
+      ],
+      "classifier_fingerprint": "774ebdc6147bad94220fe34d374c84769dab32b89c19e974d1627bec053809d0",
+      "epoch_ids": {
+        "loss": "exp70s4a-loss-20261010T110552Z",
+        "normal": "exp70s4a-normal-20261010T110552Z"
+      },
+      "expected_refresh_s": 0.2,
+      "failure_class": "pass",
+      "files": [
+        "aggregate.json",
+        "head.log",
+        "loss",
+        "markers.json",
+        "normal",
+        "worker_b.log"
+      ],
+      "gates_failed": [],
+      "loss_actor_observation_categories": {
+        "a": "call_error_result",
+        "b": "call_error_result"
+      },
+      "loss_classification_elapsed_s": 5.013563541986514,
+      "loss_event": "suspected_root_loss",
+      "loss_observed_silence_s": 5.013530978991184,
+      "normal_event": "explicit_completion",
+      "overall": "pass",
+      "runid": "20261010T110552Z",
+      "runs_dir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/_exp70_slice4_runs/crossnode_206559_20261010T110552Z",
+      "suspicion_bound_s": 5.0
+    }
+  ],
+  "slurm": {
+    "job_id": "206559",
+    "nodelist": "medusa[00-01]",
+    "partition": "medusa",
+    "sacct": [
+      "JobID|State|Start|End|Elapsed|NodeList",
+      "206559|RUNNING|2026-10-10T11:05:17|Unknown|00:01:05|medusa[00-01]",
+      "206559.batch|RUNNING|2026-10-10T11:05:17|Unknown|00:01:05|medusa00",
+      "206559.0|COMPLETED|2026-10-10T11:05:18|2026-10-10T11:05:18|00:00:00|medusa01",
+      "206559.1|COMPLETED|2026-10-10T11:05:22|2026-10-10T11:05:22|00:00:00|medusa01",
+      "206559.2|COMPLETED|2026-10-10T11:05:22|2026-10-10T11:05:23|00:00:01|medusa01",
+      "206559.3|FAILED|2026-10-10T11:05:23|2026-10-10T11:05:51|00:00:28|medusa01",
+      "206559.4|COMPLETED|2026-10-10T11:05:28|2026-10-10T11:05:28|00:00:00|medusa01",
+      "206559.5|COMPLETED|2026-10-10T11:05:28|2026-10-10T11:05:28|00:00:00|medusa01",
+      "206559.6|FAILED|2026-10-10T11:05:30|2026-10-10T11:05:30|00:00:00|medusa01",
+      "206559.7|COMPLETED|2026-10-10T11:05:31|2026-10-10T11:05:31|00:00:00|medusa01",
+      "206559.8|COMPLETED|2026-10-10T11:05:31|2026-10-10T11:05:31|00:00:00|medusa01",
+      "206559.9|COMPLETED|2026-10-10T11:05:31|2026-10-10T11:05:31|00:00:00|medusa01",
+      "206559.10|FAILED|2026-10-10T11:05:49|2026-10-10T11:05:49|00:00:00|medusa01",
+      "206559.11|FAILED|2026-10-10T11:05:49|2026-10-10T11:05:49|00:00:00|medusa01",
+      "206559.12|FAILED|2026-10-10T11:05:49|2026-10-10T11:05:49|00:00:00|medusa01",
+      "206559.13|COMPLETED|2026-10-10T11:05:49|2026-10-10T11:05:50|00:00:01|medusa01",
+      "206559.14|COMPLETED|2026-10-10T11:05:50|2026-10-10T11:05:52|00:00:02|medusa00",
+      "206559.15|COMPLETED|2026-10-10T11:05:52|2026-10-10T11:05:52|00:00:00|medusa01",
+      "206559.16|COMPLETED|2026-10-10T11:05:52|2026-10-10T11:05:54|00:00:02|medusa01",
+      "206559.17|FAILED|2026-10-10T11:05:54|2026-10-10T11:06:19|00:00:25|medusa01",
+      "206559.18|COMPLETED|2026-10-10T11:05:56|2026-10-10T11:05:57|00:00:01|medusa01",
+      "206559.19|COMPLETED|2026-10-10T11:05:57|2026-10-10T11:05:57|00:00:00|medusa01",
+      "206559.20|FAILED|2026-10-10T11:05:58|2026-10-10T11:05:58|00:00:00|medusa01",
+      "206559.21|COMPLETED|2026-10-10T11:05:59|2026-10-10T11:05:59|00:00:00|medusa01",
+      "206559.22|COMPLETED|2026-10-10T11:05:59|2026-10-10T11:05:59|00:00:00|medusa01",
+      "206559.23|COMPLETED|2026-10-10T11:06:00|2026-10-10T11:06:00|00:00:00|medusa01",
+      "206559.24|FAILED|2026-10-10T11:06:17|2026-10-10T11:06:17|00:00:00|medusa01",
+      "206559.25|FAILED|2026-10-10T11:06:17|2026-10-10T11:06:17|00:00:00|medusa01",
+      "206559.26|FAILED|2026-10-10T11:06:17|2026-10-10T11:06:17|00:00:00|medusa01",
+      "206559.27|COMPLETED|2026-10-10T11:06:18|2026-10-10T11:06:19|00:00:01|medusa01",
+      "206559.28|COMPLETED|2026-10-10T11:06:19|2026-10-10T11:06:21|00:00:02|medusa00",
+      "206559.29|COMPLETED|2026-10-10T11:06:21|2026-10-10T11:06:21|00:00:00|medusa00",
+      "206559.30|COMPLETED|2026-10-10T11:06:21|2026-10-10T11:06:21|00:00:00|medusa01",
+      "206559.31|COMPLETED|2026-10-10T11:06:21|2026-10-10T11:06:21|00:00:00|medusa01"
+    ]
+  },
+  "source_hashes": {
+    ".gitignore": "1d7a445b796b98417d0c9188106e1acd0f7e6da967d8e9401cee959495facf2c",
+    "README.md": "ad79e290bb520bdf92cae70b30bb70395b6a20ddbc95c13f48064c88588e26ca",
+    "exp70_slice4_crossnode.sbatch": "c8ac8867aebbfd463057f4032c39c028880eb6b58c2e4d5f8c909c5183fb90be",
+    "run_slice4.py": "f07d484849f969f8e6b5dbd1b91c534d350b766aef349e8563fd7be96e2e2593"
+  }
+}

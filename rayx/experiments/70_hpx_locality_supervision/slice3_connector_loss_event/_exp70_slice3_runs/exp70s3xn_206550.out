@@ -1,0 +1,139 @@
+=== identity gate: fixed HPX install SHA ===
+ok: /work/rohan/apps/hpx-master-install carries cc2be553fac9b1f2a372f4277d7c708e70bf7eb4
+=== allocation ===
+SLURM_JOB_ID=206550
+SLURM_JOB_NODELIST=medusa[11-12]
+nodeA(controller/head/root/actorA)=medusa11  nodeB(actorB=departing)=medusa12  host=medusa11.rostam.cct.lsu.edu
+=== environment / HPX / Ray / source identity -> /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice3_connector_loss_event/_exp70_slice3_runs/hardware_identity_206550.txt ===
+=== exp68 artifacts (must already exist; this launcher never rebuilds) ===
+ok: using prebuilt /work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam (no configure, no build)
+=== syntax + selftest (inside allocation) ===
+  PASS  clean loss evidence classifies as unexpected_loss
+  PASS  clean graceful evidence classifies as graceful_departure
+  PASS  classifier refuses evidence carrying injected
+  PASS  classifier refuses evidence carrying arm label
+  PASS  classifier refuses evidence carrying signal
+  PASS  classifier refuses evidence carrying controller intent
+  PASS  classifier refuses a non-mapping evidence object
+  PASS  collect_departure_evidence emits only allow-listed keys
+  PASS  allow-list contains no intent/injection field
+  PASS  contradictory evidence -> indeterminate (never coerced)
+  PASS  empty-signal evidence -> indeterminate
+  PASS  a lost connector that also shows a clean disconnect is NOT called lost
+  PASS  classifier fingerprint is stable across calls
+  PASS  initial state is STARTING
+  PASS  dispatch not allowed before READY
+  PASS  dispatch allowed in READY
+  PASS  dispatch fenced after WORK_VERIFIED
+  PASS  skipping states is rejected
+  PASS  full state order is the documented one
+  PASS  terminal publication rejected outside EVIDENCE_COLLECTED
+  PASS  terminal publication rejected for a non-departed connector
+  PASS  terminal publication accepted in EVIDENCE_COLLECTED for a departed connector
+  PASS  duplicate terminal publication rejected
+  PASS  exactly one terminal recorded as published
+  PASS  contract rejects a backend without the two-method surface
+  PASS  synthetic backend satisfies the surface
+  PASS  event from a prior epoch cannot satisfy an observation
+  PASS  stale epoch is recorded as rejected
+  PASS  matching-epoch event is observed
+  PASS  JOINED events do not satisfy a DEPARTED observation
+  PASS  external backend satisfies the surface
+  PASS  external backend observation is bounded when nothing is published
+  PASS  external backend observes its own published terminal event
+  PASS  external marker lives in the island dir
+  PASS  publishing more events preserves the earlier terminal event
+  PASS  no temp file is left beside the marker
+  PASS  a substitute backend passes the identical state machine and gates
+  PASS  substitute backend actually used
+  PASS  clean two-arm synthetic run passes all gates
+  PASS  clean run reports failure_class pass
+  PASS  clean run has no placement gates in the local shape
+  PASS  both arms produce a full ordered state history
+  PASS  headline gate: one classifier discriminates both arms
+  PASS  negative claims are fenced off
+  PASS  loss arm labelled graceful -> misclassified
+  PASS  graceful arm labelled lost -> misclassified
+  PASS  indeterminate label in the loss arm -> misclassified
+  PASS  injection field found in evidence -> classifier_blindness_violated
+  PASS  injection record not kept separate -> classifier_blindness_violated
+  PASS  HPX child process in the graceful arm -> inprocess_proof_failed
+  PASS  worker pid != os.getpid() (not in-process) -> inprocess_proof_failed
+  PASS  island never reached membership 3 -> startup_failed
+  PASS  stop dispatched to a connector that was lost -> departure_failed
+  PASS  signal sent in the graceful arm -> departure_failed
+  PASS  victim pid not cross-checked -> departure_failed
+  PASS  lost host pid still present -> departure_failed
+  PASS  graceful stop returned nonzero -> departure_failed
+  PASS  publication outside the bound -> publication_unbounded
+  PASS  survivor never observed the event -> event_observation_incomplete
+  PASS  observation carried the wrong epoch -> event_observation_incomplete
+  PASS  stale prior-epoch event satisfied an observation -> epoch_scope_violated
+  PASS  graceful HPX attempt on the poisoned island -> teardown_failed
+  PASS  graceful arm root did not finalize cleanly -> teardown_failed
+  PASS  actor pid still alive after teardown -> teardown_failed
+  PASS  duplicate publication never attempted -> event_contract_violated
+  PASS  two terminal events accepted -> event_contract_violated
+  PASS  terminal event allowed for a non-departed connector -> event_contract_violated
+  PASS  a connector produced no JOINED event -> event_contract_violated
+  PASS  arms shared a port block -> arm_isolation_violated
+  PASS  arms shared an actor id -> arm_isolation_violated
+  PASS  arms shared a worker pid -> arm_isolation_violated
+  PASS  classifier changed between arms -> misclassified
+  PASS  truncated state history -> invalid_ordering
+  PASS  a rejected transition occurred -> invalid_ordering
+  PASS  an owned process survived -> cleanup_incomplete
+  PASS  run-dir-scoped process remained -> cleanup_incomplete
+  PASS  owned records did not cover both islands -> cleanup_incomplete
+  PASS  controller raised -> invalid_instrumentation
+  PASS  owned sweep: vanished process counts as gone
+  PASS  owned sweep: same start identity counts as alive (fails)
+  PASS  owned sweep: PID reuse with a different start identity is NOT ours
+  PASS  owned records must cover BOTH arms' islands
+  PASS  clean cross-node synthetic run passes all gates (incl. placement)
+  PASS  cross-node run carries placement gates
+  PASS  local synthetic run carries no placement gates
+  PASS  same-node placement rejected -> crossnode_placement_failed
+  PASS  soft placement rejected -> crossnode_placement_failed
+  PASS  off-subnet parcelport endpoint rejected -> crossnode_placement_failed
+  PASS  missing Slurm job id rejected -> crossnode_placement_failed
+  PASS  unresolved Ray node ids rejected -> crossnode_placement_failed
+  PASS  actor B not on node B -> crossnode_placement_failed
+  PASS  preflight cleanly reports missing artifacts (skip path)
+  PASS  crossnode preflight without Slurm env cleanly skips
+  PASS  local root command contains no srun/sbatch/Slurm invocation
+  PASS  preflight sees real exp68 artifacts (informational)
+  PASS  work case exists in the exp68 matrix
+
+selftest: 96/96 passed
+=== cross-node run 1 start 2026-10-10T13:59:29Z (port-base=7951 ray-port=6489) ===
+2026-10-10 08:59:31,879	INFO worker.py:1814 -- Connecting to existing Ray cluster at address: 10.42.5.41:6489...
+2026-10-10 08:59:32,953	INFO worker.py:2012 -- Connected to Ray cluster.
+/work/rohan/venvs/rayx/lib/python3.12/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+[33m(raylet)[0m A worker died or was killed while executing a task by an unexpected system error. To troubleshoot the problem, check the logs for the dead worker. Lease ID: 050000008e6cdd65ba6054c81921b1edb5dbb6e6c9129d46cd0f70529f11d63b Worker ID: 80516a29ddcf18bdc770f0e64cb139248f6a53e54c208ad16a110fe1 Node ID: a4023c2c431d7b435bd915743f26047fb12416c85d890afa7efbe1b9 Worker IP address: 10.42.5.42 Worker port: 10003 Worker PID: 587083 Worker exit type: SYSTEM_ERROR Worker exit detail: Worker unexpectedly exits with a connection error code 2. End of file. Some common causes include: (1) the process was killed by the OOM killer due to high memory usage, (2) ray stop --force was called, or (3) the worker crashed unexpectedly due to SIGSEGV or another unexpected error.
+[slice3a] overall: pass (pass) -> /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice3_connector_loss_event/_exp70_slice3_runs/crossnode_206550_20261010T085930Z/aggregate.json
+[slice3a] classifications: graceful=graceful_departure loss=unexpected_loss
+[launcher] verdict: overall=pass class=pass graceful=graceful_departure loss=unexpected_loss failed=[] runid=20261010T085930Z
+=== first run PASS; starting second live run (fresh runid/ports/dirs/actors) ===
+=== cross-node run 2 start 2026-10-10T13:59:44Z (port-base=7981 ray-port=6509) ===
+2026-10-10 08:59:46,648	INFO worker.py:1814 -- Connecting to existing Ray cluster at address: 10.42.5.41:6509...
+2026-10-10 08:59:47,722	INFO worker.py:2012 -- Connected to Ray cluster.
+/work/rohan/venvs/rayx/lib/python3.12/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+[33m(raylet)[0m A worker died or was killed while executing a task by an unexpected system error. To troubleshoot the problem, check the logs for the dead worker. Lease ID: 05000000f2c69d44e78137a8f0ee6beae93b8e04e9f531a813e31b9004243c2c Worker ID: 67bbafaf2e81dad3251f0b4ed15232fcbe38d8b078310f110265ded8 Node ID: d6bd593560089597eddb4aa13e6016020a1556eaf24615a5d4800429 Worker IP address: 10.42.5.42 Worker port: 10004 Worker PID: 588968 Worker exit type: SYSTEM_ERROR Worker exit detail: Worker unexpectedly exits with a connection error code 2. End of file. Some common causes include: (1) the process was killed by the OOM killer due to high memory usage, (2) ray stop --force was called, or (3) the worker crashed unexpectedly due to SIGSEGV or another unexpected error.
+[slice3a] overall: pass (pass) -> /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice3_connector_loss_event/_exp70_slice3_runs/crossnode_206550_20261010T085945Z/aggregate.json
+[slice3a] classifications: graceful=graceful_departure loss=unexpected_loss
+[launcher] verdict: overall=pass class=pass graceful=graceful_departure loss=unexpected_loss failed=[] runid=20261010T085945Z
+run1=pass run2=pass
+=== experiment-scoped cleanup + orphan sweep ===
+post-run sweep 2026-10-10T14:00:01Z (experiment-scoped: exp68_peer + Ray)
+--- medusa11 ---
+none
+--- medusa12 ---
+none
+=== hardware evidence manifest + hashes ===
+[manifest] /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice3_connector_loss_event/_exp70_slice3_runs/hardware_evidence_manifest_206550.json  runs=2 artifacts=36
+[manifest] run 20261010T085930Z: overall=pass graceful=graceful_departure loss=unexpected_loss failed=[]
+[manifest] run 20261010T085945Z: overall=pass graceful=graceful_departure loss=unexpected_loss failed=[]
+=== done: 2026-10-10T14:00:02Z ===

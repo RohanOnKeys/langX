@@ -1,0 +1,1042 @@
+{
+  "controller_pid": 557223,
+  "crossnode": {
+    "nodeA": "medusa00",
+    "nodeA_ip": "10.42.5.30",
+    "nodeB": "medusa01",
+    "nodeB_ip": "10.42.5.31",
+    "nodelist": "medusa[00-01]",
+    "nodes": [
+      "medusa00",
+      "medusa01"
+    ],
+    "ray_node_ids": {
+      "nodeA": "034fbb38bef114fc343d716c71fb86660c7278eb7fbb1cfafa515199",
+      "nodeB": "bd05b7c7ae3de28a1f44572648701e1b45397d7ecc919e7cbd9c8539"
+    },
+    "slurm_job_id": "206548",
+    "subnet": "10.42.5."
+  },
+  "epoch0": {
+    "a_child_report": {
+      "checked": true,
+      "children": [],
+      "hpx_children": [],
+      "worker_pid": 557635
+    },
+    "a_identity": {
+      "actor_id": "49a154835ba401c9f29362d701000000",
+      "hostname": "medusa00.rostam.cct.lsu.edu",
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "node_id": "034fbb38bef114fc343d716c71fb86660c7278eb7fbb1cfafa515199",
+      "os_getpid": 557635,
+      "pid": 557635,
+      "ray_pid": 557635
+    },
+    "a_start": {
+      "locality_id": 1,
+      "membership": 2,
+      "pid": 557635,
+      "started": true
+    },
+    "app_work_after_classification": false,
+    "b_child_report": {
+      "checked": true,
+      "children": [],
+      "hpx_children": [],
+      "worker_pid": 3139323
+    },
+    "b_identity": {
+      "actor_id": "bd2b66e95737c0a8853bcbba01000000",
+      "hostname": "medusa01.rostam.cct.lsu.edu",
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "node_id": "bd05b7c7ae3de28a1f44572648701e1b45397d7ecc919e7cbd9c8539",
+      "os_getpid": 3139323,
+      "pid": 3139323,
+      "ray_pid": 3139323
+    },
+    "b_start": {
+      "locality_id": 2,
+      "membership": 3,
+      "pid": 3139323,
+      "started": true
+    },
+    "bootdir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085432Z/epoch0",
+    "case": {
+      "V": 64,
+      "a_coord": {
+        "global_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          }
+        ],
+        "hpx_composition": {
+          "action_dispatched": true,
+          "continuation_executed": true,
+          "future_ready": true,
+          "result_delivered": true
+        },
+        "own_host": "medusa00.rostam.cct.lsu.edu",
+        "own_locality": 1,
+        "own_pid": 557635,
+        "own_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 25
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 10
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 8
+          }
+        ],
+        "peer_host": "medusa01.rostam.cct.lsu.edu",
+        "peer_locality": 2,
+        "peer_pid": 3139323,
+        "peer_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 59
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 44
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 42
+          }
+        ],
+        "ready": true,
+        "target_found": true
+      },
+      "a_loc": 1,
+      "a_local": [
+        {
+          "logit": 8.0,
+          "logit_bits": 1090519040,
+          "token_id": 23
+        },
+        {
+          "logit": 7.625,
+          "logit_bits": 1089732608,
+          "token_id": 21
+        },
+        {
+          "logit": 7.125,
+          "logit_bits": 1088684032,
+          "token_id": 6
+        },
+        {
+          "logit": 6.625,
+          "logit_bits": 1087635456,
+          "token_id": 25
+        },
+        {
+          "logit": 6.125,
+          "logit_bits": 1086586880,
+          "token_id": 10
+        },
+        {
+          "logit": 5.75,
+          "logit_bits": 1085800448,
+          "token_id": 8
+        }
+      ],
+      "a_pid": 557635,
+      "b_coord": {
+        "global_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          }
+        ],
+        "hpx_composition": {
+          "action_dispatched": true,
+          "continuation_executed": true,
+          "future_ready": true,
+          "result_delivered": true
+        },
+        "own_host": "medusa01.rostam.cct.lsu.edu",
+        "own_locality": 2,
+        "own_pid": 3139323,
+        "own_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 59
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 44
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 42
+          }
+        ],
+        "peer_host": "medusa00.rostam.cct.lsu.edu",
+        "peer_locality": 1,
+        "peer_pid": 557635,
+        "peer_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 25
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 10
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 8
+          }
+        ],
+        "ready": true,
+        "target_found": true
+      },
+      "b_loc": 2,
+      "b_local": [
+        {
+          "logit": 8.0,
+          "logit_bits": 1090519040,
+          "token_id": 57
+        },
+        {
+          "logit": 7.625,
+          "logit_bits": 1089732608,
+          "token_id": 55
+        },
+        {
+          "logit": 7.125,
+          "logit_bits": 1088684032,
+          "token_id": 40
+        },
+        {
+          "logit": 6.625,
+          "logit_bits": 1087635456,
+          "token_id": 59
+        },
+        {
+          "logit": 6.125,
+          "logit_bits": 1086586880,
+          "token_id": 44
+        },
+        {
+          "logit": 5.75,
+          "logit_bits": 1085800448,
+          "token_id": 42
+        }
+      ],
+      "b_pid": 3139323,
+      "k": 6,
+      "name": "cross_both",
+      "oracle_global": [
+        [
+          23,
+          1090519040
+        ],
+        [
+          57,
+          1090519040
+        ],
+        [
+          21,
+          1089732608
+        ],
+        [
+          55,
+          1089732608
+        ],
+        [
+          6,
+          1088684032
+        ],
+        [
+          40,
+          1088684032
+        ]
+      ],
+      "seed": 1,
+      "shard_a": [
+        0,
+        32
+      ],
+      "shard_b": [
+        32,
+        64
+      ],
+      "split": 32
+    },
+    "dir_listing_at_start": [],
+    "injection": {
+      "method": "srun kill -9 (remote) / os.kill (local)",
+      "precondition_checks": {
+        "actor_id_matches_identity": true,
+        "no_epoch1_processes_yet": true,
+        "pid_in_current_epoch": true,
+        "pid_not_driver_root_survivor": true,
+        "ray_pid_matches_ext_pid": true,
+        "victim_is_configured": true
+      },
+      "sent": true,
+      "signal": "SIGKILL",
+      "t_mono_ns": 282406505637571,
+      "t_wall_ms": 1791640480398,
+      "victim": "b",
+      "victim_actor_id": "bd2b66e95737c0a8853bcbba01000000",
+      "victim_locality": 2,
+      "victim_node": "medusa01",
+      "victim_node_id": "bd05b7c7ae3de28a1f44572648701e1b45397d7ecc919e7cbd9c8539",
+      "victim_pid": 3139323
+    },
+    "placement": {
+      "endpoint_ips": [
+        "10.42.5.30",
+        "10.42.5.31"
+      ],
+      "soft": false,
+      "strategy": "NodeAffinitySchedulingStrategy",
+      "targets": {
+        "a": "medusa00",
+        "b": "medusa01"
+      }
+    },
+    "ports": {
+      "a": 7812,
+      "b": 7813,
+      "root": 7811
+    },
+    "post_loss": {
+      "root_probe": {
+        "attempted": true,
+        "bounded": true,
+        "expected_refresh_s": 0.2,
+        "root_alive_mtime_advanced": true,
+        "root_alive_mtime_first": 1791640480.3534257,
+        "root_alive_mtime_second": 1791640481.558419,
+        "root_process_alive": true,
+        "witness_kind": "external periodically refreshed root-liveness witness"
+      },
+      "survivor_probe": {
+        "attempted": true,
+        "bound_s": 12,
+        "bounded": true,
+        "category": "membership_stale",
+        "elapsed_s": 0.002,
+        "membership": 3,
+        "result_verbatim": {
+          "locality_id": 1,
+          "membership": 3,
+          "ok": true,
+          "pid": 557635
+        }
+      },
+      "victim_clean_disconnect_recorded": false,
+      "victim_pid_gone": true,
+      "victim_ray_call_raised": true,
+      "victim_ray_error_head": "The actor died unexpectedly before finishing this task.\n\tclass_name: build_actor_class.<locals>.HpxActor\n\tactor_id: bd2b66e95737c0a8853bcbba01000000\n\tpid: 3139323\n\tnamespace: df080131-ecb2-4bc8-bbc0-5353dbcdff5b\n\tip: 10.42.5.31\nThe actor is dead because its worker process has died. Worker exit type:",
+      "victim_ray_error_type": "ActorDiedError"
+    },
+    "root_argv": [
+      "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer",
+      "--role",
+      "root",
+      "--bootstrap",
+      "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085432Z/epoch0",
+      "--leave-timeout",
+      "45",
+      "--hpx:agas=10.42.5.30:7811",
+      "--hpx:hpx=10.42.5.30:7811",
+      "--hpx:expect-connecting-localities",
+      "--hpx:threads=2",
+      "--hpx:bind=none",
+      "--hpx:ignore-batch-env"
+    ],
+    "root_ready": {
+      "hostname": "medusa00.rostam.cct.lsu.edu",
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "locality_id": 0,
+      "pid": 559814,
+      "wall_ms": 1791640479148,
+      "who": "root"
+    },
+    "teardown": {
+      "all_epoch0_pids_gone": true,
+      "no_graceful_attempt_on_poisoned_island": true,
+      "root_done_written": false,
+      "root_exit": {
+        "exited": true,
+        "killed_by_harness": false,
+        "rc": -9
+      },
+      "root_final_absent_expected": true,
+      "root_killed": true,
+      "survivor_killed": true,
+      "survivor_pid_gone": true
+    }
+  },
+  "epoch1": {
+    "a_child_report": {
+      "checked": true,
+      "children": [],
+      "hpx_children": [],
+      "worker_pid": 557633
+    },
+    "a_identity": {
+      "actor_id": "15b48d4ddb330e4bb0d28b4801000000",
+      "hostname": "medusa00.rostam.cct.lsu.edu",
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "node_id": "034fbb38bef114fc343d716c71fb86660c7278eb7fbb1cfafa515199",
+      "os_getpid": 557633,
+      "pid": 557633,
+      "ray_pid": 557633
+    },
+    "a_start": {
+      "locality_id": 1,
+      "membership": 2,
+      "pid": 557633,
+      "started": true
+    },
+    "b_child_report": {
+      "checked": true,
+      "children": [],
+      "hpx_children": [],
+      "worker_pid": 3139862
+    },
+    "b_identity": {
+      "actor_id": "a5f916ced97df4217de7361701000000",
+      "hostname": "medusa01.rostam.cct.lsu.edu",
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "node_id": "bd05b7c7ae3de28a1f44572648701e1b45397d7ecc919e7cbd9c8539",
+      "os_getpid": 3139862,
+      "pid": 3139862,
+      "ray_pid": 3139862
+    },
+    "b_start": {
+      "locality_id": 2,
+      "membership": 3,
+      "pid": 3139862,
+      "started": true
+    },
+    "bootdir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085432Z/epoch1",
+    "case": {
+      "V": 64,
+      "a_coord": {
+        "global_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          }
+        ],
+        "hpx_composition": {
+          "action_dispatched": true,
+          "continuation_executed": true,
+          "future_ready": true,
+          "result_delivered": true
+        },
+        "own_host": "medusa00.rostam.cct.lsu.edu",
+        "own_locality": 1,
+        "own_pid": 557633,
+        "own_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 25
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 10
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 8
+          }
+        ],
+        "peer_host": "medusa01.rostam.cct.lsu.edu",
+        "peer_locality": 2,
+        "peer_pid": 3139862,
+        "peer_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 59
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 44
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 42
+          }
+        ],
+        "ready": true,
+        "target_found": true
+      },
+      "a_loc": 1,
+      "a_local": [
+        {
+          "logit": 8.0,
+          "logit_bits": 1090519040,
+          "token_id": 23
+        },
+        {
+          "logit": 7.625,
+          "logit_bits": 1089732608,
+          "token_id": 21
+        },
+        {
+          "logit": 7.125,
+          "logit_bits": 1088684032,
+          "token_id": 6
+        },
+        {
+          "logit": 6.625,
+          "logit_bits": 1087635456,
+          "token_id": 25
+        },
+        {
+          "logit": 6.125,
+          "logit_bits": 1086586880,
+          "token_id": 10
+        },
+        {
+          "logit": 5.75,
+          "logit_bits": 1085800448,
+          "token_id": 8
+        }
+      ],
+      "a_pid": 557633,
+      "b_coord": {
+        "global_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          }
+        ],
+        "hpx_composition": {
+          "action_dispatched": true,
+          "continuation_executed": true,
+          "future_ready": true,
+          "result_delivered": true
+        },
+        "own_host": "medusa01.rostam.cct.lsu.edu",
+        "own_locality": 2,
+        "own_pid": 3139862,
+        "own_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 59
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 44
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 42
+          }
+        ],
+        "peer_host": "medusa00.rostam.cct.lsu.edu",
+        "peer_locality": 1,
+        "peer_pid": 557633,
+        "peer_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 25
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 10
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 8
+          }
+        ],
+        "ready": true,
+        "target_found": true
+      },
+      "b_loc": 2,
+      "b_local": [
+        {
+          "logit": 8.0,
+          "logit_bits": 1090519040,
+          "token_id": 57
+        },
+        {
+          "logit": 7.625,
+          "logit_bits": 1089732608,
+          "token_id": 55
+        },
+        {
+          "logit": 7.125,
+          "logit_bits": 1088684032,
+          "token_id": 40
+        },
+        {
+          "logit": 6.625,
+          "logit_bits": 1087635456,
+          "token_id": 59
+        },
+        {
+          "logit": 6.125,
+          "logit_bits": 1086586880,
+          "token_id": 44
+        },
+        {
+          "logit": 5.75,
+          "logit_bits": 1085800448,
+          "token_id": 42
+        }
+      ],
+      "b_pid": 3139862,
+      "k": 6,
+      "name": "cross_both",
+      "oracle_global": [
+        [
+          23,
+          1090519040
+        ],
+        [
+          57,
+          1090519040
+        ],
+        [
+          21,
+          1089732608
+        ],
+        [
+          55,
+          1089732608
+        ],
+        [
+          6,
+          1088684032
+        ],
+        [
+          40,
+          1088684032
+        ]
+      ],
+      "seed": 1,
+      "shard_a": [
+        0,
+        32
+      ],
+      "shard_b": [
+        32,
+        64
+      ],
+      "split": 32
+    },
+    "dir_listing_at_start": [],
+    "placement": {
+      "endpoint_ips": [
+        "10.42.5.30",
+        "10.42.5.31"
+      ],
+      "soft": false,
+      "strategy": "NodeAffinitySchedulingStrategy",
+      "targets": {
+        "a": "medusa00",
+        "b": "medusa01"
+      }
+    },
+    "ports": {
+      "a": 7822,
+      "b": 7823,
+      "root": 7821
+    },
+    "root_argv": [
+      "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer",
+      "--role",
+      "root",
+      "--bootstrap",
+      "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085432Z/epoch1",
+      "--leave-timeout",
+      "45",
+      "--hpx:agas=10.42.5.30:7821",
+      "--hpx:hpx=10.42.5.30:7821",
+      "--hpx:expect-connecting-localities",
+      "--hpx:threads=2",
+      "--hpx:bind=none",
+      "--hpx:ignore-batch-env"
+    ],
+    "root_ready": {
+      "hostname": "medusa00.rostam.cct.lsu.edu",
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "locality_id": 0,
+      "pid": 559908,
+      "wall_ms": 1791640481927,
+      "who": "root"
+    },
+    "shutdown": {
+      "a_stop_error": null,
+      "a_stop_rc": 0,
+      "actor_pids_gone": true,
+      "b_stop_error": null,
+      "b_stop_rc": 0,
+      "root_exit_path": "finalized_clean",
+      "root_final": {
+        "final_membership": 1,
+        "hostname": "medusa00.rostam.cct.lsu.edu",
+        "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+        "leave_observed": true,
+        "max_membership": 3,
+        "pid": 559908,
+        "wall_ms": 1791640482932,
+        "who": "root"
+      }
+    },
+    "stale_probe": {
+      "epoch0_markers_visible_in_epoch1_dir": false,
+      "epoch1_dir_isolated": true
+    }
+  },
+  "final": {
+    "cleanup_ran": true,
+    "machine_wide_peer_scan_informational": [],
+    "owned_process_check": {
+      "all_owned_gone": true,
+      "covers_epochs": true,
+      "details": [
+        {
+          "command": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer --role root --bootstrap /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085432Z/epoch0 --leave-timeout 45 --hpx:agas=10.42.5.30:7811 --hpx:hpx=10.42.5.30:7811 --hpx:expect-connecting-localities --hpx:threads=2 --hpx:bind=none --hpx:ignore-batch-env",
+          "label": "epoch0_root",
+          "lstart": "Sat Oct 10 08:54:37 2026",
+          "node": "medusa00",
+          "pid": 559814,
+          "status": "gone"
+        },
+        {
+          "command": "ray::HpxActor",
+          "label": "epoch0_actor_a",
+          "lstart": "Sat Oct 10 08:54:37 2026",
+          "node": "medusa00",
+          "pid": 557635,
+          "status": "gone"
+        },
+        {
+          "command": "ray::HpxActor",
+          "label": "epoch0_actor_b",
+          "lstart": "Sat Oct 10 08:54:38 2026",
+          "node": "medusa01",
+          "pid": 3139323,
+          "status": "gone"
+        },
+        {
+          "command": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer --role root --bootstrap /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085432Z/epoch1 --leave-timeout 45 --hpx:agas=10.42.5.30:7821 --hpx:hpx=10.42.5.30:7821 --hpx:expect-connecting-localities --hpx:threads=2 --hpx:bind=none --hpx:ignore-batch-env",
+          "label": "epoch1_root",
+          "lstart": "Sat Oct 10 08:54:41 2026",
+          "node": "medusa00",
+          "pid": 559908,
+          "status": "gone"
+        },
+        {
+          "command": "ray::HpxActor",
+          "label": "epoch1_actor_a",
+          "lstart": "Sat Oct 10 08:54:37 2026",
+          "node": "medusa00",
+          "pid": 557633,
+          "status": "gone"
+        },
+        {
+          "command": "ray::HpxActor",
+          "label": "epoch1_actor_b",
+          "lstart": "Sat Oct 10 08:54:41 2026",
+          "node": "medusa01",
+          "pid": 3139862,
+          "status": "gone"
+        }
+      ]
+    },
+    "rundir_scoped_orphans": []
+  },
+  "phase": "rostam-cross-node",
+  "phase_log": [
+    "e0_root_ready",
+    "e0_actors_joined",
+    "e0_workload_ok",
+    "e0_injected",
+    "e0_classified_failed",
+    "e0_survivor_killed",
+    "e0_root_killed",
+    "e0_pids_gone",
+    "e1_root_ready",
+    "e1_actors_joined",
+    "e1_workload_ok",
+    "e1_graceful_stop",
+    "e1_root_finalized",
+    "e1_actors_destroyed",
+    "final_orphan_sweep"
+  ],
+  "phase_times_wall_ms": {
+    "e0_actors_joined": 1791640480391,
+    "e0_classified_failed": 1791640481729,
+    "e0_injected": 1791640480455,
+    "e0_pids_gone": 1791640481895,
+    "e0_root_killed": 1791640481830,
+    "e0_root_ready": 1791640479286,
+    "e0_survivor_killed": 1791640481780,
+    "e0_workload_ok": 1791640480398,
+    "e1_actors_destroyed": 1791640483064,
+    "e1_actors_joined": 1791640482762,
+    "e1_graceful_stop": 1791640482846,
+    "e1_root_finalized": 1791640482948,
+    "e1_root_ready": 1791640482039,
+    "e1_workload_ok": 1791640482780,
+    "final_orphan_sweep": 1791640483317
+  },
+  "victim_key": "b"
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "classification": null,
+    "connector": "a",
+    "epoch_id": "exp70s3a-graceful-20261010T085930Z",
+    "evidence_digest": null,
+    "kind": "JOINED",
+    "published_mono": 6220872.21901906,
+    "published_wall_ms": 1791640774112
+  },
+  {
+    "classification": null,
+    "connector": "b",
+    "epoch_id": "exp70s3a-graceful-20261010T085930Z",
+    "evidence_digest": null,
+    "kind": "JOINED",
+    "published_mono": 6220873.008540378,
+    "published_wall_ms": 1791640774902
+  },
+  {
+    "classification": "graceful_departure",
+    "connector": "b",
+    "epoch_id": "exp70s3a-graceful-20261010T085930Z",
+    "evidence_digest": "0eec37b89eb3f6e921697f11a18d703d341fa0e87905df4a71d54d6ebf169448",
+    "kind": "DEPARTED",
+    "published_mono": 6220876.225119037,
+    "published_wall_ms": 1791640778118
+  }
+]

@@ -1,0 +1,271 @@
+{
+  "controller_exception": null,
+  "experiment": "exp70_slice1_actor_hosted_island_restart",
+  "failure_class": "pass",
+  "gates": {
+    "classification": {
+      "island_classified_failed": true,
+      "victim_clean_disconnect_absent": true,
+      "victim_pid_gone": true,
+      "victim_ray_call_raised": true
+    },
+    "cluster_attestation": {
+      "node_roles_distinct": true,
+      "ray_node_ids_resolved_distinct": true,
+      "slurm_job_id_present": true,
+      "subnet_ips_resolved": true,
+      "two_distinct_nodes_allocated": true
+    },
+    "epoch0_inprocess": {
+      "a_no_hpx_children": true,
+      "a_pid_identity": true,
+      "b_no_hpx_children": true,
+      "b_pid_identity": true
+    },
+    "epoch0_join": {
+      "actor_a_started": true,
+      "actor_b_started": true,
+      "distinct_connector_localities": true,
+      "distinct_worker_pids": true,
+      "membership_reached_3": true,
+      "root_ready_workfree_locality0": true
+    },
+    "epoch0_placement": {
+      "actor_a_on_nodeA": true,
+      "actor_b_on_nodeB": true,
+      "actors_on_distinct_nodes": true,
+      "endpoints_on_subnet": true,
+      "hard_affinity_no_soft": true,
+      "hostnames_distinct_normalized": true,
+      "root_on_head_node": true,
+      "victim_on_remote_node": true
+    },
+    "epoch0_teardown": {
+      "all_epoch0_pids_gone": true,
+      "old_root_terminated": true,
+      "policy_no_graceful_on_poisoned": true,
+      "root_done_not_written": true,
+      "root_final_absent_as_expected": true,
+      "survivor_terminated": true
+    },
+    "epoch0_workload": {
+      "a_fetch_b_ready": true,
+      "a_merge_equals_oracle": true,
+      "a_merge_ids_match": true,
+      "a_own_is_a": true,
+      "a_peer_is_b": true,
+      "b_fetch_a_ready": true,
+      "b_merge_equals_oracle": true,
+      "b_merge_ids_match": true,
+      "b_own_is_b": true,
+      "b_peer_is_a": true,
+      "coordinator_symmetry": true,
+      "float32_bits_exact": true,
+      "global_token_ids_exact": true,
+      "hpx_composition_a": true,
+      "hpx_composition_b": true,
+      "local_topk_a_correct": true,
+      "local_topk_b_correct": true,
+      "local_topk_order_ok": true,
+      "no_application_on_root": true,
+      "shard_partition_ok": true,
+      "workload_pids_match_identities": true
+    },
+    "epoch1_inprocess": {
+      "a_no_hpx_children": true,
+      "a_pid_identity": true,
+      "b_no_hpx_children": true,
+      "b_pid_identity": true
+    },
+    "epoch1_join": {
+      "actor_a_started": true,
+      "actor_b_started": true,
+      "distinct_connector_localities": true,
+      "distinct_worker_pids": true,
+      "membership_reached_3": true,
+      "root_ready_workfree_locality0": true
+    },
+    "epoch1_placement": {
+      "actor_a_on_nodeA": true,
+      "actor_b_on_nodeB": true,
+      "actors_on_distinct_nodes": true,
+      "endpoints_on_subnet": true,
+      "hard_affinity_no_soft": true,
+      "hostnames_distinct_normalized": true,
+      "root_on_head_node": true
+    },
+    "epoch1_shutdown": {
+      "actor_a_graceful_stop": true,
+      "actor_b_graceful_stop": true,
+      "actor_pids_gone": true,
+      "root_finalized_clean": true
+    },
+    "epoch1_workload": {
+      "a_fetch_b_ready": true,
+      "a_merge_equals_oracle": true,
+      "a_merge_ids_match": true,
+      "a_own_is_a": true,
+      "a_peer_is_b": true,
+      "b_fetch_a_ready": true,
+      "b_merge_equals_oracle": true,
+      "b_merge_ids_match": true,
+      "b_own_is_b": true,
+      "b_peer_is_a": true,
+      "coordinator_symmetry": true,
+      "float32_bits_exact": true,
+      "global_token_ids_exact": true,
+      "hpx_composition_a": true,
+      "hpx_composition_b": true,
+      "local_topk_a_correct": true,
+      "local_topk_b_correct": true,
+      "local_topk_order_ok": true,
+      "no_application_on_root": true,
+      "shard_partition_ok": true,
+      "workload_pids_match_identities": true
+    },
+    "epoch_isolation": {
+      "actor_identities_fresh": true,
+      "bootdirs_distinct": true,
+      "epoch1_reads_only_its_dir": true,
+      "no_epoch0_marker_visible_in_epoch1": true,
+      "ports_disjoint": true,
+      "process_identities_fresh": true
+    },
+    "final": {
+      "cleanup_ran": true,
+      "no_rundir_scoped_processes": true,
+      "owned_processes_gone": true,
+      "owned_records_cover_epochs": true
+    },
+    "injection": {
+      "explicit_signal_recorded": true,
+      "precondition_checks_all_passed": true,
+      "timestamps_recorded": true,
+      "victim_identity_recorded": true,
+      "victim_matches_selection": true
+    },
+    "no_app_work_after_classification": {
+      "no_app_work": true
+    },
+    "ordering": {
+      "epoch0_order_ok": true,
+      "epoch1_order_ok": true
+    },
+    "post_loss": {
+      "membership_category_valid": true,
+      "ray_observation_recorded": true,
+      "root_probe_bounded_and_recorded": true,
+      "survivor_probe_bounded": true,
+      "survivor_result_recorded_verbatim": true,
+      "victim_exit_evidenced": true
+    },
+    "victim_selection": {
+      "ok": true
+    }
+  },
+  "gates_failed": {},
+  "identities": {
+    "epoch0": {
+      "a": {
+        "actor_id": "4c2ed185a98adb4984849a6401000000",
+        "hostname": "medusa00.rostam.cct.lsu.edu",
+        "node_id": "8b6c6ffc872243445d8b528bc896f969ce040eeca43bda9877f27398",
+        "pid": 561151
+      },
+      "b": {
+        "actor_id": "490cdd36e3bebaafe370447e01000000",
+        "hostname": "medusa01.rostam.cct.lsu.edu",
+        "node_id": "4b2c978f4ce40268a5b1e2537ff55da90c6568bc243f96f9fa409cd9",
+        "pid": 3141505
+      },
+      "ports": {
+        "a": 7812,
+        "b": 7813,
+        "root": 7811
+      },
+      "root_pid": 563332
+    },
+    "epoch1": {
+      "a": {
+        "actor_id": "7e71e880c48171a9262e84a901000000",
+        "hostname": "medusa00.rostam.cct.lsu.edu",
+        "node_id": "8b6c6ffc872243445d8b528bc896f969ce040eeca43bda9877f27398",
+        "pid": 561149
+      },
+      "b": {
+        "actor_id": "46633077e18b86798522765f01000000",
+        "hostname": "medusa01.rostam.cct.lsu.edu",
+        "node_id": "4b2c978f4ce40268a5b1e2537ff55da90c6568bc243f96f9fa409cd9",
+        "pid": 3142024
+      },
+      "ports": {
+        "a": 7822,
+        "b": 7823,
+        "root": 7821
+      },
+      "root_pid": 563402
+    }
+  },
+  "increment": 3,
+  "negative_claims": {
+    "no_application_state_restoration_claim": true,
+    "no_hpx_native_loss_notification_claim": true,
+    "no_partial_island_continuation_used": true,
+    "old_island_discarded_by_policy": true,
+    "replacement_island_started_from_fresh_processes": true,
+    "workload_verified_only_on_fresh_epoch": true
+  },
+  "non_claims": "The result does not demonstrate HPX-native heartbeat, authoritative failure detection, transparent HPX recovery, partial-island continuation, or application-state restoration.",
+  "overall": "pass",
+  "phase": "rostam-cross-node",
+  "post_loss_interpretation": "The membership snapshot still contained the lost locality at the observation point.",
+  "post_loss_membership_category": "membership_stale",
+  "preflight": {
+    "build_dir": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam",
+    "exp68_dir": "/work/rohan/RayX/experiments/68_vocab_sharded_topk",
+    "ext_so": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_actor_ext.cpython-312-x86_64-linux-gnu.so",
+    "nodes": [
+      "medusa00",
+      "medusa01"
+    ],
+    "ok": true,
+    "peer": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer",
+    "phase": "rostam-cross-node",
+    "problems": [],
+    "ray_importable": true,
+    "slurm_job_id": "206548",
+    "slurm_nodelist": "medusa[00-01]",
+    "subnet": "10.42.5."
+  },
+  "provenance": {
+    "hostname": "medusa00.rostam.cct.lsu.edu",
+    "platform": "Linux-5.14.0-570.37.1.el9_6.x86_64-x86_64-with-glibc2.34",
+    "python": "3.12.3",
+    "ray_version": "2.55.1"
+  },
+  "ray_gcs_detail_B": "READY",
+  "ray_gcs_ready_from_nodeB": true,
+  "ray_head_cleanup": {
+    "existed": true,
+    "pid": 560755,
+    "returncode": 1
+  },
+  "ray_init_attempts": 1,
+  "ray_init_ok": true,
+  "ray_orphans_informational": {
+    "medusa00": [],
+    "medusa01": []
+  },
+  "ray_worker_b_cleanup": {
+    "existed": true,
+    "pid": 560986,
+    "returncode": 1
+  },
+  "root_alive_expected_refresh_s": 0.2,
+  "root_alive_witness_kind": "external periodically refreshed root-liveness witness",
+  "runid": "20261010T085449Z",
+  "runs_dir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085449Z",
+  "summary_claim": "Unexpected loss of one actor-hosted HPX locality caused the supervising RayX controller to classify the complete island as failed, discard the old root and surviving connector, construct a fresh island, and verify the same deterministic distributed workload on the replacement.",
+  "victim_key": "b",
+  "workload_case": "cross_both"
+}

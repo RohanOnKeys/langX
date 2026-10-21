@@ -1,0 +1,14 @@
+{
+  "epoch_id": "exp70s4a-normal-20261010T110522Z",
+  "payload": {
+    "case": "cross_both",
+    "result_digest": "0d32c0b48d436e1870ebabe9a5d3501a9b87784e6db54e5b755bbc5846fb7861"
+  },
+  "published_mono": 290255.191615629,
+  "published_wall_ms": 1791648329084,
+  "root_identity": {
+    "bootdir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/_exp70_slice4_runs/crossnode_206559_20261010T110522Z/normal/island",
+    "epoch_id": "exp70s4a-normal-20261010T110522Z",
+    "pid": 591758
+  }
+}

@@ -1,0 +1,156 @@
+=== identity gate: fixed HPX install SHA ===
+ok: /work/rohan/apps/hpx-master-install carries cc2be553fac9b1f2a372f4277d7c708e70bf7eb4
+=== allocation ===
+SLURM_JOB_ID=206551
+SLURM_JOB_NODELIST=medusa[13-14]
+nodeA(controller/head/work-free root/actorA)=medusa13  nodeB(actorB)=medusa14  host=medusa13.rostam.cct.lsu.edu
+=== environment / HPX / Ray / source identity -> /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/_exp70_slice4_runs/hardware_identity_206551.txt ===
+=== exp68 artifacts (must already exist; this launcher never rebuilds) ===
+ok: using prebuilt /work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam (no configure, no build)
+=== syntax + selftest (inside allocation) ===
+  PASS  1. explicit completion classifies as explicit_completion
+  PASS  2. completion still wins even if the witness has gone quiet afterwards
+  PASS  3. silence 0.0s < bound does not classify loss
+  PASS  3. silence 0.5s < bound does not classify loss
+  PASS  3. silence 4.999s < bound does not classify loss
+  PASS  3b. sub-bound silence returns the pending sentinel, not an event class
+  PASS  4. silence 5.0s >= bound with no completion -> suspected_root_loss
+  PASS  4. silence 5.001s >= bound with no completion -> suspected_root_loss
+  PASS  4. silence 15.0s >= bound with no completion -> suspected_root_loss
+  PASS  4b. boundary is inclusive at exactly the bound (documented)
+  PASS  5. dead root pid with sub-bound silence does NOT declare loss (documented policy)
+  PASS  5b. dead root pid is recorded as corroboration in the basis
+  PASS  5c. a LIVE root that has gone silent past the bound still yields suspicion
+  PASS  observation_error when the witness cannot be read
+  PASS  observation_timeout when nothing decidable and the observer deadline expired
+  PASS  6. root.done/completion from a prior epoch is rejected
+  PASS  6b. current-epoch completion is accepted
+  PASS  11. wrong-root identity is rejected
+  PASS  12. wrong-epoch event is rejected
+  PASS  7/8. a never-advancing (stale) alive witness cannot satisfy current liveness
+  PASS  8b. suspicion took at least the bound of MONOTONIC silence
+  PASS  8c. observed silence is recorded and >= bound
+  PASS  token changes only when the file generation changes
+  PASS  a LIVE refreshing witness never yields suspicion; observer times out instead
+  PASS  9. classifier refuses evidence carrying `signal`
+  PASS  9. classifier refuses evidence carrying `injected`
+  PASS  9. classifier refuses evidence carrying `controller_intent`
+  PASS  9. classifier refuses evidence carrying `victim`
+  PASS  9. classifier refuses evidence carrying `root_was_killed`
+  PASS  9. classifier refuses evidence carrying `arm`
+  PASS  9b. classifier refuses a non-mapping evidence object
+  PASS  9c. collect_root_evidence emits exactly the allow-list
+  PASS  9d. allow-list contains no intent/injection field
+  PASS  18. completion cannot be published before workload/result verification
+  PASS  18b. completion rejected outside RESULT_VERIFIED even once verified
+  PASS  completion accepted in RESULT_VERIFIED after result verification
+  PASS  10. duplicate completion publication is rejected
+  PASS  10b. exactly one completion recorded as published
+  PASS  contract rejects an observer without the surface
+  PASS  13. actor call success is recorded as call_returned
+  PASS  14. actor error-result is distinct from an exception
+  PASS  14b. error-result verbatim is preserved
+  PASS  15. actor exception is recorded as call_raised
+  PASS  15b. exception verbatim is preserved
+  PASS  16. actor timeout is categorized as call_timeout and stays bounded
+  PASS  actor death is categorized as actor_unavailable
+  PASS  17. one actor timing out does not prevent observing/cleaning up the other
+  PASS  clean two-arm synthetic run passes all gates
+  PASS  clean run reports failure_class pass
+  PASS  normal arm event is explicit_completion
+  PASS  loss arm event is suspected_root_loss
+  PASS  classifier equivalence gate passes
+  PASS  negative claims are fenced off
+  PASS  classifier fingerprint is stable across calls
+  PASS  loss arm labelled explicit completion -> root_event_misclassified
+  PASS  normal arm labelled suspected loss -> root_event_misclassified
+  PASS  loss arm timed out instead of classifying -> root_event_misclassified
+  PASS  loss declared without reaching the silence bound -> root_event_misclassified
+  PASS  pre-bound probe already declared loss -> root_event_misclassified
+  PASS  injection field present in evidence -> classifier_blindness_violated
+  PASS  injection record not stored separately -> classifier_blindness_violated
+  PASS  root pid did not match the live process -> root_injection_precondition_failed
+  PASS  root pid was an actor worker -> root_injection_precondition_failed
+  PASS  completion already published before kill -> root_injection_precondition_failed
+  PASS  final result never verified -> result_verification_failed
+  PASS  19. application work dispatched after loss -> post_event_dispatch_detected
+  PASS  19b. dispatch guard allowed work after loss -> post_event_dispatch_detected
+  PASS  20. root.done written on the poisoned arm -> disposal_failed
+  PASS  20b. completion witness written on the poisoned arm -> disposal_failed
+  PASS  21. root.final present on the poisoned arm -> disposal_failed
+  PASS  21b. root.final missing on the normal arm -> disposal_failed
+  PASS  normal arm root never saw membership return to one -> disposal_failed
+  PASS  normal arm root did not exit finalized_clean -> disposal_failed
+  PASS  actor worker still alive after disposal -> disposal_failed
+  PASS  unknown actor observation category -> actor_observation_unbounded
+  PASS  unbounded actor observation -> actor_observation_unbounded
+  PASS  a connector saw the wrong event -> connector_observation_incomplete
+  PASS  8d. stale alive witness satisfied current liveness -> epoch_scope_violated
+  PASS  prior-epoch completion satisfied an observation -> epoch_scope_violated
+  PASS  wrong-epoch event accepted -> event_contract_violated
+  PASS  wrong root identity accepted -> event_contract_violated
+  PASS  truncated state history -> invalid_ordering
+  PASS  a rejected transition occurred -> invalid_ordering
+  PASS  HPX child process in the normal arm -> inprocess_proof_failed
+  PASS  root pid collided with an actor worker pid -> startup_failed
+  PASS  arms shared a port block -> arm_isolation_violated
+  PASS  arms shared an actor id -> arm_isolation_violated
+  PASS  classifier changed between arms -> root_event_misclassified
+  PASS  evidence allow-list differed between arms -> root_event_misclassified
+  PASS  arms used different observer implementations -> root_event_misclassified
+  PASS  22. owned sweep: vanished process counts as gone
+  PASS  22b. owned sweep: same start identity counts as alive (fails)
+  PASS  23. PID reuse with a different start identity is NOT ours
+  PASS  23b. owned records must cover BOTH arms' islands
+  PASS  22c. an owned process survived -> cleanup_incomplete
+  PASS  22d. run-dir-scoped process remained -> cleanup_incomplete
+  PASS  24. cleanup after an intermediate failure -> invalid_instrumentation
+  PASS  24b. a half-finished run still produces a verdict and never raises
+  PASS  25. substitute observer satisfies the surface
+  PASS  25b. external observer satisfies the surface
+  PASS  25c. substitute observer drives the identical contract
+  PASS  cross-node synthetic run passes all gates (incl. placement)
+  PASS  cross-node run carries placement gates
+  PASS  local synthetic run carries no placement gates
+  PASS  same-node placement rejected -> crossnode_placement_failed
+  PASS  soft placement rejected -> crossnode_placement_failed
+  PASS  off-subnet endpoint rejected -> crossnode_placement_failed
+  PASS  missing Slurm job id rejected -> crossnode_placement_failed
+  PASS  unresolved Ray node ids rejected -> crossnode_placement_failed
+  PASS  actor B not on node B -> crossnode_placement_failed
+  PASS  preflight cleanly reports missing artifacts (skip path)
+  PASS  26. off-cluster cross-node preflight skips cleanly
+  PASS  27. local root command invokes no srun/sbatch/salloc
+  PASS  27b. selftest performed no Slurm submission
+  PASS  work case exists in the exp68 matrix
+
+selftest: 115/115 passed
+=== cross-node run 1 start 2026-10-10T13:59:32Z (port-base=8011 ray-port=6529) ===
+2026-10-10 08:59:34,379	INFO worker.py:1814 -- Connecting to existing Ray cluster at address: 10.42.5.43:6529...
+2026-10-10 08:59:35,451	INFO worker.py:2012 -- Connected to Ray cluster.
+/work/rohan/venvs/rayx/lib/python3.12/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+[slice4a] overall: pass (pass) -> /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/_exp70_slice4_runs/crossnode_206551_20261010T085932Z/aggregate.json
+[slice4a] events: normal=explicit_completion loss=suspected_root_loss
+[launcher] verdict: overall=pass class=pass normal=explicit_completion loss=suspected_root_loss silence=5.014023442752659 bound=5.0 failed=[] runid=20261010T085932Z
+=== first run PASS; starting second live run (fresh runid/ports/dirs/actors/root) ===
+=== cross-node run 2 start 2026-10-10T14:00:01Z (port-base=8041 ray-port=6549) ===
+2026-10-10 09:00:03,098	INFO worker.py:1814 -- Connecting to existing Ray cluster at address: 10.42.5.43:6549...
+2026-10-10 09:00:04,172	INFO worker.py:2012 -- Connected to Ray cluster.
+/work/rohan/venvs/rayx/lib/python3.12/site-packages/ray/_private/worker.py:2051: FutureWarning: Tip: In future versions of Ray, Ray will no longer override accelerator visible devices env var if num_gpus=0 or num_gpus=None (default). To enable this behavior and turn off this error message, set RAY_ACCEL_ENV_VAR_OVERRIDE_ON_ZERO=0
+  warnings.warn(
+[slice4a] overall: pass (pass) -> /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/_exp70_slice4_runs/crossnode_206551_20261010T090001Z/aggregate.json
+[slice4a] events: normal=explicit_completion loss=suspected_root_loss
+[launcher] verdict: overall=pass class=pass normal=explicit_completion loss=suspected_root_loss silence=5.014076718129218 bound=5.0 failed=[] runid=20261010T090001Z
+run1=pass run2=pass
+=== experiment-scoped cleanup + orphan sweep ===
+post-run sweep 2026-10-10T14:00:31Z (experiment-scoped: exp68_peer + Ray)
+--- medusa13 ---
+none
+--- medusa14 ---
+none
+=== in-job manifest (CLOSED artifacts only; Slurm log deferred) ===
+[manifest] /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/_exp70_slice4_runs/hardware_evidence_manifest_206551.json  runs=2 closed_artifacts=37 post_job_hash_required=['exp70s4xn_206551.out']
+[manifest] run 20261010T085932Z: overall=pass normal=explicit_completion loss=suspected_root_loss failed=[]
+[manifest] run 20261010T090001Z: overall=pass normal=explicit_completion loss=suspected_root_loss failed=[]
+=== done: 2026-10-10T14:00:33Z ===

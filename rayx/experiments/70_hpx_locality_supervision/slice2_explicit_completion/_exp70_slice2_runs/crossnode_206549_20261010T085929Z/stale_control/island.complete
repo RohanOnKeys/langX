@@ -1,0 +1,12 @@
+{
+  "backend": "external_witness",
+  "connector_ids": [
+    "a",
+    "b"
+  ],
+  "epoch_id": "prior-epoch-000",
+  "marker_path": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085929Z/stale_control/island.complete",
+  "payload": {},
+  "published_mono": 282706.205314499,
+  "published_wall_ms": 1791640780097
+}

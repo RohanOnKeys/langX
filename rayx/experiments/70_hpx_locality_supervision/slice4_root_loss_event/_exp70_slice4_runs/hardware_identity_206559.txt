@@ -1,0 +1,60 @@
+created_utc=2026-10-10T16:05:17Z
+slurm_job_id=206559
+slurm_job_nodelist=medusa[00-01]
+slurm_partition=medusa
+nodeA=medusa00
+nodeB=medusa01
+batch_host=medusa00.rostam.cct.lsu.edu
+subnet=10.42.5.
+hpx_install=/work/rohan/apps/hpx-master-install
+hpx_fixed_sha=cc2be553fac9b1f2a372f4277d7c708e70bf7eb4
+venv=/work/rohan/venvs/rayx
+
+### module list
+
+Currently Loaded Modules:
+  1) binutils/2.44   3) cmake/3.29.2           5) hwloc/2.12.0
+  2) gcc/15.1.0      4) boost/1.91.0-release   6) python/3.12.3
+
+ 
+
+
+### python -V
+Python 3.12.3
+
+### python -c import ray; print('ray', ray.__version__)
+ray 2.55.1
+
+### scontrol show hostnames medusa[00-01]
+medusa00
+medusa01
+
+### ip -o -4 addr show
+1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
+3: eno16    inet 10.42.5.30/24 brd 10.42.5.255 scope global dynamic noprefixroute eno16\       valid_lft 1654sec preferred_lft 1654sec
+5: ibp94s0    inet 10.42.6.30/24 brd 10.42.6.255 scope global dynamic noprefixroute ibp94s0\       valid_lft 1160sec preferred_lft 1160sec
+
+### srun -N1 -n1 -w medusa01 ip -o -4 addr show
+1: lo    inet 127.0.0.1/8 scope host lo\       valid_lft forever preferred_lft forever
+2: eno16    inet 10.42.5.31/24 brd 10.42.5.255 scope global dynamic noprefixroute eno16\       valid_lft 1315sec preferred_lft 1315sec
+5: ibp94s0    inet 10.42.6.31/24 brd 10.42.6.255 scope global dynamic noprefixroute ibp94s0\       valid_lft 1497sec preferred_lft 1497sec
+
+### sha256sum /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/run_slice4.py /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/exp70_slice4_crossnode.sbatch /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/.gitignore
+f07d484849f969f8e6b5dbd1b91c534d350b766aef349e8563fd7be96e2e2593  /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/run_slice4.py
+c8ac8867aebbfd463057f4032c39c028880eb6b58c2e4d5f8c909c5183fb90be  /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/exp70_slice4_crossnode.sbatch
+1d7a445b796b98417d0c9188106e1acd0f7e6da967d8e9401cee959495facf2c  /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/.gitignore
+
+### sha256sum /work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer
+2490e9fa32ff1c9e530d515f7eb9d7d5c8b15afabec609a149ac48fffa6edfc9  /work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer
+
+### sha256sum /work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_actor_ext.cpython-312-x86_64-linux-gnu.so
+d17a0f06faf9cefba3e37e2bdaf3c379bfed4c74642b25f8148bcc44dc1c651a  /work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_actor_ext.cpython-312-x86_64-linux-gnu.so
+
+### sha256sum /work/rohan/RayX/experiments/68_vocab_sharded_topk/run_exp68.py /work/rohan/RayX/experiments/68_vocab_sharded_topk/exp68_peer.cpp /work/rohan/RayX/experiments/68_vocab_sharded_topk/actor_ext.cpp /work/rohan/RayX/experiments/68_vocab_sharded_topk/shared_topk.hpp /work/rohan/RayX/experiments/68_vocab_sharded_topk/topk_action.hpp /work/rohan/RayX/experiments/68_vocab_sharded_topk/CMakeLists.txt
+517095b0d220220e6a27b74e3662b784a5547efb8aa2c8816ea658001c755b86  /work/rohan/RayX/experiments/68_vocab_sharded_topk/run_exp68.py
+bbff2902f7a1e47da1f06e0c961b25201c51b261249707b2e1b876e67f8b6862  /work/rohan/RayX/experiments/68_vocab_sharded_topk/exp68_peer.cpp
+bc1631ee3b0cec81d7139b9d35f4f29770e764fc6cd26d603a2043e62791f268  /work/rohan/RayX/experiments/68_vocab_sharded_topk/actor_ext.cpp
+941cd05dc23685178d9a8ee9c1a3369b3ecebbb0586bb3659356340728a11037  /work/rohan/RayX/experiments/68_vocab_sharded_topk/shared_topk.hpp
+d60832b1cb2f30ba80378771e0ce6ab78f5142cd5021ff375ab2100544845f8a  /work/rohan/RayX/experiments/68_vocab_sharded_topk/topk_action.hpp
+dd0ed720ac88bab6dcf4967ede4e342819ebd067f83b562e93b8df7aa50aa91c  /work/rohan/RayX/experiments/68_vocab_sharded_topk/CMakeLists.txt
+

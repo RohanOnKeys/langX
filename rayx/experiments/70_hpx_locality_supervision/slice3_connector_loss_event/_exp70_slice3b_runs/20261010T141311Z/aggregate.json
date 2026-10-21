@@ -1,0 +1,344 @@
+{
+  "a_discover_probe": {
+    "error": "",
+    "initial_num_localities": 1,
+    "live_all_localities_count": 3,
+    "live_remote_localities_count": 2,
+    "ok": true,
+    "own_locality_id": 1,
+    "peer_localities": [
+      0,
+      2
+    ],
+    "peers_found": 2
+  },
+  "a_identity": {
+    "experiment": "exp70_slice3b",
+    "hostname": "medusa01.rostam.cct.lsu.edu",
+    "hpx_version_info": {
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "hpx_version_full": "2.0.0"
+    },
+    "os_getpid": 3148842,
+    "pid": 3148842
+  },
+  "a_probe_of_departed_b_post_force_disconnect": {
+    "error": "locality not found locally",
+    "locality_found_locally": false,
+    "ok": false,
+    "oracle": 23046,
+    "result": 0
+  },
+  "a_start": {
+    "locality_id": 1,
+    "membership": 2,
+    "pid": 3148842,
+    "started": true
+  },
+  "a_supervision_init": {
+    "app_failed_publish_count": 0,
+    "epoch": 1,
+    "error": "",
+    "ok": true,
+    "own_locality": 1,
+    "self_resolve_error": "",
+    "self_resolve_ok": true
+  },
+  "b_identity": {
+    "experiment": "exp70_slice3b",
+    "hostname": "medusa01.rostam.cct.lsu.edu",
+    "hpx_version_info": {
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "hpx_version_full": "2.0.0"
+    },
+    "os_getpid": 3148844,
+    "pid": 3148844
+  },
+  "b_start": {
+    "locality_id": 2,
+    "membership": 3,
+    "pid": 3148844,
+    "started": true
+  },
+  "b_supervision_init": {
+    "app_failed_publish_count": 0,
+    "epoch": 1,
+    "error": "",
+    "ok": true,
+    "own_locality": 2,
+    "self_resolve_error": "",
+    "self_resolve_ok": true
+  },
+  "bootdir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice3_connector_loss_event/_exp70_slice3b_runs/20261010T141311Z/island",
+  "c_identity": {
+    "experiment": "exp70_slice3b",
+    "hostname": "medusa01.rostam.cct.lsu.edu",
+    "hpx_version_info": {
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "hpx_version_full": "2.0.0"
+    },
+    "os_getpid": 3148845,
+    "pid": 3148845
+  },
+  "c_start": {
+    "locality_id": 3,
+    "membership": 3,
+    "pid": 3148845,
+    "started": true
+  },
+  "c_supervision_init": {
+    "app_failed_publish_count": 0,
+    "epoch": 1,
+    "error": "",
+    "ok": true,
+    "own_locality": 3,
+    "self_resolve_error": "",
+    "self_resolve_ok": true
+  },
+  "controller_hostname": "medusa01.rostam.cct.lsu.edu",
+  "departure": {
+    "connector": "b",
+    "graceful_disconnect_used": false,
+    "pid": 3148844,
+    "pid_gone": true,
+    "signal": "SIGKILL",
+    "signal_sent": true,
+    "t_mono_killed": 6221732.277431399,
+    "t_unix_killed": 1791641595.2143016
+  },
+  "failure_class": "pass",
+  "gate_fields": [
+    "connector_late_join_proven",
+    "pre_crash_work_ok",
+    "hard_crash_used",
+    "graceful_disconnect_used_is_false",
+    "application_failed_event_publish_count_is_zero",
+    "runtime_failure_classification_observed",
+    "failed_epoch_or_incarnation_identified",
+    "stale_incarnation_fenced",
+    "fenced_outcome_is_specific",
+    "force_disconnect_invoked",
+    "force_disconnect_completed",
+    "force_disconnect_effect_observed",
+    "replacement_joined",
+    "replacement_incarnation_distinct",
+    "replacement_work_ok",
+    "stale_incarnation_not_confused_with_replacement"
+  ],
+  "gates": {
+    "application_failed_event_publish_count_is_zero": true,
+    "connector_late_join_proven": true,
+    "failed_epoch_or_incarnation_identified": true,
+    "fenced_outcome_is_specific": true,
+    "force_disconnect_completed": true,
+    "force_disconnect_effect_observed": true,
+    "force_disconnect_invoked": true,
+    "graceful_disconnect_used_is_false": true,
+    "hard_crash_used": true,
+    "pre_crash_work_ok": true,
+    "replacement_incarnation_distinct": true,
+    "replacement_joined": true,
+    "replacement_work_ok": true,
+    "runtime_failure_classification_observed": true,
+    "stale_incarnation_fenced": true,
+    "stale_incarnation_not_confused_with_replacement": true
+  },
+  "gates_failed": [],
+  "negative_claims": {
+    "autonomous_recovery_claimed": false,
+    "console_root_loss_claimed": false,
+    "fencing_force_disconnect_wired_claimed": false,
+    "performance_claimed": false,
+    "ratio_reported": false,
+    "speedup_computed": false
+  },
+  "non_claims": "This does not demonstrate autonomous/automatic recovery: force_disconnect is an explicit root-side call made only after fencing was observed, never triggered by HPX itself. It does not demonstrate fencing and force_disconnect being wired together upstream, does not demonstrate console/root loss handling (see Slice 4B, which remains blocked), does not supersede Slice 3A's application-contract evidence, and carries no performance, Ray-vs-HPX, or general-fabric claim.",
+  "owned_processes": [
+    {
+      "label": "island_root",
+      "node": null,
+      "pid": 3149082
+    },
+    {
+      "label": "island_actor_a",
+      "node": null,
+      "pid": 3148842
+    },
+    {
+      "label": "island_actor_b",
+      "node": null,
+      "pid": 3148844
+    },
+    {
+      "label": "island_actor_c",
+      "node": null,
+      "pid": 3148845
+    }
+  ],
+  "passed": true,
+  "provenance": {
+    "hostname": "medusa01.rostam.cct.lsu.edu",
+    "python": "3.12.3",
+    "ray_version": "2.55.1"
+  },
+  "root_exit_path": "hung_killed_by_harness",
+  "root_fencing_observed": {
+    "application_failed_event_publish_count": 0,
+    "attempts": [
+      {
+        "dispatch_outcome": "admitted",
+        "event_seq": 2,
+        "last_event": "running",
+        "t_unix": 1791640000.0
+      },
+      {
+        "dispatch_outcome": "admitted",
+        "event_seq": 2,
+        "last_event": "running",
+        "t_unix": 1791640000.0
+      },
+      {
+        "dispatch_outcome": "admitted",
+        "event_seq": 2,
+        "last_event": "running",
+        "t_unix": 1791640000.0
+      },
+      {
+        "dispatch_outcome": "admitted",
+        "event_seq": 2,
+        "last_event": "running",
+        "t_unix": 1791640000.0
+      },
+      {
+        "dispatch_outcome": "admitted",
+        "event_seq": 2,
+        "last_event": "running",
+        "t_unix": 1791640000.0
+      },
+      {
+        "dispatch_outcome": "admitted",
+        "event_seq": 2,
+        "last_event": "running",
+        "t_unix": 1791640000.0
+      },
+      {
+        "dispatch_outcome": "rejected_fenced",
+        "event_seq": 3,
+        "last_event": "failed",
+        "t_unix": 1791640000.0
+      }
+    ],
+    "attempts_count": 7,
+    "dispatch_work_diagnostic": {
+      "attempted": true,
+      "detail": "target has already latched a terminal event for this epoch; dispatch was fenced and the wrapped action was not invoked: HPX(target_fenced)",
+      "outcome": "target_fenced"
+    },
+    "fenced_outcome_is_specific": true,
+    "runtime_failure_classification_observed": true,
+    "stale_incarnation_fenced": true,
+    "unix": 1791640000.0
+  },
+  "root_force_disconnect": {
+    "caller_locality": 0,
+    "elapsed_s": 0.000274181,
+    "error": "",
+    "force_disconnect_completed": true,
+    "force_disconnect_invoked": true,
+    "rc": 0,
+    "target_join_epoch": 1,
+    "target_locality": 2,
+    "unix": 1791640000.0
+  },
+  "root_force_disconnect_effect": {
+    "agas_resolve_fails_after": true,
+    "force_disconnect_effect_observed": true,
+    "membership_after": 2,
+    "membership_shrank": true,
+    "post_force_disconnect_dispatch_failed": true,
+    "post_force_disconnect_dispatch_from_root": {
+      "error": "",
+      "found": false,
+      "ok": false,
+      "oracle": 23067,
+      "result": 0,
+      "status": "not_found"
+    },
+    "unix": 1791640000.0
+  },
+  "root_joined": {
+    "a_is_connecting_before_crash": true,
+    "a_join_epoch": 1,
+    "a_locality": 1,
+    "b_is_connecting_before_crash": true,
+    "b_join_epoch": 1,
+    "b_locality": 2,
+    "unix": 1791640000.0
+  },
+  "root_result": {
+    "application_failed_event_publish_count": 0,
+    "b_join_epoch": 1,
+    "b_locality": 2,
+    "c_join_epoch": 1,
+    "c_locality": 3,
+    "connector_late_join_proven": true,
+    "dispatch_work_diagnostic": {
+      "attempted": true,
+      "detail": "target has already latched a terminal event for this epoch; dispatch was fenced and the wrapped action was not invoked: HPX(target_fenced)",
+      "outcome": "target_fenced"
+    },
+    "failed_epoch_or_incarnation_identified": true,
+    "fenced_outcome_is_specific": true,
+    "force_disconnect_completed": true,
+    "force_disconnect_effect_observed": true,
+    "force_disconnect_invoked": true,
+    "graceful_disconnect_used": false,
+    "hard_crash_used": true,
+    "pre_crash_work_ok": true,
+    "rc": 0,
+    "replacement_epoch_distinct": false,
+    "replacement_incarnation_distinct": true,
+    "replacement_joined": true,
+    "replacement_locality_distinct": true,
+    "replacement_work_ok": true,
+    "role": "root",
+    "runtime_failure_classification_observed": true,
+    "stale_incarnation_fenced": true,
+    "stale_incarnation_not_confused_with_replacement": true,
+    "unix": 1791640000.0
+  },
+  "root_started": {
+    "hostname": "medusa01.rostam.cct.lsu.edu",
+    "hpx_git_commit": "cc2be553fac9b1f2a372f4277d7c708e70bf7eb4",
+    "hpx_have_force_disconnect": true,
+    "hpx_have_supervision": true,
+    "hpx_version": "2.0.0",
+    "locality_id": 0,
+    "pid": 3149082,
+    "role": "root",
+    "started": true,
+    "unix": 1791640000.0
+  },
+  "root_work_verified": {
+    "a": {
+      "error": "",
+      "found": true,
+      "ok": true,
+      "oracle": 23157,
+      "result": 23157,
+      "status": "returned"
+    },
+    "application_failed_event_publish_count": 0,
+    "b": {
+      "error": "",
+      "found": true,
+      "ok": true,
+      "oracle": 23156,
+      "result": 23156,
+      "status": "returned"
+    },
+    "unix": 1791640000.0
+  },
+  "run_id": "20261010T141311Z",
+  "summary_claim": "Current upstream HPX (components/supervision_dispatch + hpx::force_disconnect, HPX #7390/#7441/PR #7447) runtime-classified and fenced the silent crash of a late-connected, Ray-actor-hosted connector locality without the application ever publishing its own failure event, after which the surviving root explicitly invoked hpx::force_disconnect to clean up the failed locality's AGAS/connection-cache state and admit a replacement connector as a distinct incarnation."
+}

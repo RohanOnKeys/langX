@@ -1,0 +1,211 @@
+{
+  "backend": "external_witness",
+  "configured_idle_s": 6.0,
+  "controller_exception": null,
+  "epoch_id": "exp70s2a-20261010T085947Z",
+  "experiment": "exp70_slice2a_explicit_completion",
+  "failure_class": "pass",
+  "former_fixed_serve_window_s": 3.0,
+  "gates": {
+    "completion": {
+      "duplicate_publish_attempted": true,
+      "duplicate_publish_rejected": true,
+      "pre_verification_attempts_all_rejected": true,
+      "publish_only_after_final_verification": true,
+      "publish_state_work2_verified": true,
+      "published_once": true
+    },
+    "departure": {
+      "a_graceful_stop": true,
+      "b_graceful_stop": true,
+      "no_departure_before_publication_a": true,
+      "no_departure_before_publication_b": true,
+      "observation_precedes_departure_a": true,
+      "observation_precedes_departure_b": true
+    },
+    "epoch_scope": {
+      "marker_in_island_dir": true,
+      "publication_epoch_matches_island": true,
+      "stale_control_attempted": true,
+      "stale_marker_from_prior_epoch_rejected": true
+    },
+    "final": {
+      "cleanup_ran": true,
+      "no_rundir_scoped_processes": true,
+      "owned_processes_gone": true,
+      "owned_records_cover_island": true
+    },
+    "finalize": {
+      "actor_pids_gone": true,
+      "root_finalized_clean": true
+    },
+    "idle": {
+      "idle_exceeds_former_window": true,
+      "localities_unchanged_after_idle": true,
+      "membership_still_3_after_idle": true,
+      "no_stop_dispatched_during_idle": true,
+      "post_idle_health_ok": true,
+      "pre_idle_health_ok": true
+    },
+    "inprocess": {
+      "a_no_hpx_children": true,
+      "a_pid_identity": true,
+      "b_no_hpx_children": true,
+      "b_pid_identity": true
+    },
+    "observation": {
+      "a_bounded": true,
+      "a_epoch_match": true,
+      "a_observed": true,
+      "all_connectors_acknowledged": true,
+      "b_bounded": true,
+      "b_epoch_match": true,
+      "b_observed": true
+    },
+    "ordering": {
+      "no_rejected_transitions": true,
+      "state_history_complete_and_ordered": true
+    },
+    "placement": {
+      "actor_a_on_nodeA": true,
+      "actor_b_on_nodeB": true,
+      "actors_on_distinct_ray_nodes": true,
+      "attest_ray_node_ids_resolved": true,
+      "attest_slurm_job_id_present": true,
+      "attest_subnet_ips_resolved": true,
+      "attest_two_distinct_nodes": true,
+      "parcelport_endpoints_on_subnet": true,
+      "strategy_hard_node_affinity": true
+    },
+    "post_completion_fence": {
+      "no_app_work_after_publication": true,
+      "post_completion_dispatch_attempted": true,
+      "post_completion_dispatch_never_reached_hpx": true,
+      "post_completion_dispatch_rejected": true
+    },
+    "root_alone": {
+      "root_final_present": true,
+      "root_observed_leave": true
+    },
+    "startup": {
+      "actor_a_started": true,
+      "actor_b_started": true,
+      "distinct_connector_localities": true,
+      "distinct_worker_pids": true,
+      "membership_reached_3": true,
+      "root_ready_workfree_locality0": true
+    },
+    "work1": {
+      "a_fetch_b_ready": true,
+      "a_merge_equals_oracle": true,
+      "a_merge_ids_match": true,
+      "a_own_is_a": true,
+      "a_peer_is_b": true,
+      "b_fetch_a_ready": true,
+      "b_merge_equals_oracle": true,
+      "b_merge_ids_match": true,
+      "b_own_is_b": true,
+      "b_peer_is_a": true,
+      "case_is_work1": true,
+      "coordinator_symmetry": true,
+      "float32_bits_exact": true,
+      "global_token_ids_exact": true,
+      "hpx_composition_a": true,
+      "hpx_composition_b": true,
+      "local_topk_a_correct": true,
+      "local_topk_b_correct": true,
+      "local_topk_order_ok": true,
+      "no_application_on_root": true,
+      "shard_partition_ok": true,
+      "workload_pids_match_identities": true
+    },
+    "work2": {
+      "a_fetch_b_ready": true,
+      "a_merge_equals_oracle": true,
+      "a_merge_ids_match": true,
+      "a_own_is_a": true,
+      "a_peer_is_b": true,
+      "b_fetch_a_ready": true,
+      "b_merge_equals_oracle": true,
+      "b_merge_ids_match": true,
+      "b_own_is_b": true,
+      "b_peer_is_a": true,
+      "case_is_work2": true,
+      "coordinator_symmetry": true,
+      "float32_bits_exact": true,
+      "global_token_ids_exact": true,
+      "hpx_composition_a": true,
+      "hpx_composition_b": true,
+      "local_topk_a_correct": true,
+      "local_topk_b_correct": true,
+      "local_topk_order_ok": true,
+      "no_application_on_root": true,
+      "shard_partition_ok": true,
+      "work2_case_differs_from_work1": true,
+      "work2_dispatched_from_idle_state": true,
+      "work2_oracle_differs_from_work1": true,
+      "workload_pids_match_identities": true
+    }
+  },
+  "gates_failed": {},
+  "increment": 2,
+  "negative_claims": {
+    "no_hpx_native_completion_claim": true,
+    "no_hpx_native_heartbeat_claim": true,
+    "no_hpx_native_loss_detection_claim": true,
+    "no_performance_claim": true,
+    "no_recovery_claim": true,
+    "no_runtime_parcel_enforcement_claim": true,
+    "observation_is_controller_mediated_external": true
+  },
+  "non_claims": "The result does not demonstrate HPX-native completion, an HPX-native heartbeat, HPX-native loss detection, runtime enforcement against all post-completion parcels, recovery, or any performance improvement.",
+  "overall": "pass",
+  "phase": "rostam-cross-node",
+  "preflight": {
+    "build_dir": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam",
+    "exp68_dir": "/work/rohan/RayX/experiments/68_vocab_sharded_topk",
+    "ext_so": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_actor_ext.cpython-312-x86_64-linux-gnu.so",
+    "nodes": [
+      "medusa00",
+      "medusa01"
+    ],
+    "ok": true,
+    "peer": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer",
+    "phase": "rostam-cross-node",
+    "problems": [],
+    "ray_importable": true,
+    "slurm_job_id": "206549",
+    "slurm_nodelist": "medusa[00-01]",
+    "subnet": "10.42.5."
+  },
+  "provenance": {
+    "hostname": "medusa00.rostam.cct.lsu.edu",
+    "platform": "Linux-5.14.0-570.37.1.el9_6.x86_64-x86_64-with-glibc2.34",
+    "python": "3.12.3",
+    "ray_version": "2.55.1"
+  },
+  "ray_gcs_detail_B": "READY",
+  "ray_gcs_ready_from_nodeB": true,
+  "ray_head_cleanup": {
+    "existed": true,
+    "pid": 568834,
+    "returncode": 1
+  },
+  "ray_init_attempts": 1,
+  "ray_init_ok": true,
+  "ray_orphans_informational": {
+    "medusa00": [],
+    "medusa01": []
+  },
+  "ray_worker_b_cleanup": {
+    "existed": true,
+    "pid": 569014,
+    "returncode": 1
+  },
+  "runid": "20261010T085947Z",
+  "runs_dir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085947Z",
+  "summary_claim": "In an actor-hosted HPX island, connectors remained available across an idle interval, accepted later valid work, and departed cleanly only after the supervisor explicitly published completion through the external backend.",
+  "summary_claim_candidate": "In an actor-hosted HPX island, connectors remained available across an idle interval, accepted later valid work, and departed cleanly only after the supervisor explicitly published completion through the external backend.",
+  "work1_case": "cross_both",
+  "work2_case": "both_contrib"
+}

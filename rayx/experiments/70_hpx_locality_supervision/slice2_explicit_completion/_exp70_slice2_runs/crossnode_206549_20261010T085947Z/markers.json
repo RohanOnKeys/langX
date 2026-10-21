@@ -1,0 +1,1308 @@
+{
+  "backend": "external_witness",
+  "completion": {
+    "attempts": [
+      {
+        "accepted": false,
+        "already_published": false,
+        "final_verified": false,
+        "state_at_attempt": "WORK_1_VERIFIED",
+        "t_mono": 282719.446386103
+      },
+      {
+        "accepted": true,
+        "already_published": false,
+        "final_verified": true,
+        "record": {
+          "backend": "external_witness",
+          "connector_ids": [
+            "a",
+            "b"
+          ],
+          "epoch_id": "exp70s2a-20261010T085947Z",
+          "marker_path": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085947Z/island/island.complete",
+          "payload": {
+            "final_case": "both_contrib",
+            "final_result_digest": "5e2110a7a9bf442f928dcf274df6208a5b92ffc5e375ba983fa1ee99f0339acc"
+          },
+          "published_mono": 282726.467979251,
+          "published_wall_ms": 1791640800360
+        },
+        "state_at_attempt": "WORK_2_VERIFIED",
+        "t_mono": 282726.467972628
+      },
+      {
+        "accepted": false,
+        "already_published": true,
+        "final_verified": true,
+        "state_at_attempt": "COMPLETION_PUBLISHED",
+        "t_mono": 282726.468764435
+      }
+    ],
+    "duplicate_attempt": {
+      "accepted": false,
+      "already_published": true,
+      "final_verified": true,
+      "state_at_attempt": "COMPLETION_PUBLISHED",
+      "t_mono": 282726.468764435
+    },
+    "early_attempt": {
+      "accepted": false,
+      "already_published": false,
+      "final_verified": false,
+      "state_at_attempt": "WORK_1_VERIFIED",
+      "t_mono": 282719.446386103
+    },
+    "published": {
+      "backend": "external_witness",
+      "connector_ids": [
+        "a",
+        "b"
+      ],
+      "epoch_id": "exp70s2a-20261010T085947Z",
+      "marker_path": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085947Z/island/island.complete",
+      "payload": {
+        "final_case": "both_contrib",
+        "final_result_digest": "5e2110a7a9bf442f928dcf274df6208a5b92ffc5e375ba983fa1ee99f0339acc"
+      },
+      "published_mono": 282726.467979251,
+      "published_wall_ms": 1791640800360
+    }
+  },
+  "controller_pid": 568821,
+  "crossnode": {
+    "nodeA": "medusa00",
+    "nodeA_ip": "10.42.5.30",
+    "nodeB": "medusa01",
+    "nodeB_ip": "10.42.5.31",
+    "nodelist": "medusa[00-01]",
+    "nodes": [
+      "medusa00",
+      "medusa01"
+    ],
+    "ray_node_ids": {
+      "nodeA": "bb244003df42984fae270b908154e3a89fc79fc957c62a8272e7ae59",
+      "nodeB": "51dffd32f9a8a59c453f98b26c71bb223153a0f858e8fbb018fe09a0"
+    },
+    "slurm_job_id": "206549",
+    "subnet": "10.42.5."
+  },
+  "departure": {
+    "a_stop": {
+      "error": null,
+      "rc": 0,
+      "t_mono_dispatched": 282726.469167587
+    },
+    "b_stop": {
+      "error": null,
+      "rc": 0,
+      "t_mono_dispatched": 282726.473196978
+    }
+  },
+  "epoch_id": "exp70s2a-20261010T085947Z",
+  "final": {
+    "cleanup_ran": true,
+    "machine_wide_peer_scan_informational": [],
+    "owned_process_check": {
+      "all_owned_gone": true,
+      "covers_island": true,
+      "details": [
+        {
+          "command": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer --role root --bootstrap /work/rohan/RayX/experiments/70_hpx_locality_supervision/slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085947Z/island --leave-timeout 45 --hpx:agas=10.42.5.30:7931 --hpx:hpx=10.42.5.30:7931 --hpx:expect-connecting-localities --hpx:threads=2 --hpx:bind=none --hpx:ignore-batch-env",
+          "label": "island_root",
+          "lstart": "Sat Oct 10 08:59:51 2026",
+          "node": "medusa00",
+          "pid": 571407,
+          "still_alive_ours": false
+        },
+        {
+          "command": "ray::HpxActor",
+          "label": "island_actor_a",
+          "lstart": "Sat Oct 10 08:59:48 2026",
+          "node": "medusa00",
+          "pid": 569224,
+          "still_alive_ours": false
+        },
+        {
+          "command": "ray::HpxActor",
+          "label": "island_actor_b",
+          "lstart": "Sat Oct 10 08:59:51 2026",
+          "node": "medusa01",
+          "pid": 3146432,
+          "still_alive_ours": false
+        }
+      ]
+    },
+    "rundir_scoped_orphans": []
+  },
+  "finalize": {
+    "actor_pids_gone": true,
+    "root_exit_path": "finalized_clean"
+  },
+  "idle": {
+    "configured_idle_s": 6.0,
+    "former_fixed_serve_window_s": 3.0,
+    "idle_elapsed_s": 6.000067561049946,
+    "post_health_a": {
+      "locality_id": 1,
+      "membership": 3,
+      "ok": true,
+      "pid": 569224
+    },
+    "post_health_b": {
+      "locality_id": 2,
+      "membership": 3,
+      "ok": true,
+      "pid": 3146432
+    },
+    "pre_health_a": {
+      "locality_id": 1,
+      "membership": 3,
+      "ok": true,
+      "pid": 569224
+    },
+    "pre_health_b": {
+      "locality_id": 2,
+      "membership": 3,
+      "ok": true,
+      "pid": 3146432
+    },
+    "stop_dispatched_during_idle": false
+  },
+  "island": {
+    "a_child_report": {
+      "checked": true,
+      "children": [],
+      "hpx_children": [],
+      "worker_pid": 569224
+    },
+    "a_endpoints": [
+      "--hpx:agas=10.42.5.30:7931",
+      "--hpx:hpx=10.42.5.30:7932",
+      "--hpx:bind=none",
+      "--hpx:ignore-batch-env"
+    ],
+    "a_identity": {
+      "abi_match": true,
+      "actor_id": "b86852e78ba4627ed1f4fd6c01000000",
+      "experiment": "exp68",
+      "ext_file": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_actor_ext.cpython-312-x86_64-linux-gnu.so",
+      "gil_declaration": "gil_used_default",
+      "hostname": "medusa00.rostam.cct.lsu.edu",
+      "hpx_version_info": {
+        "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+        "hpx_version_full": "2.0.0"
+      },
+      "node_id": "bb244003df42984fae270b908154e3a89fc79fc957c62a8272e7ae59",
+      "os_getpid": 569224,
+      "pid": 569224
+    },
+    "a_join_health": {
+      "locality_id": 1,
+      "membership": 3,
+      "ok": true,
+      "pid": 569224
+    },
+    "a_start": {
+      "locality_id": 1,
+      "membership": 2,
+      "pid": 569224,
+      "started": true
+    },
+    "b_child_report": {
+      "checked": true,
+      "children": [],
+      "hpx_children": [],
+      "worker_pid": 3146432
+    },
+    "b_endpoints": [
+      "--hpx:agas=10.42.5.30:7931",
+      "--hpx:hpx=10.42.5.31:7933",
+      "--hpx:bind=none",
+      "--hpx:ignore-batch-env"
+    ],
+    "b_identity": {
+      "abi_match": true,
+      "actor_id": "ff604ad99d0017f7ae3d8d4101000000",
+      "experiment": "exp68",
+      "ext_file": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_actor_ext.cpython-312-x86_64-linux-gnu.so",
+      "gil_declaration": "gil_used_default",
+      "hostname": "medusa01.rostam.cct.lsu.edu",
+      "hpx_version_info": {
+        "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+        "hpx_version_full": "2.0.0"
+      },
+      "node_id": "51dffd32f9a8a59c453f98b26c71bb223153a0f858e8fbb018fe09a0",
+      "os_getpid": 3146432,
+      "pid": 3146432
+    },
+    "b_join_health": {
+      "locality_id": 2,
+      "membership": 3,
+      "ok": true,
+      "pid": 3146432
+    },
+    "b_start": {
+      "locality_id": 2,
+      "membership": 3,
+      "pid": 3146432,
+      "started": true
+    },
+    "bootdir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085947Z/island",
+    "placement": {
+      "soft": false,
+      "strategy": "NodeAffinitySchedulingStrategy",
+      "targets": {
+        "a": "medusa00",
+        "b": "medusa01"
+      }
+    },
+    "ports": {
+      "a": 7932,
+      "b": 7933,
+      "root": 7931
+    },
+    "root_argv": [
+      "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam/exp68_peer",
+      "--role",
+      "root",
+      "--bootstrap",
+      "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085947Z/island",
+      "--leave-timeout",
+      "45",
+      "--hpx:agas=10.42.5.30:7931",
+      "--hpx:hpx=10.42.5.30:7931",
+      "--hpx:expect-connecting-localities",
+      "--hpx:threads=2",
+      "--hpx:bind=none",
+      "--hpx:ignore-batch-env"
+    ],
+    "root_ready": {
+      "hostname": "medusa00.rostam.cct.lsu.edu",
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "locality_id": 0,
+      "pid": 571407,
+      "wall_ms": 1791640792455,
+      "who": "root"
+    },
+    "work1": {
+      "V": 64,
+      "a_coord": {
+        "global_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          }
+        ],
+        "hpx_composition": {
+          "action_dispatched": true,
+          "continuation_executed": true,
+          "future_ready": true,
+          "result_delivered": true
+        },
+        "own_host": "medusa00.rostam.cct.lsu.edu",
+        "own_locality": 1,
+        "own_pid": 569224,
+        "own_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 25
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 10
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 8
+          }
+        ],
+        "peer_host": "medusa01.rostam.cct.lsu.edu",
+        "peer_locality": 2,
+        "peer_pid": 3146432,
+        "peer_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 59
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 44
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 42
+          }
+        ],
+        "ready": true,
+        "target_found": true
+      },
+      "a_loc": 1,
+      "a_local": [
+        {
+          "logit": 8.0,
+          "logit_bits": 1090519040,
+          "token_id": 23
+        },
+        {
+          "logit": 7.625,
+          "logit_bits": 1089732608,
+          "token_id": 21
+        },
+        {
+          "logit": 7.125,
+          "logit_bits": 1088684032,
+          "token_id": 6
+        },
+        {
+          "logit": 6.625,
+          "logit_bits": 1087635456,
+          "token_id": 25
+        },
+        {
+          "logit": 6.125,
+          "logit_bits": 1086586880,
+          "token_id": 10
+        },
+        {
+          "logit": 5.75,
+          "logit_bits": 1085800448,
+          "token_id": 8
+        }
+      ],
+      "a_pid": 569224,
+      "b_coord": {
+        "global_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          }
+        ],
+        "hpx_composition": {
+          "action_dispatched": true,
+          "continuation_executed": true,
+          "future_ready": true,
+          "result_delivered": true
+        },
+        "own_host": "medusa01.rostam.cct.lsu.edu",
+        "own_locality": 2,
+        "own_pid": 3146432,
+        "own_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 59
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 44
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 42
+          }
+        ],
+        "peer_host": "medusa00.rostam.cct.lsu.edu",
+        "peer_locality": 1,
+        "peer_pid": 569224,
+        "peer_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 25
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 10
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 8
+          }
+        ],
+        "ready": true,
+        "target_found": true
+      },
+      "b_loc": 2,
+      "b_local": [
+        {
+          "logit": 8.0,
+          "logit_bits": 1090519040,
+          "token_id": 57
+        },
+        {
+          "logit": 7.625,
+          "logit_bits": 1089732608,
+          "token_id": 55
+        },
+        {
+          "logit": 7.125,
+          "logit_bits": 1088684032,
+          "token_id": 40
+        },
+        {
+          "logit": 6.625,
+          "logit_bits": 1087635456,
+          "token_id": 59
+        },
+        {
+          "logit": 6.125,
+          "logit_bits": 1086586880,
+          "token_id": 44
+        },
+        {
+          "logit": 5.75,
+          "logit_bits": 1085800448,
+          "token_id": 42
+        }
+      ],
+      "b_pid": 3146432,
+      "k": 6,
+      "name": "cross_both",
+      "oracle_global": [
+        [
+          23,
+          1090519040
+        ],
+        [
+          57,
+          1090519040
+        ],
+        [
+          21,
+          1089732608
+        ],
+        [
+          55,
+          1089732608
+        ],
+        [
+          6,
+          1088684032
+        ],
+        [
+          40,
+          1088684032
+        ]
+      ],
+      "seed": 1,
+      "shard_a": [
+        0,
+        32
+      ],
+      "shard_b": [
+        32,
+        64
+      ],
+      "split": 32
+    },
+    "work2": {
+      "V": 100,
+      "a_coord": {
+        "global_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 91
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 74
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 25
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 59
+          }
+        ],
+        "hpx_composition": {
+          "action_dispatched": true,
+          "continuation_executed": true,
+          "future_ready": true,
+          "result_delivered": true
+        },
+        "own_host": "medusa00.rostam.cct.lsu.edu",
+        "own_locality": 1,
+        "own_pid": 569224,
+        "own_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 25
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 10
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 44
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 8
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 42
+          },
+          {
+            "logit": 5.25,
+            "logit_bits": 1084751872,
+            "token_id": 27
+          }
+        ],
+        "peer_host": "medusa01.rostam.cct.lsu.edu",
+        "peer_locality": 2,
+        "peer_pid": 3146432,
+        "peer_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 91
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 74
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 59
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 93
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 78
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 76
+          },
+          {
+            "logit": 5.25,
+            "logit_bits": 1084751872,
+            "token_id": 61
+          },
+          {
+            "logit": 5.25,
+            "logit_bits": 1084751872,
+            "token_id": 95
+          }
+        ],
+        "ready": true,
+        "target_found": true
+      },
+      "a_loc": 1,
+      "a_local": [
+        {
+          "logit": 8.0,
+          "logit_bits": 1090519040,
+          "token_id": 23
+        },
+        {
+          "logit": 7.625,
+          "logit_bits": 1089732608,
+          "token_id": 21
+        },
+        {
+          "logit": 7.125,
+          "logit_bits": 1088684032,
+          "token_id": 6
+        },
+        {
+          "logit": 7.125,
+          "logit_bits": 1088684032,
+          "token_id": 40
+        },
+        {
+          "logit": 6.625,
+          "logit_bits": 1087635456,
+          "token_id": 25
+        },
+        {
+          "logit": 6.125,
+          "logit_bits": 1086586880,
+          "token_id": 10
+        },
+        {
+          "logit": 6.125,
+          "logit_bits": 1086586880,
+          "token_id": 44
+        },
+        {
+          "logit": 5.75,
+          "logit_bits": 1085800448,
+          "token_id": 8
+        },
+        {
+          "logit": 5.75,
+          "logit_bits": 1085800448,
+          "token_id": 42
+        },
+        {
+          "logit": 5.25,
+          "logit_bits": 1084751872,
+          "token_id": 27
+        }
+      ],
+      "a_pid": 569224,
+      "b_coord": {
+        "global_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 91
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 74
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 25
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 59
+          }
+        ],
+        "hpx_composition": {
+          "action_dispatched": true,
+          "continuation_executed": true,
+          "future_ready": true,
+          "result_delivered": true
+        },
+        "own_host": "medusa01.rostam.cct.lsu.edu",
+        "own_locality": 2,
+        "own_pid": 3146432,
+        "own_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 57
+          },
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 91
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 55
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 74
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 59
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 93
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 78
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 76
+          },
+          {
+            "logit": 5.25,
+            "logit_bits": 1084751872,
+            "token_id": 61
+          },
+          {
+            "logit": 5.25,
+            "logit_bits": 1084751872,
+            "token_id": 95
+          }
+        ],
+        "peer_host": "medusa00.rostam.cct.lsu.edu",
+        "peer_locality": 1,
+        "peer_pid": 569224,
+        "peer_topk": [
+          {
+            "logit": 8.0,
+            "logit_bits": 1090519040,
+            "token_id": 23
+          },
+          {
+            "logit": 7.625,
+            "logit_bits": 1089732608,
+            "token_id": 21
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 6
+          },
+          {
+            "logit": 7.125,
+            "logit_bits": 1088684032,
+            "token_id": 40
+          },
+          {
+            "logit": 6.625,
+            "logit_bits": 1087635456,
+            "token_id": 25
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 10
+          },
+          {
+            "logit": 6.125,
+            "logit_bits": 1086586880,
+            "token_id": 44
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 8
+          },
+          {
+            "logit": 5.75,
+            "logit_bits": 1085800448,
+            "token_id": 42
+          },
+          {
+            "logit": 5.25,
+            "logit_bits": 1084751872,
+            "token_id": 27
+          }
+        ],
+        "ready": true,
+        "target_found": true
+      },
+      "b_loc": 2,
+      "b_local": [
+        {
+          "logit": 8.0,
+          "logit_bits": 1090519040,
+          "token_id": 57
+        },
+        {
+          "logit": 8.0,
+          "logit_bits": 1090519040,
+          "token_id": 91
+        },
+        {
+          "logit": 7.625,
+          "logit_bits": 1089732608,
+          "token_id": 55
+        },
+        {
+          "logit": 7.125,
+          "logit_bits": 1088684032,
+          "token_id": 74
+        },
+        {
+          "logit": 6.625,
+          "logit_bits": 1087635456,
+          "token_id": 59
+        },
+        {
+          "logit": 6.625,
+          "logit_bits": 1087635456,
+          "token_id": 93
+        },
+        {
+          "logit": 6.125,
+          "logit_bits": 1086586880,
+          "token_id": 78
+        },
+        {
+          "logit": 5.75,
+          "logit_bits": 1085800448,
+          "token_id": 76
+        },
+        {
+          "logit": 5.25,
+          "logit_bits": 1084751872,
+          "token_id": 61
+        },
+        {
+          "logit": 5.25,
+          "logit_bits": 1084751872,
+          "token_id": 95
+        }
+      ],
+      "b_pid": 3146432,
+      "k": 10,
+      "name": "both_contrib",
+      "oracle_global": [
+        [
+          23,
+          1090519040
+        ],
+        [
+          57,
+          1090519040
+        ],
+        [
+          91,
+          1090519040
+        ],
+        [
+          21,
+          1089732608
+        ],
+        [
+          55,
+          1089732608
+        ],
+        [
+          6,
+          1088684032
+        ],
+        [
+          40,
+          1088684032
+        ],
+        [
+          74,
+          1088684032
+        ],
+        [
+          25,
+          1087635456
+        ],
+        [
+          59,
+          1087635456
+        ]
+      ],
+      "seed": 1,
+      "shard_a": [
+        0,
+        50
+      ],
+      "shard_b": [
+        50,
+        100
+      ],
+      "split": 50
+    }
+  },
+  "observations": {
+    "a": {
+      "backend": "external_witness",
+      "bound_s": 10.0,
+      "bounded": true,
+      "connector_id": "a",
+      "elapsed_s": 0.00025687896413728595,
+      "epoch_id": "exp70s2a-20261010T085947Z",
+      "epoch_match": true,
+      "observed": true,
+      "stale_epochs_rejected": [],
+      "t_mono_done": 282726.469029167,
+      "verbatim": {
+        "backend": "external_witness",
+        "connector_ids": [
+          "a",
+          "b"
+        ],
+        "epoch_id": "exp70s2a-20261010T085947Z",
+        "marker_path": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085947Z/island/island.complete",
+        "payload": {
+          "final_case": "both_contrib",
+          "final_result_digest": "5e2110a7a9bf442f928dcf274df6208a5b92ffc5e375ba983fa1ee99f0339acc"
+        },
+        "published_mono": 282726.467979251,
+        "published_wall_ms": 1791640800360
+      }
+    },
+    "b": {
+      "backend": "external_witness",
+      "bound_s": 10.0,
+      "bounded": true,
+      "connector_id": "b",
+      "elapsed_s": 0.00013149704318493605,
+      "epoch_id": "exp70s2a-20261010T085947Z",
+      "epoch_match": true,
+      "observed": true,
+      "stale_epochs_rejected": [],
+      "t_mono_done": 282726.469163991,
+      "verbatim": {
+        "backend": "external_witness",
+        "connector_ids": [
+          "a",
+          "b"
+        ],
+        "epoch_id": "exp70s2a-20261010T085947Z",
+        "marker_path": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085947Z/island/island.complete",
+        "payload": {
+          "final_case": "both_contrib",
+          "final_result_digest": "5e2110a7a9bf442f928dcf274df6208a5b92ffc5e375ba983fa1ee99f0339acc"
+        },
+        "published_mono": 282726.467979251,
+        "published_wall_ms": 1791640800360
+      }
+    }
+  },
+  "phase_log": [
+    "root_ready",
+    "island_ready",
+    "work1_verified",
+    "idle_interval_survived",
+    "work2_verified",
+    "stale_control_rejected",
+    "completion_published",
+    "all_connectors_observed_completion",
+    "connectors_left_gracefully",
+    "root_alone_observed",
+    "island_finalized",
+    "final_orphan_sweep"
+  ],
+  "phase_times_wall_ms": {
+    "all_connectors_observed_completion": 1791640800361,
+    "completion_published": 1791640800361,
+    "connectors_left_gracefully": 1791640800368,
+    "final_orphan_sweep": 1791640800842,
+    "idle_interval_survived": 1791640799346,
+    "island_finalized": 1791640800695,
+    "island_ready": 1791640793332,
+    "root_alone_observed": 1791640800571,
+    "root_ready": 1791640792568,
+    "stale_control_rejected": 1791640800360,
+    "work1_verified": 1791640793339,
+    "work2_verified": 1791640799354
+  },
+  "post_completion_fence": {
+    "app_work_after_publication": false,
+    "guard": {
+      "allowed": false,
+      "label": "post_completion_probe",
+      "reached_hpx": false,
+      "state": "COMPLETION_PUBLISHED",
+      "t_mono": 282726.468766311
+    }
+  },
+  "rejected_transitions": [],
+  "root_alone": {
+    "root_final": {
+      "final_membership": 1,
+      "hostname": "medusa00.rostam.cct.lsu.edu",
+      "hpx_complete_version": "Versions:\n  HPX: V2.0.0 (AGAS: V3.0), Git: cc2be553fa\n  Boost: V1.91.0\n  Hwloc: V2.12.0\n\nBuild:\n  Type: release\n  Date: Oct 10 2026 06:28:56\n  Platform: linux\n  Compiler: GNU C++ version 15.1.0\n  Standard Library: GNU libstdc++ version 20250425\n  Allocator: system\n",
+      "leave_observed": true,
+      "max_membership": 3,
+      "pid": 571407,
+      "wall_ms": 1791640800487,
+      "who": "root"
+    }
+  },
+  "stale_control": {
+    "attempted": true,
+    "marker_dir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085947Z/stale_control",
+    "observation": {
+      "backend": "external_witness",
+      "bound_s": 1.0,
+      "bounded": true,
+      "connector_id": "a",
+      "elapsed_s": 1.0047144679701887,
+      "epoch_id": "exp70s2a-20261010T085947Z",
+      "epoch_match": false,
+      "observed": false,
+      "stale_epochs_rejected": [
+        "prior-epoch-000"
+      ],
+      "verbatim": null
+    }
+  },
+  "state_history": [
+    {
+      "state": "STARTING",
+      "t_mono": 282713.260633316
+    },
+    {
+      "state": "READY",
+      "t_mono": 282719.440241411
+    },
+    {
+      "state": "WORK_1_VERIFIED",
+      "t_mono": 282719.446371812
+    },
+    {
+      "state": "IDLE",
+      "t_mono": 282725.454160135
+    },
+    {
+      "state": "WORK_2_VERIFIED",
+      "t_mono": 282725.461894105
+    },
+    {
+      "state": "COMPLETION_PUBLISHED",
+      "t_mono": 282726.468761532
+    },
+    {
+      "state": "CONNECTORS_LEAVING",
+      "t_mono": 282726.46916691
+    },
+    {
+      "state": "ROOT_ALONE",
+      "t_mono": 282726.678637394
+    },
+    {
+      "state": "FINALIZED",
+      "t_mono": 282726.802468535
+    }
+  ],
+  "work1_guard": {
+    "allowed": true,
+    "label": "work1",
+    "reached_hpx": null,
+    "state": "READY",
+    "t_mono": 282719.440248729
+  },
+  "work2_guard": {
+    "allowed": true,
+    "label": "work2",
+    "reached_hpx": null,
+    "state": "IDLE",
+    "t_mono": 282725.454167105
+  }
+}

@@ -1,0 +1,374 @@
+{
+  "actor_call_timeout_s": 15.0,
+  "actor_observation_categories": [
+    "call_returned",
+    "call_error_result",
+    "call_raised",
+    "call_timeout",
+    "actor_unavailable"
+  ],
+  "arms": [
+    "normal",
+    "loss"
+  ],
+  "backend": "external_root_witness",
+  "classifier_allowlist": [
+    "classification_bound_s",
+    "completion_witness_epoch_match",
+    "completion_witness_present",
+    "epoch_id",
+    "expected_refresh_s",
+    "observation_deadline_exceeded",
+    "observed_silence_s",
+    "root_pid_alive",
+    "witness_read_error"
+  ],
+  "classifier_fingerprint": "774ebdc6147bad94220fe34d374c84769dab32b89c19e974d1627bec053809d0",
+  "controller_exception": null,
+  "epoch_ids": {
+    "loss": "exp70s4a-loss-20261010T110316Z",
+    "normal": "exp70s4a-normal-20261010T110316Z"
+  },
+  "event_classes": [
+    "explicit_completion",
+    "suspected_root_loss",
+    "observation_error",
+    "observation_timeout"
+  ],
+  "expected_refresh_s": 0.2,
+  "experiment": "exp70_slice4a_root_loss_event",
+  "failure_class": "pass",
+  "gates": {
+    "arm_isolation": {
+      "both_arms_ran": true,
+      "disjoint_ports": true,
+      "distinct_actor_ids": true,
+      "distinct_bootdirs": true,
+      "distinct_epochs": true,
+      "distinct_root_processes": true,
+      "distinct_worker_pids": true
+    },
+    "classifier_equivalence": {
+      "events_differ": true,
+      "loss_arm_suspected_root_loss": true,
+      "normal_arm_explicit_completion": true,
+      "same_evidence_allowlist": true,
+      "same_observer_implementation": true,
+      "single_classifier_fingerprint": true
+    },
+    "final": {
+      "cleanup_ran": true,
+      "no_rundir_scoped_processes": true,
+      "owned_processes_gone": true,
+      "owned_records_cover_island": true
+    },
+    "loss_actor_observations": {
+      "a_bounded": true,
+      "a_category_recorded": true,
+      "a_verbatim_preserved": true,
+      "b_bounded": true,
+      "b_category_recorded": true,
+      "b_verbatim_preserved": true,
+      "both_actors_observed": true
+    },
+    "loss_blindness": {
+      "classifier_accepted_evidence": true,
+      "evidence_keys_within_allowlist": true,
+      "evidence_recorded": true,
+      "injection_fields_absent_from_evidence": true,
+      "injection_record_stored_separately": true
+    },
+    "loss_connector_observation": {
+      "a_epoch_match": true,
+      "a_event_matches_arm": true,
+      "b_epoch_match": true,
+      "b_event_matches_arm": true,
+      "both_connectors_observed": true
+    },
+    "loss_disposal": {
+      "actor_worker_pids_gone": true,
+      "both_actors_removed": true,
+      "disposal_mode_is_poisoned_island": true,
+      "disposal_recorded": true,
+      "no_completion_witness_written": true,
+      "no_mechanical_done_written": true,
+      "root_final_absent_as_expected": true,
+      "root_process_gone": true
+    },
+    "loss_epoch_scope": {
+      "observation_epoch_matches_island": true,
+      "stale_alive_witness_rejected": true,
+      "stale_completion_from_prior_epoch_rejected": true,
+      "stale_control_attempted": true
+    },
+    "loss_event_contract": {
+      "no_completion_published_on_loss_arm": true,
+      "premature_publication_attempted": true,
+      "premature_publication_rejected": true,
+      "wrong_epoch_event_rejected": true,
+      "wrong_root_identity_rejected": true
+    },
+    "loss_injection_preconditions": {
+      "both_actors_alive": true,
+      "command_identity_matches_this_run": true,
+      "no_completion_published": true,
+      "no_later_epoch_exists": true,
+      "process_start_identity_matches": true,
+      "recorded_pid_matches_live_process": true,
+      "root_belongs_to_current_epoch": true,
+      "root_is_not_an_actor_worker": true,
+      "root_is_not_the_driver": true,
+      "workload_passed": true
+    },
+    "loss_inprocess": {
+      "a_no_hpx_children": true,
+      "a_pid_identity": true,
+      "b_no_hpx_children": true,
+      "b_pid_identity": true
+    },
+    "loss_monotonic": {
+      "classification_bound_recorded": true,
+      "classification_elapsed_recorded": true,
+      "expected_refresh_recorded": true,
+      "last_advance_monotonic_recorded": true,
+      "observed_silence_recorded": true,
+      "pre_bound_probe_did_not_declare_loss": true,
+      "silence_reached_bound": true
+    },
+    "loss_no_post_event_dispatch": {
+      "no_application_work_after_event": true,
+      "post_event_dispatch_attempted": true,
+      "post_event_dispatch_never_reached_hpx": true,
+      "post_event_dispatch_rejected": true
+    },
+    "loss_ordering": {
+      "no_rejected_transitions": true,
+      "state_history_complete_and_ordered": true
+    },
+    "loss_result_verification": {
+      "final_result_verified": true,
+      "result_digest_recorded": true,
+      "verified_before_any_lifecycle_transition": true
+    },
+    "loss_root_event": {
+      "basis_recorded": true,
+      "event_epoch_matches": true,
+      "event_is_not_pending": true,
+      "event_matches_arm": true,
+      "event_recorded": true
+    },
+    "loss_startup": {
+      "actor_a_started": true,
+      "actor_b_started": true,
+      "distinct_connector_localities": true,
+      "distinct_worker_pids": true,
+      "membership_reached_3": true,
+      "root_pid_distinct_from_actors": true,
+      "root_ready_workfree_locality0": true
+    },
+    "loss_work": {
+      "a_fetch_b_ready": true,
+      "a_merge_equals_oracle": true,
+      "a_merge_ids_match": true,
+      "a_own_is_a": true,
+      "a_peer_is_b": true,
+      "b_fetch_a_ready": true,
+      "b_merge_equals_oracle": true,
+      "b_merge_ids_match": true,
+      "b_own_is_b": true,
+      "b_peer_is_a": true,
+      "case_is_expected": true,
+      "coordinator_symmetry": true,
+      "float32_bits_exact": true,
+      "global_token_ids_exact": true,
+      "hpx_composition_a": true,
+      "hpx_composition_b": true,
+      "local_topk_a_correct": true,
+      "local_topk_b_correct": true,
+      "local_topk_order_ok": true,
+      "no_application_on_root": true,
+      "shard_partition_ok": true,
+      "workload_pids_match_identities": true
+    },
+    "normal_blindness": {
+      "classifier_accepted_evidence": true,
+      "evidence_keys_within_allowlist": true,
+      "evidence_recorded": true,
+      "injection_fields_absent_from_evidence": true,
+      "injection_record_stored_separately": true
+    },
+    "normal_connector_observation": {
+      "a_epoch_match": true,
+      "a_event_matches_arm": true,
+      "b_epoch_match": true,
+      "b_event_matches_arm": true,
+      "both_connectors_observed": true
+    },
+    "normal_disposal": {
+      "actor_worker_pids_gone": true,
+      "both_actors_removed": true,
+      "connectors_left_gracefully": true,
+      "disposal_recorded": true,
+      "root_exit_finalized_clean": true,
+      "root_final_present": true,
+      "root_observed_membership_one": true
+    },
+    "normal_epoch_scope": {
+      "observation_epoch_matches_island": true,
+      "stale_alive_witness_rejected": true,
+      "stale_completion_from_prior_epoch_rejected": true,
+      "stale_control_attempted": true
+    },
+    "normal_event_contract": {
+      "completion_epoch_matches": true,
+      "duplicate_publication_attempted": true,
+      "duplicate_publication_rejected": true,
+      "exactly_one_completion_accepted": true,
+      "premature_publication_attempted": true,
+      "premature_publication_rejected": true,
+      "wrong_epoch_event_rejected": true,
+      "wrong_root_identity_rejected": true
+    },
+    "normal_inprocess": {
+      "a_no_hpx_children": true,
+      "a_pid_identity": true,
+      "b_no_hpx_children": true,
+      "b_pid_identity": true
+    },
+    "normal_monotonic": {
+      "classification_bound_recorded": true,
+      "classification_elapsed_recorded": true,
+      "expected_refresh_recorded": true,
+      "last_advance_monotonic_recorded": true,
+      "observed_silence_recorded": true,
+      "silence_never_reached_bound": true
+    },
+    "normal_ordering": {
+      "no_rejected_transitions": true,
+      "state_history_complete_and_ordered": true
+    },
+    "normal_result_verification": {
+      "final_result_verified": true,
+      "result_digest_recorded": true,
+      "verified_before_any_lifecycle_transition": true
+    },
+    "normal_root_event": {
+      "basis_recorded": true,
+      "event_epoch_matches": true,
+      "event_is_not_pending": true,
+      "event_matches_arm": true,
+      "event_recorded": true
+    },
+    "normal_startup": {
+      "actor_a_started": true,
+      "actor_b_started": true,
+      "distinct_connector_localities": true,
+      "distinct_worker_pids": true,
+      "membership_reached_3": true,
+      "root_pid_distinct_from_actors": true,
+      "root_ready_workfree_locality0": true
+    },
+    "normal_work": {
+      "a_fetch_b_ready": true,
+      "a_merge_equals_oracle": true,
+      "a_merge_ids_match": true,
+      "a_own_is_a": true,
+      "a_peer_is_b": true,
+      "b_fetch_a_ready": true,
+      "b_merge_equals_oracle": true,
+      "b_merge_ids_match": true,
+      "b_own_is_b": true,
+      "b_peer_is_a": true,
+      "case_is_expected": true,
+      "coordinator_symmetry": true,
+      "float32_bits_exact": true,
+      "global_token_ids_exact": true,
+      "hpx_composition_a": true,
+      "hpx_composition_b": true,
+      "local_topk_a_correct": true,
+      "local_topk_b_correct": true,
+      "local_topk_order_ok": true,
+      "no_application_on_root": true,
+      "shard_partition_ok": true,
+      "workload_pids_match_identities": true
+    },
+    "placement": {
+      "attest_ray_node_ids_resolved": true,
+      "attest_slurm_job_id_present": true,
+      "attest_subnet_ips_resolved": true,
+      "attest_two_distinct_nodes": true,
+      "loss_actor_a_on_nodeA": true,
+      "loss_actor_b_on_nodeB": true,
+      "loss_actors_on_distinct_ray_nodes": true,
+      "normal_actor_a_on_nodeA": true,
+      "normal_actor_b_on_nodeB": true,
+      "normal_actors_on_distinct_ray_nodes": true,
+      "parcelport_endpoints_on_subnet": true,
+      "strategy_hard_node_affinity": true
+    }
+  },
+  "gates_failed": {},
+  "increment": 4,
+  "loss_actor_observation_categories": {
+    "a": "call_timeout",
+    "b": "call_timeout"
+  },
+  "loss_classification_elapsed_s": 5.013370447035413,
+  "loss_event": "suspected_root_loss",
+  "loss_observed_silence_s": 5.013322257029358,
+  "negative_claims": {
+    "authoritative_failure_certainty_claimed": false,
+    "automatic_agas_repair_claimed": false,
+    "hpx_native_heartbeat_claimed": false,
+    "hpx_native_root_loss_notification_claimed": false,
+    "partial_island_continuation_claimed": false,
+    "performance_claimed": false,
+    "ratio_reported": false,
+    "speedup_computed": false,
+    "transparent_recovery_claimed": false
+  },
+  "non_claims": "No HPX-native root-loss notification. No HPX-native heartbeat. No authoritative failure certainty. No transparent recovery. No automatic AGAS repair. No partial-island continuation. No performance claim.",
+  "normal_classification_elapsed_s": 8.351198630407453e-05,
+  "normal_event": "explicit_completion",
+  "normal_observed_silence_s": 7.455993909388781e-06,
+  "observe_bound_s": 30.0,
+  "overall": "pass",
+  "phase": "rostam-cross-node",
+  "post_run_orphan_check": {
+    "medusa00": [],
+    "medusa01": []
+  },
+  "preflight": {
+    "build_dir": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam_20bc3d4b",
+    "exp68_dir": "/work/rohan/RayX/experiments/68_vocab_sharded_topk",
+    "ext_so": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam_20bc3d4b/exp68_actor_ext.cpython-312-x86_64-linux-gnu.so",
+    "nodes": [
+      "medusa00",
+      "medusa01"
+    ],
+    "ok": true,
+    "peer": "/work/rohan/RayX/experiments/68_vocab_sharded_topk/build_rostam_20bc3d4b/exp68_peer",
+    "phase": "rostam-cross-node",
+    "problems": [],
+    "ray_importable": true,
+    "slurm_job_id": "206558",
+    "slurm_nodelist": "medusa[00-01]",
+    "subnet": "10.42.5."
+  },
+  "provenance": {
+    "hostname": "medusa00.rostam.cct.lsu.edu",
+    "platform": "Linux-5.14.0-570.37.1.el9_6.x86_64-x86_64-with-glibc2.34",
+    "python": "3.12.3",
+    "ray_version": "2.55.1"
+  },
+  "ray_gcs_detail_B": "READY",
+  "ray_gcs_ready_from_nodeB": true,
+  "ray_init_attempts": 1,
+  "ray_init_ok": true,
+  "runid": "20261010T110316Z",
+  "runs_dir": "/work/rohan/RayX/experiments/70_hpx_locality_supervision/slice4_root_loss_event/_exp70_slice4_runs/crossnode_206558_20261010T110316Z",
+  "summary_claim": "In a two-node actor-hosted HPX island, the external root-lifecycle backend distinguished explicit root completion from bounded suspicion after unexpected loss of the separately supervised work-free root, while the supervisor discarded the poisoned island.",
+  "summary_claim_candidate": "In a two-node actor-hosted HPX island, the external root-lifecycle backend distinguished explicit root completion from bounded suspicion after unexpected loss of the separately supervised work-free root, while the supervisor discarded the poisoned island.",
+  "suspicion_bound_s": 5.0,
+  "work_case": "cross_both"
+}

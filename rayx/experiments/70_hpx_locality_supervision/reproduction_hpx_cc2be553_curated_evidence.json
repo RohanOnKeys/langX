@@ -1,0 +1,744 @@
+{
+  "experiment": "exp70_reproduction_hpx_master_cc2be553",
+  "scope": "Independent reproduction of exp70 Slices 1, 2A, 3A, 4A (Rostam cross-node) and 3B (Rostam single node) against current HPX master. Slice 0 and the local phases were not run.",
+  "date": "2026-10-10",
+  "environment": {
+    "cluster": "Rostam (LSU CCT), partition medusa",
+    "hpx_commit": "cc2be553fac9b1f2a372f4277d7c708e70bf7eb4",
+    "hpx_commit_date": "2026-10-09T17:37:37-05:00",
+    "hpx_build": {
+      "job": 206520,
+      "node": "medusa00",
+      "cores": 40,
+      "build_seconds": 155,
+      "generator": "Ninja",
+      "compiler": "g++ 15.1.0",
+      "cxx_standard": 20,
+      "options_on": [
+        "HPX_WITH_DISTRIBUTED_RUNTIME",
+        "HPX_WITH_NETWORKING",
+        "HPX_WITH_PARCELPORT_TCP",
+        "HPX_WITH_SUPERVISION",
+        "HPX_WITH_FORCE_DISCONNECT"
+      ],
+      "options_off": [
+        "HPX_WITH_EXAMPLES",
+        "HPX_WITH_TESTS"
+      ],
+      "malloc": "system",
+      "fetched": [
+        "asio",
+        "stdexec"
+      ],
+      "identity_check": "include/hpx/config/defines.hpp defines HPX_HAVE_GIT_COMMIT cc2be553..., HPX_HAVE_SUPERVISION, HPX_HAVE_FORCE_DISCONNECT"
+    },
+    "single_install_for_all_slices": true,
+    "modules": "gcc/15.1.0 cmake/3.29.2 boost/1.91.0-release hwloc/2.12.0 python/3.12.3",
+    "python": "3.12.3",
+    "ray": "2.55.1",
+    "pybind11": "3.1.0",
+    "os": "Linux-5.14.0-570.37.1.el9_6.x86_64 (glibc 2.34)",
+    "subnet": "10.42.5.",
+    "repo_commit_at_run": "be358b9"
+  },
+  "slice4_control": {
+    "question": "Is the Slice 4A post-root-loss change caused by the HPX build or by nodes/pybind11?",
+    "design": "Same nodes as the recorded runs (medusa00/01), same venv (Ray 2.55.1, pybind11 3.1.0), same repo commit (90a2f59); only the HPX install and the exp68 build linked to it differ. Jobs chained with afterany.",
+    "old_hpx_build": {
+      "commit": "20bc3d4bf3068383edcb63be13f22e9ff95842fa",
+      "commit_date": "2026-07-13T15:43:18-05:00",
+      "build_job": 206557,
+      "build_node": "medusa00",
+      "options_on": [
+        "HPX_WITH_DISTRIBUTED_RUNTIME",
+        "HPX_WITH_NETWORKING",
+        "HPX_WITH_PARCELPORT_TCP"
+      ],
+      "supervision": "not enabled (feature postdates this commit)",
+      "stdexec": "pinned to 711da5971a8e8e940763c11bf6bbeb1c1bb22c3a (2026-07-12), the last stdexec main commit before the HPX commit date",
+      "why_pinned": "first build attempt (job 206556) fetched stdexec main of 2026-10-09 (5eee1768), which no longer declares stdexec::tag_invoke and related names, and failed to compile",
+      "install_identity": "defines.hpp HPX_HAVE_GIT_COMMIT 20bc3d4b...; exp68_peer links hpx-20bc3d4b-install/lib64/libhpx.so.2"
+    },
+    "new_hpx_build": {
+      "commit": "cc2be553fac9b1f2a372f4277d7c708e70bf7eb4",
+      "stdexec": "fetched from stdexec main at configure time on 2026-10-10; exact commit not recorded"
+    },
+    "result": "Old HPX: both actors call_timeout at 15.00 s in 2/2 runs (recorded behaviour reproduced). New HPX: both actors call_error_result in 6 to 8 ms in 2/2 runs. All 4 runs pass overall.",
+    "conclusion": "The change follows the HPX build (HPX commit plus the dependency versions fetched with it), not the nodes or pybind11."
+  },
+  "recorded_baseline": {
+    "slices_1_to_4_hpx_commit": "20bc3d4bf3068383edcb63be13f22e9ff95842fa",
+    "slice3b_hpx_commit": "bec10f395059738193a1d53d1e8f02acc01f4ce2",
+    "slice4_hardware_nodes": [
+      "medusa00",
+      "medusa01"
+    ],
+    "slice4_hardware_post_loss_actor_observations": [
+      {
+        "a": {
+          "bound_s": 15.0,
+          "bounded": true,
+          "category": "call_timeout",
+          "elapsed_s": 15.001
+        },
+        "b": {
+          "bound_s": 15.0,
+          "bounded": true,
+          "category": "call_timeout",
+          "elapsed_s": 15.001
+        }
+      },
+      {
+        "a": {
+          "bound_s": 15.0,
+          "bounded": true,
+          "category": "call_timeout",
+          "elapsed_s": 15.002
+        },
+        "b": {
+          "bound_s": 15.0,
+          "bounded": true,
+          "category": "call_timeout",
+          "elapsed_s": 15.002
+        }
+      }
+    ]
+  },
+  "selftests": {
+    "slice1": "60/60",
+    "slice2": "73/73",
+    "slice3": "96/96",
+    "slice3b": "ok, no failures",
+    "slice4": "115/115"
+  },
+  "jobs": {
+    "slice1": {
+      "job": 206548,
+      "nodes": [
+        "medusa00",
+        "medusa01"
+      ]
+    },
+    "slice2": {
+      "job": 206549,
+      "nodes": [
+        "medusa00",
+        "medusa01"
+      ]
+    },
+    "slice3": {
+      "job": 206550,
+      "nodes": [
+        "medusa11",
+        "medusa12"
+      ]
+    },
+    "slice4": {
+      "job": 206551,
+      "nodes": [
+        "medusa13",
+        "medusa14"
+      ]
+    },
+    "slice4_control_old_hpx": {
+      "job": 206558,
+      "nodes": [
+        "medusa00",
+        "medusa01"
+      ],
+      "hpx_commit": "20bc3d4b",
+      "exp68_build": "68_vocab_sharded_topk/build_rostam_20bc3d4b"
+    },
+    "slice4_control_new_hpx": {
+      "job": 206559,
+      "nodes": [
+        "medusa00",
+        "medusa01"
+      ],
+      "hpx_commit": "cc2be553",
+      "exp68_build": "68_vocab_sharded_topk/build_rostam"
+    },
+    "slice3b": {
+      "jobs": [
+        206552,
+        206553,
+        206554,
+        206555
+      ],
+      "nodes": [
+        "medusa00",
+        "medusa01",
+        "medusa08",
+        "medusa11"
+      ]
+    }
+  },
+  "runs": {
+    "slice1": [
+      {
+        "runid": "20261010T085432Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 19,
+          "leaf_checks_true": 121,
+          "leaf_checks_total": 121
+        },
+        "gates_failed": {},
+        "post_loss_membership_category": "membership_stale",
+        "victim_key": "b",
+        "workload_case": "cross_both",
+        "epoch0_hosts": {
+          "a": "medusa00",
+          "b": "medusa01",
+          "ports": ""
+        },
+        "ray_orphans_informational": {
+          "medusa00": [],
+          "medusa01": []
+        },
+        "aggregate": "slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085432Z/aggregate.json",
+        "aggregate_sha256": "3ced1e465ea857bb91f225f868ff4c9fc217f67e0cc2177c6d3ba6d978e2f362"
+      },
+      {
+        "runid": "20261010T085449Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 19,
+          "leaf_checks_true": 121,
+          "leaf_checks_total": 121
+        },
+        "gates_failed": {},
+        "post_loss_membership_category": "membership_stale",
+        "victim_key": "b",
+        "workload_case": "cross_both",
+        "epoch0_hosts": {
+          "a": "medusa00",
+          "b": "medusa01",
+          "ports": ""
+        },
+        "ray_orphans_informational": {
+          "medusa00": [],
+          "medusa01": []
+        },
+        "aggregate": "slice1_actor_hosted_island_restart/_exp70_slice1_runs/crossnode_206548_20261010T085449Z/aggregate.json",
+        "aggregate_sha256": "d86dcc340b6951593813600d4f690679e44ecbc32f39e50201a660b6c3ed9214"
+      }
+    ],
+    "slice2": [
+      {
+        "runid": "20261010T085929Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 15,
+          "leaf_checks_true": 109,
+          "leaf_checks_total": 109
+        },
+        "gates_failed": {},
+        "configured_idle_s": 6.0,
+        "former_fixed_serve_window_s": 3.0,
+        "controller_host": "medusa00",
+        "ray_orphans_informational": {
+          "medusa00": [],
+          "medusa01": []
+        },
+        "aggregate": "slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085929Z/aggregate.json",
+        "aggregate_sha256": "35c9fc724ef5db3ebd551a207c935389dd6640bf66ee168f2bfe9537ad99c03b"
+      },
+      {
+        "runid": "20261010T085947Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 15,
+          "leaf_checks_true": 109,
+          "leaf_checks_total": 109
+        },
+        "gates_failed": {},
+        "configured_idle_s": 6.0,
+        "former_fixed_serve_window_s": 3.0,
+        "controller_host": "medusa00",
+        "ray_orphans_informational": {
+          "medusa00": [],
+          "medusa01": []
+        },
+        "aggregate": "slice2_explicit_completion/_exp70_slice2_runs/crossnode_206549_20261010T085947Z/aggregate.json",
+        "aggregate_sha256": "a26c66f949c21fd7b9c843965b51318f047551f081e37d7d0594c90910487ab7"
+      }
+    ],
+    "slice3": [
+      {
+        "runid": "20261010T085930Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 28,
+          "leaf_checks_true": 176,
+          "leaf_checks_total": 176
+        },
+        "gates_failed": {},
+        "graceful_classification": "graceful_departure",
+        "loss_classification": "unexpected_loss",
+        "graceful_post_departure_membership": "membership_shrank",
+        "loss_post_departure_membership": "membership_stale",
+        "classifier_fingerprint": "9a5d1ec8edd0116612d1cc4f332d4b98ebb9f64f24a877aade515084bd090cb4",
+        "controller_host": "medusa11",
+        "post_run_orphan_check": {
+          "medusa11": [],
+          "medusa12": []
+        },
+        "aggregate": "slice3_connector_loss_event/_exp70_slice3_runs/crossnode_206550_20261010T085930Z/aggregate.json",
+        "aggregate_sha256": "655b89b5b02ef3ccd0c1f8d945160ce0648289f9b8f50a371889503452ded47a"
+      },
+      {
+        "runid": "20261010T085945Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 28,
+          "leaf_checks_true": 176,
+          "leaf_checks_total": 176
+        },
+        "gates_failed": {},
+        "graceful_classification": "graceful_departure",
+        "loss_classification": "unexpected_loss",
+        "graceful_post_departure_membership": "membership_shrank",
+        "loss_post_departure_membership": "membership_stale",
+        "classifier_fingerprint": "9a5d1ec8edd0116612d1cc4f332d4b98ebb9f64f24a877aade515084bd090cb4",
+        "controller_host": "medusa11",
+        "post_run_orphan_check": {
+          "medusa11": [],
+          "medusa12": []
+        },
+        "aggregate": "slice3_connector_loss_event/_exp70_slice3_runs/crossnode_206550_20261010T085945Z/aggregate.json",
+        "aggregate_sha256": "21fbffee9ba31729b3850befe23ba7ce99ffad4915e3df2f3dde34443947a5c1"
+      }
+    ],
+    "slice4": [
+      {
+        "job": 206551,
+        "hpx_commit": "cc2be553",
+        "runid": "20261010T085932Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 31,
+          "leaf_checks_true": 205,
+          "leaf_checks_total": 205
+        },
+        "gates_failed": {},
+        "normal_event": "explicit_completion",
+        "loss_event": "suspected_root_loss",
+        "suspicion_bound_s": 5.0,
+        "expected_refresh_s": 0.2,
+        "loss_observed_silence_s": 5.014023442752659,
+        "normal_observed_silence_s": 7.719732820987701e-06,
+        "classifier_fingerprint": "774ebdc6147bad94220fe34d374c84769dab32b89c19e974d1627bec053809d0",
+        "post_loss_actor_observations": {
+          "a": {
+            "category": "call_error_result",
+            "elapsed_s": 0.009884128347039223,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": {
+              "error": "RuntimeError: Connection reset by peer: ",
+              "ok": false
+            }
+          },
+          "b": {
+            "category": "call_error_result",
+            "elapsed_s": 0.008988549001514912,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": {
+              "error": "RuntimeError: Connection reset by peer: ",
+              "ok": false
+            }
+          }
+        },
+        "controller_host": "medusa13",
+        "post_run_orphan_check": {
+          "medusa13": [],
+          "medusa14": []
+        },
+        "aggregate": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206551_20261010T085932Z/aggregate.json",
+        "aggregate_sha256": "e3323525affa5a99acd1e64f4413f1b6ff424d1a8a2b4eccfc36abb2cbadf81a",
+        "markers": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206551_20261010T085932Z/markers.json",
+        "markers_sha256": "24b1c83dcc1ee949806259875084d3557297c36ae465ca7da63fd518f83a5b1c"
+      },
+      {
+        "job": 206551,
+        "hpx_commit": "cc2be553",
+        "runid": "20261010T090001Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 31,
+          "leaf_checks_true": 205,
+          "leaf_checks_total": 205
+        },
+        "gates_failed": {},
+        "normal_event": "explicit_completion",
+        "loss_event": "suspected_root_loss",
+        "suspicion_bound_s": 5.0,
+        "expected_refresh_s": 0.2,
+        "loss_observed_silence_s": 5.014076718129218,
+        "normal_observed_silence_s": 7.513910531997681e-06,
+        "classifier_fingerprint": "774ebdc6147bad94220fe34d374c84769dab32b89c19e974d1627bec053809d0",
+        "post_loss_actor_observations": {
+          "a": {
+            "category": "call_error_result",
+            "elapsed_s": 0.007367054000496864,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": {
+              "error": "RuntimeError: Connection reset by peer: ",
+              "ok": false
+            }
+          },
+          "b": {
+            "category": "call_error_result",
+            "elapsed_s": 0.006081785075366497,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": {
+              "error": "RuntimeError: Connection reset by peer: ",
+              "ok": false
+            }
+          }
+        },
+        "controller_host": "medusa13",
+        "post_run_orphan_check": {
+          "medusa13": [],
+          "medusa14": []
+        },
+        "aggregate": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206551_20261010T090001Z/aggregate.json",
+        "aggregate_sha256": "57cb13f814b92858c59ed7aa10ccd4254c04d57590a3c839f5adf9dc8d6ffdca",
+        "markers": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206551_20261010T090001Z/markers.json",
+        "markers_sha256": "7776e437f7640cec6bcfca173e463899057e93a4a7910409a77e0f75ffe055ce"
+      }
+    ],
+    "slice4_control": [
+      {
+        "job": 206558,
+        "hpx_commit": "20bc3d4b",
+        "runid": "20261010T110316Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 31,
+          "leaf_checks_true": 205,
+          "leaf_checks_total": 205
+        },
+        "gates_failed": {},
+        "normal_event": "explicit_completion",
+        "loss_event": "suspected_root_loss",
+        "suspicion_bound_s": 5.0,
+        "expected_refresh_s": 0.2,
+        "loss_observed_silence_s": 5.013322257029358,
+        "normal_observed_silence_s": 7.455993909388781e-06,
+        "classifier_fingerprint": "774ebdc6147bad94220fe34d374c84769dab32b89c19e974d1627bec053809d0",
+        "post_loss_actor_observations": {
+          "a": {
+            "category": "call_timeout",
+            "elapsed_s": 15.001564992999192,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": "Get timed out: some object(s) not ready."
+          },
+          "b": {
+            "category": "call_timeout",
+            "elapsed_s": 15.001415710023139,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": "Get timed out: some object(s) not ready."
+          }
+        },
+        "controller_host": "medusa00",
+        "post_run_orphan_check": {
+          "medusa00": [],
+          "medusa01": []
+        },
+        "aggregate": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206558_20261010T110316Z/aggregate.json",
+        "aggregate_sha256": "927cdf7f025dd5a02d6f4c188becd830a8b83a51b66c2a6312a9ac23a24f1319",
+        "markers": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206558_20261010T110316Z/markers.json",
+        "markers_sha256": "e06412b1e9b23d7f29b6706624099218bde3a244a13dd97e4aa6743cb3fcc028"
+      },
+      {
+        "job": 206558,
+        "hpx_commit": "20bc3d4b",
+        "runid": "20261010T110416Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 31,
+          "leaf_checks_true": 205,
+          "leaf_checks_total": 205
+        },
+        "gates_failed": {},
+        "normal_event": "explicit_completion",
+        "loss_event": "suspected_root_loss",
+        "suspicion_bound_s": 5.0,
+        "expected_refresh_s": 0.2,
+        "loss_observed_silence_s": 5.013212916033808,
+        "normal_observed_silence_s": 0.0,
+        "classifier_fingerprint": "774ebdc6147bad94220fe34d374c84769dab32b89c19e974d1627bec053809d0",
+        "post_loss_actor_observations": {
+          "a": {
+            "category": "call_timeout",
+            "elapsed_s": 15.00159130396787,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": "Get timed out: some object(s) not ready."
+          },
+          "b": {
+            "category": "call_timeout",
+            "elapsed_s": 15.001603737997357,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": "Get timed out: some object(s) not ready."
+          }
+        },
+        "controller_host": "medusa00",
+        "post_run_orphan_check": {
+          "medusa00": [],
+          "medusa01": []
+        },
+        "aggregate": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206558_20261010T110416Z/aggregate.json",
+        "aggregate_sha256": "fa8ad626e5ac8d9d8a385a1c0a88c6e22b608c09cc79641518b1f8128643a90e",
+        "markers": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206558_20261010T110416Z/markers.json",
+        "markers_sha256": "d170211b0f3ee1e9337ba10cb107b0e39e080e7775663a9cc7850bf98fd9921d"
+      },
+      {
+        "job": 206559,
+        "hpx_commit": "cc2be553",
+        "runid": "20261010T110522Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 31,
+          "leaf_checks_true": 205,
+          "leaf_checks_total": 205
+        },
+        "gates_failed": {},
+        "normal_event": "explicit_completion",
+        "loss_event": "suspected_root_loss",
+        "suspicion_bound_s": 5.0,
+        "expected_refresh_s": 0.2,
+        "loss_observed_silence_s": 5.013438822003081,
+        "normal_observed_silence_s": 7.444003131240606e-06,
+        "classifier_fingerprint": "774ebdc6147bad94220fe34d374c84769dab32b89c19e974d1627bec053809d0",
+        "post_loss_actor_observations": {
+          "a": {
+            "category": "call_error_result",
+            "elapsed_s": 0.00801746203796938,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": {
+              "error": "RuntimeError: Connection reset by peer: ",
+              "ok": false
+            }
+          },
+          "b": {
+            "category": "call_error_result",
+            "elapsed_s": 0.006849718978628516,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": {
+              "error": "RuntimeError: Connection reset by peer: ",
+              "ok": false
+            }
+          }
+        },
+        "controller_host": "medusa00",
+        "post_run_orphan_check": {
+          "medusa00": [],
+          "medusa01": []
+        },
+        "aggregate": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206559_20261010T110522Z/aggregate.json",
+        "aggregate_sha256": "53756b817c83f9fa8e996ed0b8573c160d422fee6358356a9cf799b092dcb5cb",
+        "markers": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206559_20261010T110522Z/markers.json",
+        "markers_sha256": "29332d0e7ca4f69641ee19aaa2c0a9f28e9b50c3601d16a3385e2528d7577e3c"
+      },
+      {
+        "job": 206559,
+        "hpx_commit": "cc2be553",
+        "runid": "20261010T110552Z",
+        "overall": "pass",
+        "failure_class": "pass",
+        "gates": {
+          "groups": 31,
+          "leaf_checks_true": 205,
+          "leaf_checks_total": 205
+        },
+        "gates_failed": {},
+        "normal_event": "explicit_completion",
+        "loss_event": "suspected_root_loss",
+        "suspicion_bound_s": 5.0,
+        "expected_refresh_s": 0.2,
+        "loss_observed_silence_s": 5.013530978991184,
+        "normal_observed_silence_s": 7.771013770252466e-06,
+        "classifier_fingerprint": "774ebdc6147bad94220fe34d374c84769dab32b89c19e974d1627bec053809d0",
+        "post_loss_actor_observations": {
+          "a": {
+            "category": "call_error_result",
+            "elapsed_s": 0.005977641965728253,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": {
+              "error": "RuntimeError: Connection reset by peer: ",
+              "ok": false
+            }
+          },
+          "b": {
+            "category": "call_error_result",
+            "elapsed_s": 0.005751741991844028,
+            "bound_s": 15.0,
+            "bounded": true,
+            "verbatim": {
+              "error": "RuntimeError: Connection reset by peer: ",
+              "ok": false
+            }
+          }
+        },
+        "controller_host": "medusa00",
+        "post_run_orphan_check": {
+          "medusa00": [],
+          "medusa01": []
+        },
+        "aggregate": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206559_20261010T110552Z/aggregate.json",
+        "aggregate_sha256": "05da4782122700701aa4def8621480035729ab1456ad937130e174e6c4204fc0",
+        "markers": "slice4_root_loss_event/_exp70_slice4_runs/crossnode_206559_20261010T110552Z/markers.json",
+        "markers_sha256": "929e4f637b9311151527b24c4e277bd1a8e6be589b5e90bae546a3991c133d23"
+      }
+    ],
+    "slice3b": [
+      {
+        "run_id": "20261010T140358Z",
+        "passed": true,
+        "failure_class": "pass",
+        "gates_passed": 16,
+        "gates_total": 16,
+        "gates_failed": [],
+        "host": "medusa00",
+        "departure_signal": "SIGKILL",
+        "graceful_disconnect_used": false,
+        "application_failed_event_publish_count": 0,
+        "final_dispatch_outcome": "rejected_fenced",
+        "force_disconnect_rc": 0,
+        "force_disconnect_elapsed_s": 0.000226498,
+        "force_disconnect_effect": {
+          "agas_resolve_fails_after": true,
+          "membership_shrank": true,
+          "membership_after": 2,
+          "post_force_disconnect_dispatch_failed": true
+        },
+        "root_exit_path": "hung_killed_by_harness",
+        "root_finish_note_written": true,
+        "aggregate": "slice3_connector_loss_event/_exp70_slice3b_runs/20261010T140358Z/aggregate.json",
+        "aggregate_sha256": "9e1cbe53cf019e3d20d4cb40ec69e7a38eefc447aa5dc9b13127c71c620f58c9"
+      },
+      {
+        "run_id": "20261010T141311Z",
+        "passed": true,
+        "failure_class": "pass",
+        "gates_passed": 16,
+        "gates_total": 16,
+        "gates_failed": [],
+        "host": "medusa01",
+        "departure_signal": "SIGKILL",
+        "graceful_disconnect_used": false,
+        "application_failed_event_publish_count": 0,
+        "final_dispatch_outcome": "rejected_fenced",
+        "force_disconnect_rc": 0,
+        "force_disconnect_elapsed_s": 0.000274181,
+        "force_disconnect_effect": {
+          "agas_resolve_fails_after": true,
+          "membership_shrank": true,
+          "membership_after": 2,
+          "post_force_disconnect_dispatch_failed": true
+        },
+        "root_exit_path": "hung_killed_by_harness",
+        "root_finish_note_written": true,
+        "aggregate": "slice3_connector_loss_event/_exp70_slice3b_runs/20261010T141311Z/aggregate.json",
+        "aggregate_sha256": "ffc3455e69fa20f659a21ee64736095d4058c4541df27f3a4cc811d21eb9f03f"
+      },
+      {
+        "run_id": "20261010T141747Z",
+        "passed": true,
+        "failure_class": "pass",
+        "gates_passed": 16,
+        "gates_total": 16,
+        "gates_failed": [],
+        "host": "medusa08",
+        "departure_signal": "SIGKILL",
+        "graceful_disconnect_used": false,
+        "application_failed_event_publish_count": 0,
+        "final_dispatch_outcome": "rejected_fenced",
+        "force_disconnect_rc": 0,
+        "force_disconnect_elapsed_s": 0.000297546,
+        "force_disconnect_effect": {
+          "agas_resolve_fails_after": true,
+          "membership_shrank": true,
+          "membership_after": 2,
+          "post_force_disconnect_dispatch_failed": true
+        },
+        "root_exit_path": "hung_killed_by_harness",
+        "root_finish_note_written": true,
+        "aggregate": "slice3_connector_loss_event/_exp70_slice3b_runs/20261010T141747Z/aggregate.json",
+        "aggregate_sha256": "09fa77558c31fc07dc4e6c3d1ef9f0435cd07d8741af06ae80fe9a605238daaa"
+      },
+      {
+        "run_id": "20261010T141859Z",
+        "passed": true,
+        "failure_class": "pass",
+        "gates_passed": 16,
+        "gates_total": 16,
+        "gates_failed": [],
+        "host": "medusa11",
+        "departure_signal": "SIGKILL",
+        "graceful_disconnect_used": false,
+        "application_failed_event_publish_count": 0,
+        "final_dispatch_outcome": "rejected_fenced",
+        "force_disconnect_rc": 0,
+        "force_disconnect_elapsed_s": 0.00022006,
+        "force_disconnect_effect": {
+          "agas_resolve_fails_after": true,
+          "membership_shrank": true,
+          "membership_after": 2,
+          "post_force_disconnect_dispatch_failed": true
+        },
+        "root_exit_path": "hung_killed_by_harness",
+        "root_finish_note_written": false,
+        "aggregate": "slice3_connector_loss_event/_exp70_slice3b_runs/20261010T141859Z/aggregate.json",
+        "aggregate_sha256": "f51e700a94226de50e02e58bbc8c7a234a3c2646c555031e894696109f07ddbe"
+      }
+    ]
+  },
+  "findings": {
+    "reproduced": [
+      "Slice 1: 2/2 pass, post-loss membership_stale in both runs (matches recorded).",
+      "Slice 2A: 2/2 pass (matches recorded).",
+      "Slice 3A: 2/2 pass, graceful_departure vs unexpected_loss; loss-arm membership_stale (matches recorded).",
+      "Slice 4A: 2/2 pass, explicit_completion vs suspected_root_loss at the 5.0 s bound (matches recorded).",
+      "Slice 3B: 4/4 runs 16/16 on four nodes; shutdown still hung_killed_by_harness (matches recorded semantics and shutdown status)."
+    ],
+    "shutdown_detail": "Slice 3B root.finish_note (written right after hpx::supervision::finalize() returns) exists in runs 1 to 3 but not in run 4 (medusa11). Runs 1 to 3 hung later in hpx::finalize()/hpx::stop(), as recorded; run 4 most likely hung inside hpx::supervision::finalize() itself. Harness-confounded, single occurrence, not attributed.",
+    "changed": [
+      "Slice 4A post-loss actor probes: both actors returned call_error_result ('RuntimeError: Connection reset by peer') within about 6 to 10 ms in both runs, where the recorded hardware runs on HPX 20bc3d4b returned call_timeout at the 15 s bound. exp70 README key finding 1 ('calls blocked rather than failing promptly') does not reproduce here. A same-node control (see slice4_control) attributes the change to the HPX build, not to nodes or pybind11."
+    ],
+    "not_run": [
+      "Slice 0 (user decision)",
+      "local phases of Slices 1 to 4 (Slice 3B ran its local phase on each Rostam node)"
+    ]
+  },
+  "non_claims": [
+    "no performance claim",
+    "no production or fault-tolerance claim",
+    "no claim that the Slice 3B shutdown hang is an HPX defect or that it is fixed",
+    "no attribution of the Slice 4A change to a specific HPX commit inside 20bc3d4b..cc2be553, and no separation of HPX itself from its fetched dependencies",
+    "no Ray-vs-HPX comparison"
+  ]
+}
