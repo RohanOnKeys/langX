@@ -12,7 +12,7 @@ v1 was written from the RayX README alone. v2 is revised after reading the exp70
 
 1. **Coordinator is no longer locality 0.** A work-free HPX root is locality 0. The coordinator and the workers are late-connecting localities. In v1 a coordinator crash was a root crash, which exp70 Slice 4 shows cannot be recovered with current HPX. In v2 it is a connector loss, which exp70 Slice 3B handles natively.
 2. **Launch is HPX connect mode,** copied from exp70 Slice 3B. `hpx::force_disconnect` only works for late-connecting localities, so a classic `srun` multi-locality launch would lose it.
-3. **Week 0 shrinks.** Spikes A (SIGKILL detection), C (pybind11 plus `supervision::init` in-process) and E (replacement locality) were already answered by exp70 Slice 3B and its reproduction. What remains: detection latency with real timestamps, SIGSTOP, LangGraph proxy behavior, and a Python-side `dispatch_work` path, which nobody has built yet.
+3. **Phase 0 shrinks.** Spikes A (SIGKILL detection), C (pybind11 plus `supervision::init` in-process) and E (replacement locality) were already answered by exp70 Slice 3B and its reproduction. What remains: detection latency with real timestamps, SIGSTOP, LangGraph proxy behavior, and a Python-side `dispatch_work` path, which nobody has built yet.
 4. **Gates and failure matrix corrected.** F6 now includes an explicit `force_disconnect`. G4 is split into run completion and clean process exit, because the root shutdown hang reproduces. Gate 0 is stated as depending on the testing hook.
 5. **Provenance corrected.** exp70 is Bita's experiment. The reproduction on `cc2be553` is Rohan's. This experiment is new work that reuses exp70 Slice 3B code as a starting point.
 6. **Real-model demo mode dropped** from this experiment.
@@ -34,9 +34,9 @@ v1 was written from the RayX README alone. v2 is revised after reading the exp70
 | HPX manual page `supervision_dispatch.rst` | Fully | `plain_worker.cpp` example NOT read |
 | DeepWiki page on supervision and lifecycle | Fully | Secondary source |
 | LangGraph runtime, checkpointer, durable execution docs | Read | Source code NOT read |
-| HPX supervision source code and unit tests | Partly, via exp70 | exp70 cites `dispatch_api.cpp` internals; full read is week 0 |
+| HPX supervision source code and unit tests | Partly, via exp70 | exp70 cites `dispatch_api.cpp` internals; full read is phase 0 |
 
-Rule: every statement marked **[VERIFY]** is an assumption to be checked in week 0 before code depends on it.
+Rule: every statement marked **[VERIFY]** is an assumption to be checked in phase 0 before code depends on it.
 
 ---
 
@@ -75,7 +75,7 @@ Three kinds of checkpoint:
 | Kind | What it saves | Used here |
 | --- | --- | --- |
 | LangGraph checkpoint | Channel values per superstep plus per-task pending writes, keyed by `thread_id` | Yes, standard checkpointer on the coordinator |
-| HPX checkpoint | Serialized C++ objects or components **[VERIFY]** API | No (phase 2) |
+| HPX checkpoint | Serialized C++ objects or components **[VERIFY]** API | No (follow-on A) |
 | Process checkpoint (CRIU) | Whole OS process | No |
 
 ### CRIU
@@ -133,7 +133,7 @@ Not established, or known problems:
 
 **Ray is not used.** Workers, coordinator and root are plain HPX localities launched under Slurm. If Ray were present, a reviewer could attribute recovery to Ray actor restarts. Note that exp70 Slice 3B killed a Ray-actor-hosted process and detection still came from HPX alone, which supports this isolation.
 
-Ray returns in a later phase (section 21) for placement and island restart.
+Ray returns in follow-on B (section 21) for placement and island restart.
 
 ### 2.4 Order of dependency
 
@@ -144,7 +144,7 @@ exp70 Slice 3B harness and bindings (Bita; reproduced on cc2be553)
         ^
 this experiment: Python dispatch, commit fence, outbox, LangGraph
         ^
-Ray orchestration (later phase)
+Ray orchestration (follow-on B)
 ```
 
 ---
@@ -256,8 +256,8 @@ Root loss is out of scope. One coordinator at a time is assumed (F7 restarts onl
 
 - Deterministic scheduling. Addressed only through recorded inputs and outputs.
 - Accelerators, GPU, RISC-V, Contrail hardware.
-- HPX-backed checkpointer (phase 2).
-- Executor-level LangGraph integration (phase 2).
+- HPX-backed checkpointer (follow-on A).
+- Executor-level LangGraph integration (follow-on A).
 - PydanticAI and CrewAI adapters.
 - Ray.
 - Root-loss recovery (blocked upstream, exp70 Slice 4B).
@@ -566,57 +566,57 @@ Detection latency across processes requires one clock basis. Either keep every t
 
 ---
 
-## 16. Week-by-week plan
+## 16. Phases
 
-LOC estimates include tests, exclude docs.
+Phases run in order. A phase starts when the previous phase meets its exit criterion; there are no calendar targets. Size estimates are in LOC, including tests, excluding docs.
 
-### Week 0: spikes and reading (about 2 days)
+### Phase 0: spikes and reading
 
 Deliverable: a private go/no-go note answering every [VERIFY].
 
 - Read `dispatch_api.cpp`, `dispatch_work.hpp`, `testing.hpp`, `plain_worker.cpp` on `cc2be553`. Read `root_supervised.cpp`, `connector_ext.cpp`, `run_slice3b.py` in full.
 - **Spike A' (detection latency):** copy the exp70 Slice 3B harness into a new spike directory; add monotonic timestamps at kill and at shadow `failed`; record what `snapshot_peers()` shows after detection. Run on one node.
 - **Spike B (SIGSTOP):** same harness, add a SIGSTOP/SIGCONT arm: does the shadow latch, what does the resumed worker report, does a dispatch to it get fenced client-side.
-- **Spike D (LangGraph):** async proxy nodes awaiting fake futures under width 32; retry policy off. Laptop only, no HPX.
+- **Spike D (LangGraph):** async proxy nodes awaiting fake futures under width 32; retry policy off. No HPX.
 - **Spike F (Python dispatch):** extend the connector module with a generic `run_node` action and call `dispatch_work` from a Python connector to another connector. Also test whether a connector can call `discover_and_join` and `force_disconnect` itself.
 
 Gate 0: if SIGKILL is not detected within 30 s with the testing hook, or Python-side `dispatch_work` cannot be made to work, stop and bring the finding to the mentor and maintainers.
 
-### Week 1: bindings core (about 800 LOC C++, 300 LOC Python)
+### Phase 1: bindings core (about 800 LOC C++, 300 LOC Python)
 
 Start from `connector_ext.cpp`. Add join, epoch query, admission, await, force_disconnect, `run_node`, exception mapping, asyncio bridge, bounded finalize.
 
 Exit: a Python coordinator on 3 localities (root plus 2) discovers a worker, reads its epoch, dispatches a trivial node.
 
-### Week 2: worker runtime (about 600 LOC)
+### Phase 2: worker runtime (about 600 LOC)
 
 `run_node` with GIL handling, dotted-path import, JSON, error payloads, lifecycle publishing.
 
 Exit: coordinator dispatches a real node function and gets a result tagged with epoch and attempt id.
 
-### Week 3: coordinator and proxies (about 800 LOC)
+### Phase 3: coordinator and proxies (about 800 LOC)
 
 Proxy factory, worker selection, bounded retry, epoch table, commit fence, outbox and effect log, stub LLM and fixtures, `research_agent`.
 
 Exit: F0 passes with hash equal to baseline on 2 workers.
 
-### Week 4: failure harness (about 900 LOC)
+### Phase 4: failure harness (about 900 LOC)
 
 Process launcher, PID recording, signal injection at defined points, F1 to F9 automated, JSON lines output.
 
 Exit: G1 to G5 pass on one node.
 
-### Week 5: Rostam measurement (about 300 LOC)
+### Phase 5: Rostam measurement (about 300 LOC)
 
 Slurm scripts, baselines, sweeps, plots. Second person or fresh checkout re-runs a subset.
 
 Exit: results and plots from one command.
 
-### Week 6: write-up
+### Phase 6: write-up
 
 Two-page report (claim, method, results, limits). Terminal recording of F2 and F4 against stock LangGraph. Share with the mentor and maintainers.
 
-Total: about 3,700 to 4,500 LOC, 6 weeks plus one buffer week.
+Total: about 3,700 to 4,500 LOC across phases 0 to 6.
 
 ---
 
@@ -677,7 +677,7 @@ Naming checklist:
 
 | Risk | Likelihood | Impact | Mitigation |
 | --- | --- | --- | --- |
-| Python-side `dispatch_work` harder than expected | Medium | High | Spike F in week 0; start from exp70 C++ path |
+| Python-side `dispatch_work` harder than expected | Medium | High | Spike F in phase 0; start from exp70 C++ path |
 | Connector cannot call `discover_and_join` / `force_disconnect` | Medium | Medium | Root membership action (6.1 option b) |
 | Detection too slow without the testing hook | High | Medium | Report the hook value; ask maintainers for a production knob |
 | Root or `supervision::finalize()` shutdown hang | High (seen in every 3B run) | Medium | G4 split; bounded finalize; harness kills after timeout and records it |
@@ -740,25 +740,27 @@ For HPX maintainers:
 | Multi-node coordination | Demonstrated on Rostam without Ray |
 | 10x faster than cloud GPU | Not tested, not claimed |
 
-### 21.4 Follow-on phases
+### 21.4 Follow-on work
 
-1. **Phase 2 (2 to 3 months):** executor-level LangGraph integration; HPX-backed checkpointer; step-level state migration.
-2. **Phase 3 (about 3 months):** Ray layered on native supervision for placement and island restart; root-loss handling if upstream allows; PydanticAI and CrewAI adapters.
-3. **Phase 4 (about 3 months):** observability (HPX counters, APEX traces per node); recorded replay; placement hints.
+Named by letter so they are not confused with phases 0 to 6 of this experiment (section 16).
+
+1. **Follow-on A:** executor-level LangGraph integration; HPX-backed checkpointer; step-level state migration.
+2. **Follow-on B:** Ray layered on native supervision for placement and island restart; root-loss handling if upstream allows; PydanticAI and CrewAI adapters.
+3. **Follow-on C:** observability (HPX counters, APEX traces per node); recorded replay; placement hints.
 
 ### 21.5 GSoC and extended work
 
-- GSoC (350 h): weeks 0 to 4 are the core.
-- Extended engagement (6 to 12 months, with the LSU group): phases 2 to 4.
-- Before applying: land one small HPX pull request and share week 0 findings on HPX channels.
+- GSoC: phases 0 to 4 are the core.
+- Extended engagement with the LSU group: follow-on A to C.
+- Before applying: land one small HPX pull request and share phase 0 findings on HPX channels.
 
 ---
 
-## 22. Week 0 checklist (private)
+## 22. Phase 0 checklist (private)
 
 - [ ] Send the exp70 reproduction summary to Bita and the mentor; get answers to section 20 questions 1 to 3.
 - [ ] Record HPX (`cc2be553`), RayX, LangGraph, pybind11, Python, compiler versions.
-- [ ] Read the HPX and exp70 sources listed in week 0.
+- [ ] Read the HPX and exp70 sources listed in phase 0.
 - [ ] Spike A': detection latency with monotonic timestamps; `snapshot_peers()` after detection.
 - [ ] Spike B: SIGSTOP and SIGCONT behavior.
 - [ ] Spike D: async LangGraph proxies under width 32.
