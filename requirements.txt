@@ -1,4 +1,4 @@
 # langX runtime dependencies (coordinator and workers).
-# Pin LangGraph to an exact version in week 0 (plan section 22) before any
+# Pin LangGraph to an exact version in phase 0 (plan section 22) before any
 # result depends on it; its executor internals are private and change often.
 langgraph
