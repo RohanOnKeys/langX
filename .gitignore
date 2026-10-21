@@ -1,0 +1,50 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build artifacts
+python/build/
+hpx_impl/build/
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Compiled extensions / binaries
+*.so
+*.pyd
+*.dylib
+*.o
+*.a
+*.dSYM/
+
+# Run results / generated artifacts
+results/
+experiments/**/_runs/
+*.jsonl
+*.summary.json
+*.log
+aggregate.json
+
+# Exception: curated aggregate.json files next to experiment write-ups are
+# tracked (must come after the global aggregate.json ignore above).
+!experiments/**/aggregate.json
+
+# Exception: the RayX reference snapshot keeps its run results as copied.
+!rayx/**
+
+# Local/editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Local notes, handoff and agent instruction files
+handoff*
+CLAUDE.md
+CLAUDE.local.md
+rostam_access.md
