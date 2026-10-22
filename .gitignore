@@ -25,6 +25,7 @@ compile_commands.json
 
 # Run results / generated artifacts
 results/
+!docs/results/
 experiments/**/_runs/
 *.jsonl
 *.summary.json

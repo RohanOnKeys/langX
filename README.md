@@ -4,7 +4,16 @@
 
 Research prototype: LangGraph agent steps executed on HPX localities, with HPX supervision fencing and a coordinator-side commit fence, so that a worker failure neither loses nor double-commits a step.
 
-**Status:** planning. No implementation yet. The full experiment plan is in [`docs/plan.md`](docs/plan.md).
+**Status:** phase 0 (spikes) is done and phase 1 (bindings core) is in review. The full experiment plan is in [`docs/plan.md`](docs/plan.md).
+
+## Results
+
+| Phase | Write-up |
+| --- | --- |
+| 0: spikes on HPX supervision | [`docs/results/phase0.md`](docs/results/phase0.md) |
+| 1: bindings core | [`docs/results/phase1.md`](docs/results/phase1.md) |
+
+Upstream report from these results: [TheHPXProject/hpx#7825](https://github.com/TheHPXProject/hpx/issues/7825).
 
 ## The question
 
@@ -80,7 +89,8 @@ experiments/NN_name/        one folder per experiment: write-up, runner, sbatch,
 bench/                      smoke and repo-integrity helpers
 tests/unit/                 import-light tests, no HPX needed
 tests/integration/          tests that need the built extension, skipped otherwise
-docs/plan.md                experiment plan: claims, design, failure matrix, gates, schedule
+docs/plan.md                experiment plan: claims, design, failure matrix, gates, phases
+docs/results/               one write-up per phase
 rayx/                       reference snapshot of RayX experiments and results
 ```
 
