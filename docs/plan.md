@@ -6,19 +6,6 @@ Status: draft for discussion with the mentor and HPX maintainers. Implementation
 
 ---
 
-## Changes from v1
-
-v1 was written from the RayX README alone. v2 is revised after reading the exp70 reports and the exp70 reproduction on HPX master `cc2be553`. Main changes:
-
-1. **Coordinator is no longer locality 0.** A work-free HPX root is locality 0. The coordinator and the workers are late-connecting localities. In v1 a coordinator crash was a root crash, which exp70 Slice 4 shows cannot be recovered with current HPX. In v2 it is a connector loss, which exp70 Slice 3B handles natively.
-2. **Launch is HPX connect mode,** copied from exp70 Slice 3B. `hpx::force_disconnect` only works for late-connecting localities, so a classic `srun` multi-locality launch would lose it.
-3. **Phase 0 shrinks.** Spikes A (SIGKILL detection), C (pybind11 plus `supervision::init` in-process) and E (replacement locality) were already answered by exp70 Slice 3B and its reproduction. What remains: detection latency with real timestamps, SIGSTOP, LangGraph proxy behavior, and a Python-side `dispatch_work` path, which nobody has built yet.
-4. **Gates and failure matrix corrected.** F6 now includes an explicit `force_disconnect`. G4 is split into run completion and clean process exit, because the root shutdown hang reproduces. Gate 0 is stated as depending on the testing hook.
-5. **Provenance corrected.** exp70 is Bita's experiment. The reproduction on `cc2be553` is Rohan's. This experiment is new work that reuses exp70 Slice 3B code as a starting point.
-6. **Real-model demo mode dropped** from this experiment.
-
----
-
 ## 0. Provenance and confidence
 
 | Source | Read | Notes |
@@ -665,12 +652,7 @@ Naming checklist:
 ## 18. Engineering conventions
 
 - Docstrings on every public function, class and module: PEP 257 (one style throughout) for Python, Doxygen for C++.
-- No em dashes in code, comments, or documentation.
-- No emoji in documents.
-- Feature branches and pull requests; never push directly to main unless agreed.
 - Commit messages: imperative, subject at most 50 characters, blank line, body wrapped at 72. One logical change per commit.
-- No AI co-author trailers or attributions.
-- This plan lives in `docs/plan.md` and is the single source of truth for scope. Handoff notes, one-off prompts and agent instruction files stay out of the repository.
 - Tests accompany each module; failure-injection tests are marked and excluded from the quick run.
 
 ---
@@ -715,34 +697,7 @@ For HPX maintainers:
 
 ---
 
-## 21. Funding case and follow-on phases
-
-### 21.1 Pitch
-
-"A real agent framework on HPX that cannot lose or double-commit a step when a worker dies or freezes, measured on Rostam against stock LangGraph."
-
-### 21.2 Evidence package
-
-- F0 to F9 results: hash equality, duplicate counts, stale commits rejected, detection and recovery latency (with the poll timeout used).
-- Scaling plot: throughput versus workers and width.
-- Side-by-side recording with stock LangGraph.
-- Two-page report with limits (4.2, 5).
-- Upstream findings list (detection knob, shutdown hang, connector-side membership calls).
-
-### 21.3 Mapping to the PDF
-
-| PDF claim | Status after this experiment |
-| --- | --- |
-| Fault recovery without losing partial work | Demonstrated at step level for worker and coordinator failure; root failure out of scope |
-| Native checkpointing | Not yet; standard checkpointer |
-| Hardware-level observability | Partial: per-step dispatch and recovery timings |
-| Framework adapters | LangGraph via proxies |
-| Deterministic execution and replay | Not claimed |
-| Heterogeneous scheduling, accelerators | Not tested |
-| Multi-node coordination | Demonstrated on Rostam without Ray |
-| 10x faster than cloud GPU | Not tested, not claimed |
-
-### 21.4 Follow-on work
+## 21. Follow-on work
 
 Named by letter so they are not confused with phases 0 to 6 of this experiment (section 16).
 
