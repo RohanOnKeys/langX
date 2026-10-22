@@ -63,21 +63,6 @@ Three kinds of checkpoint:
 | --- | --- | --- |
 | LangGraph checkpoint | Channel values per superstep plus per-task pending writes, keyed by `thread_id` | Yes, standard checkpointer on the coordinator |
 | HPX checkpoint | Serialized C++ objects or components **[VERIFY]** API | No (follow-on A) |
-| Process checkpoint (CRIU) | Whole OS process | No |
-
-### CRIU
-
-Not used, for these reasons:
-
-1. **It conflicts with supervision.** A restored process is exactly the zombie epoch fencing rejects. AGAS, supervision epochs and parcelport connections live outside one process image.
-2. **Networking.** Established TCP connections do not survive restore without special handling. RayX runs use the TCP parcelport.
-3. **Privileges.** Needs elevated capabilities that Rostam may not grant **[VERIFY]**.
-4. **Cost and portability.** Full address-space dumps tied to kernel and library versions.
-5. **Granularity.** Superstep-level application checkpoints are tiny by comparison.
-
-Possible later use: a heavyweight baseline for single-process pause and migrate.
-
----
 
 ## 2. Where RayX stands
 
@@ -609,47 +594,7 @@ Total: about 3,700 to 4,500 LOC across phases 0 to 6.
 
 ---
 
-## 17. Repository location and naming
-
-Decide with the mentor:
-
-- **Option 1: separate repository** that cites RayX exp70. Fits best: no Ray, adds LangGraph, which is outside RayX's stated scope.
-- **Option 2: inside RayX as `experiments/71_...`**, fenced as experiment-only, not `rayx.runtime` API, no real model backends.
-
-Proposed layout (option 1):
-
-```
-hpx-agent/
-  bindings/            C++ pybind11 sources (derived from exp70 Slice 3B, credited)
-  root/                work-free supervised root (derived from exp70 Slice 3B, credited)
-  python/hpx_agent/
-    runtime.py
-    coordinator.py
-    worker.py
-    effects.py
-    stub_llm.py
-  experiments/durable_langgraph/
-    graph.py
-    fixtures/
-    harness/
-    analyze/
-  scripts/slurm/
-  tests/
-  README.md
-```
-
-Naming checklist:
-
-- No duplicate modules with overlapping responsibility.
-- No `utils/`, `helpers/`, `misc/`, no empty placeholder directories.
-- Python snake_case modules, PascalCase classes; C++ follows HPX style.
-- Binding names match section 7.
-- Slurm scripts named by purpose.
-- Files derived from exp70 carry a header crediting the source file and author.
-
----
-
-## 18. Engineering conventions
+## 17. Engineering conventions
 
 - Docstrings on every public function, class and module: PEP 257 (one style throughout) for Python, Doxygen for C++.
 - Commit messages: imperative, subject at most 50 characters, blank line, body wrapped at 72. One logical change per commit.
@@ -657,7 +602,7 @@ Naming checklist:
 
 ---
 
-## 19. Risks and mitigations
+## 18. Risks and mitigations
 
 | Risk | Likelihood | Impact | Mitigation |
 | --- | --- | --- | --- |
@@ -677,7 +622,7 @@ Naming checklist:
 
 ---
 
-## 20. Questions for the mentor and maintainers
+## 19. Questions for the mentor and maintainers
 
 For the mentor and Bita, before starting:
 
@@ -697,7 +642,7 @@ For HPX maintainers:
 
 ---
 
-## 21. Follow-on work
+## 20. Follow-on work
 
 Named by letter so they are not confused with phases 0 to 6 of this experiment (section 16).
 
@@ -706,7 +651,7 @@ Named by letter so they are not confused with phases 0 to 6 of this experiment (
 3. **Follow-on C:** observability (HPX counters, APEX traces per node); recorded replay; placement hints.
 
 
-## 22. Definition of done
+## 21. Definition of done
 
 1. G1 to G5 pass across F0 to F9 on Rostam, at least 30 trials per scenario.
 2. Results, plots and the report come from documented commands on a clean checkout.
