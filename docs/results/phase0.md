@@ -67,6 +67,7 @@ the signals itself. Every detection result is read from the coordinator's own su
 | 216201 | 1 smoke, 3 sweep | shutdown, root given time to exit |
 | 216727 | 1 smoke, 3 shutdown (post), 3 shutdown (direct), 3 sweep | root `force_disconnect`, connector disconnect, exit order |
 | 216728 | 1 smoke, 5 shutdown (no pause), 5 shutdown (1 s pause), 3 sweep | connector abort in `hpx::stop` |
+| 216729 | 5 runs no pause, 5 runs 1 s pause | pure C++ reproducer of the abort |
 
 Every island in every job completed with no harness error.
 
@@ -219,8 +220,9 @@ result: a supervised connect-mode locality joined to the root and one running pe
 1000 ms pause.
 
 The sweep islands in job 216728 (killed worker removed by the root, no pause) shut down
-cleanly as a whole island, 3/3. Whether a connector aborts without the pause depends on whether a
-detection sweep is outstanding when `finalize()` returns, not on whether a worker was killed.
+cleanly as a whole island, 3/3. This is consistent with the abort depending on whether a
+detection sweep is outstanding when `finalize()` returns rather than on whether a worker was
+killed, but that was not tested directly.
 
 ## Not established
 

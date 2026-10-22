@@ -95,8 +95,8 @@ In the fenced runs the coordinator's own view of the survivor was also fenced.
 `publish_event(target, ...)` delivers the event to every observer of `target`, and if any
 delivery fails it calls `record_error(target, ...)`, which sets `target`'s state to `failed`. When
 `w2` joins `w1`, `w2` becomes an observer of `w1`. Once `w2` is dead, the next event `w1`
-publishes on itself (a heartbeat, about every 166 ms at a 500 ms poll timeout) fails to reach
-`w2`, and `w1` is marked failed. The comment in `record_error` says the transition is deliberate,
+publishes on itself fails to reach `w2`, and `w1` is marked failed. The timing (fenced within
+0.1 s) fits the periodic `running` heartbeat, but the triggering publication was not traced. The comment in `record_error` says the transition is deliberate,
 so this may be intended rather than a defect.
 
 **Workaround.** Workers call `supervision::init()` with a 0 ms discovery pass and join no peers;
