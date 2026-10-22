@@ -49,10 +49,15 @@ async def series(rt, peer, seconds):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--kill", choices=["w1", "w2"], required=True)
+    ap.add_argument("--worker-discovery-ms", type=int, default=0)
     a = ap.parse_args()
     survivor = "w1" if a.kill == "w2" else "w2"
-    isl = Island(tempfile.mkdtemp(), n_workers=2, poll_timeout_ms=500).start()
-    rec = {"kill": a.kill, "survivor": survivor}
+    isl = Island(tempfile.mkdtemp(), n_workers=2, poll_timeout_ms=500,
+                 worker_discovery_ms=a.worker_discovery_ms).start()
+    rec = {"kill": a.kill, "survivor": survivor,
+           "worker_discovery_ms": a.worker_discovery_ms,
+           "joined_at_init": {n: w.get("joined_at_init")
+                              for n, w in isl.workers().items()}}
     try:
         rt = Runtime()
         rt.start(isl.agas, f"localhost:{free_port()}")

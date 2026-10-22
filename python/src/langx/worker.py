@@ -108,7 +108,10 @@ def main(argv=None):
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--poll-timeout-ms", type=int, default=0,
                     help="failure-detection poll timeout; 0 keeps the HPX default")
-    ap.add_argument("--discovery-timeout-ms", type=int, default=5000)
+    ap.add_argument("--discovery-timeout-ms", type=int, default=0,
+                    help="discovery pass inside supervision init. 0 joins no "
+                         "peers: on HPX cc2be553 a peer that joined this worker "
+                         "and then died gets this worker marked failed")
     ap.add_argument("--preload", nargs="*", default=[],
                     help="module:function paths to resolve at startup")
     ap.add_argument("--ready-file", default="")
@@ -133,7 +136,8 @@ def main(argv=None):
     host = NodeHost(info)
     host.preload(a.preload)
     rt.ext.set_node_handler(host)
-    _write_json(a.ready_file, info)
+    _write_json(a.ready_file, dict(
+        info, joined_at_init=[p.locality for p in rt.snapshot_peers()]))
 
     while not stop["requested"] and not (a.stop_file
                                          and os.path.exists(a.stop_file)):

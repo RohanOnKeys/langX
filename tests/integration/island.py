@@ -39,9 +39,11 @@ def wait_json(path, timeout_s):
 class Island:
     """Root plus ``n_workers`` workers, started one at a time."""
 
-    def __init__(self, workdir, n_workers=2, poll_timeout_ms=500, threads=4):
+    def __init__(self, workdir, n_workers=2, poll_timeout_ms=500, threads=4,
+                 worker_discovery_ms=0):
         self.dir = pathlib.Path(workdir)
         self.n_workers = n_workers
+        self.worker_discovery_ms = worker_discovery_ms
         self.poll_ms = poll_timeout_ms
         self.threads = threads
         self.root_port = free_port()
@@ -79,6 +81,7 @@ class Island:
                 sys.executable, "-m", "langx.worker", "--agas", self.agas,
                 "--hpx", f"{HOST}:{free_port()}", "--threads", str(self.threads),
                 "--poll-timeout-ms", str(self.poll_ms),
+                "--discovery-timeout-ms", str(self.worker_discovery_ms),
                 "--preload", "nodes:echo", "nodes:sleep_ms", "nodes:fail",
                 "--ready-file", str(self.dir / f"{name}.ready"),
                 "--stop-file", str(self.dir / f"{name}.stop")], env=env)
