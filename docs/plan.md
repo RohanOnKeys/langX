@@ -750,29 +750,8 @@ Named by letter so they are not confused with phases 0 to 6 of this experiment (
 2. **Follow-on B:** Ray layered on native supervision for placement and island restart; root-loss handling if upstream allows; PydanticAI and CrewAI adapters.
 3. **Follow-on C:** observability (HPX counters, APEX traces per node); recorded replay; placement hints.
 
-### 21.5 GSoC and extended work
 
-- GSoC: phases 0 to 4 are the core.
-- Extended engagement with the LSU group: follow-on A to C.
-- Before applying: land one small HPX pull request and share phase 0 findings on HPX channels.
-
----
-
-## 22. Phase 0 checklist (private)
-
-- [ ] Send the exp70 reproduction summary to Bita and the mentor; get answers to section 20 questions 1 to 3.
-- [ ] Record HPX (`cc2be553`), RayX, LangGraph, pybind11, Python, compiler versions.
-- [ ] Read the HPX and exp70 sources listed in phase 0.
-- [ ] Spike A': detection latency with monotonic timestamps; `snapshot_peers()` after detection.
-- [ ] Spike B: SIGSTOP and SIGCONT behavior.
-- [ ] Spike D: async LangGraph proxies under width 32.
-- [ ] Spike F: Python `dispatch_work` through `run_node`; connector-side `discover_and_join` and `force_disconnect`.
-- [ ] Decide the repository location.
-- [ ] Answer every [VERIFY] in writing, privately.
-
----
-
-## 23. Definition of done
+## 22. Definition of done
 
 1. G1 to G5 pass across F0 to F9 on Rostam, at least 30 trials per scenario.
 2. Results, plots and the report come from documented commands on a clean checkout.
