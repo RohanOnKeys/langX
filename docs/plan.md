@@ -184,6 +184,8 @@ From the module reference, the manual, and exp70. Items confirmed on hardware by
 | Fencing does not trigger `force_disconnect` | Dead locality stays in membership | Explicit `force_disconnect` after fencing (F6) |
 | Production detection timeout is 60 s plus grace | Slow recovery outside the testing hook | Use the hook; report it; ask maintainers (section 20) |
 | Root shutdown hangs | Clean exit cannot be a hard gate | G4 split (14.1) |
+| A failed delivery to any observer marks the publishing target `failed` (`publish_event` calls `record_error(target)`; found in phase 1) | A worker that joined another worker and then dies fences the healthy one; a dead coordinator would fence every worker it joined | Workers join no peers at init, only the coordinator joins workers; F7 needs a re-init path; ask maintainers |
+| `finalize()` returns with failure-detection `await_terminal` calls pending (found in phase 0) | A locality that stops right after `finalize()` aborts in `hpx::stop` | Pause longer than the poll timeout before disconnect; HPX issue drafted |
 
 ### 3.5 Facts from the manual and their consequences
 
