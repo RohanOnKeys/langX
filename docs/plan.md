@@ -1,4 +1,4 @@
-# Exactly-Once Agent Steps on HPX: Experiment Plan (v2)
+# Exactly-Once Agent Steps on HPX: Experiment Plan 
 
 Working title: "Durable LangGraph on HPX supervision dispatch"
 
