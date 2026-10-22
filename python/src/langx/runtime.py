@@ -250,6 +250,11 @@ class Runtime:
         abandonment cancels the remote call, so a late result can still be
         produced; the coordinator's commit fence must reject it.
         """
+        # Refuse up front when this locality already sees the target fenced,
+        # as dispatch_work's own caller-side check would, so a refusal is
+        # never reported as an abandonment.
+        if not self.admitted(peer):
+            raise TargetFenced("target already fenced; dispatch not sent")
         call = asyncio.ensure_future(self._submit(
             lambda i: self.ext.dispatch_node(i, peer.locality, peer.epoch,
                                              node, payload)))
