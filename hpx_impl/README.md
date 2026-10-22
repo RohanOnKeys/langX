@@ -2,9 +2,20 @@
 
 Native C++ for the parts of langX that run outside Python.
 
-Planned contents (plan sections 6.1 and 17):
+| Path | Purpose |
+| --- | --- |
+| `root/langx_root.cpp` | Work-free supervised root, HPX locality 0. Anchors AGAS, expects connecting localities, runs no application work, serves the membership action. Built by `python/CMakeLists.txt` as `python/build/langx_root`. |
+| `langx/membership.hpp` | Membership action: the root calls `hpx::force_disconnect` on a connector's request, because a connector cannot call it itself (phase 0 results). Included in exactly one translation unit per binary. |
 
-- **Work-free supervised root (HPX locality 0).** Anchors AGAS, expects connecting localities, runs no application work. It also serves membership requests (`discover_and_join`, `force_disconnect`) if spike F shows a connector cannot make these calls itself.
-- **Shared headers** for the generic `run_node` action, included by `python/src/langx/_langx.cpp`.
+The root's startup sequence follows RayX exp70 Slice 3B `native/root_supervised.cpp` (Bita).
 
-The root is expected to derive from RayX exp70 Slice 3B `native/root_supervised.cpp`. That file is not copied here until its author has agreed to the reuse (see `rayx/README.md`).
+## Root options
+
+| Option | Meaning |
+| --- | --- |
+| `--langx-ready-file PATH` | JSON written once the root is up; `PATH.exit` is written on shutdown |
+| `--langx-stop-file PATH` | exit when this file appears (SIGTERM and SIGINT also work) |
+| `--langx-poll-timeout-ms N` | failure-detection poll timeout through the HPX testing hook; 0 keeps the HPX default |
+| `--langx-shutdown-timeout-s N` | bound on shutdown, default 10 |
+
+Every other option goes to HPX, for example `--hpx:agas=HOST:PORT --hpx:hpx=HOST:PORT --hpx:expect-connecting-localities`.

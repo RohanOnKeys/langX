@@ -5,8 +5,10 @@ These tests never import the ``_langx`` extension, so they run without HPX.
 
 import importlib.util
 import pathlib
+import sys
 
 PKG = pathlib.Path(__file__).resolve().parents[2] / "python" / "src" / "langx"
+sys.path.insert(0, str(PKG.parent))
 MODULES = ["coordinator", "effects", "runtime", "stub_llm", "worker"]
 
 
