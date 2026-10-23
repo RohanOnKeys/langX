@@ -28,6 +28,7 @@ results/
 !docs/results/
 experiments/**/_runs/
 bench/**/_runs/
+bench/hpx_repro/build_*/
 *.jsonl
 *.summary.json
 *.log

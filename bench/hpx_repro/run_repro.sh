@@ -32,6 +32,27 @@ for REP in $(seq 1 "$REPS"); do
   ROOT=$!
   if ! wait_f "$D/root.ready"; then echo "rep $REP: root did not start"; kill -9 $ROOT; continue; fi
 
+  if [ "$CASE" = leave ]; then
+    # A and B join each other, so both must be up before either is ready.
+    start a; A=$!
+    start b; B=$!
+    wait_f "$D/a.ready"; wait_f "$D/b.ready"
+    sleep 3                      # several failure-detection sweeps in flight
+    touch "$D/b.leave"
+    for _ in $(seq 300); do kill -0 $B 2>/dev/null || break; sleep 0.1; done
+    if kill -0 $B 2>/dev/null; then RC=hung; else wait $B; RC=$?; fi
+    echo "== $CASE $EXTRA rep $REP"
+    grep -h '^R:' "$D/a.log" "$D/b.log"
+    case $RC in
+      0) echo "RESULT leave $EXTRA rep $REP: B exited cleanly (rc 0)" ;;
+      134) echo "RESULT leave $EXTRA rep $REP: B aborted (rc 134, SIGABRT); $(grep -m1 -o 'The runtime system is not active' "$D/b.log")" ;;
+      *) echo "RESULT leave $EXTRA rep $REP: B rc=$RC" ;;
+    esac
+    kill -9 $A $B $ROOT 2>/dev/null
+    wait 2>/dev/null
+    continue
+  fi
+
   if [ "$CASE" = observer ]; then
     start a; A=$!; wait_f "$D/a.ready"
     start b; B=$!; wait_f "$D/b.ready"
