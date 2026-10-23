@@ -4,13 +4,14 @@ Island: root, workers w1 and w2 (joining no peers at init), and coordinator
 C1 in its own process. C1 joins the workers and dispatches to each. Then C1
 is either SIGKILLed or shuts down cleanly. Each worker logs its own
 supervision state every 100 ms. After 5 s a new coordinator C2 (this
-process) joins the workers and dispatches to each.
+process) joins the old workers and dispatches to each.
 
-Arms: --c1-exit kill|clean, and --reinit to let workers finalize and init
-supervision again when their own state turns failed. Prints one JSON line.
+Then the restart path (plan 9.3): the old workers are SIGKILLed, the root
+force_disconnects them, fresh workers w3 and w4 start as new localities, and
+C2 joins them and dispatches to each. Prints one JSON line.
 
     python bench/coordinator_loss.py --c1-exit kill
-    python bench/coordinator_loss.py --c1-exit kill --reinit
+    python bench/coordinator_loss.py --c1-exit clean
 """
 
 import argparse
@@ -79,7 +80,6 @@ def read_log(path):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--c1-exit", choices=["kill", "clean"], default="kill")
-    ap.add_argument("--reinit", action="store_true")
     ap.add_argument("--role", default="harness")
     ap.add_argument("--agas", default="")
     ap.add_argument("--localities", default="")
@@ -91,11 +91,9 @@ def main():
         return
 
     wargs = ["--state-log", "{dir}/{name}.state.jsonl"]
-    if a.reinit:
-        wargs.append("--reinit-on-self-fence")
-    isl = Island(a.workdir or tempfile.mkdtemp(), n_workers=2, poll_timeout_ms=int(POLL_S * 1000),
-                 worker_args=wargs).start()
-    rec = {"c1_exit": a.c1_exit, "reinit": a.reinit, "dir": str(isl.dir)}
+    isl = Island(a.workdir or tempfile.mkdtemp(), n_workers=2,
+                 poll_timeout_ms=int(POLL_S * 1000), worker_args=wargs).start()
+    rec = {"c1_exit": a.c1_exit, "dir": str(isl.dir)}
     try:
         workers = isl.workers()
         locs = ",".join(str(w["locality"]) for w in workers.values())
@@ -139,6 +137,21 @@ def main():
             rec["workers"][name]["c2_join_epoch"] = p.epoch
             rec["workers"][name]["c2_dispatch"] = asyncio.run(probe(rt, p))
         rec["c2_view_of_root"] = rt.peer_state(0)["last_event"]
+
+        # Restart path: remove the fenced workers and start fresh ones.
+        t_rec = time.monotonic_ns()
+        rec["recovery"] = {"force_disconnect": {}, "new_workers": {}}
+        for name, info in workers.items():
+            isl.kill(name)
+            report = asyncio.run(rt.force_disconnect(info["locality"]))
+            rec["recovery"]["force_disconnect"][name] = report["rc"]
+        fresh = {n: isl.start_worker(n) for n in ("w3", "w4")}
+        joined = rt.wait_for_peers([w["locality"] for w in fresh.values()])
+        for name, info in fresh.items():
+            rec["recovery"]["new_workers"][name] = asyncio.run(
+                probe(rt, joined[info["locality"]]))
+        rec["recovery"]["seconds"] = round((time.monotonic_ns() - t_rec) / 1e9, 2)
+        rec["recovery"]["membership_after"] = rt.membership()
     finally:
         isl.cleanup()
     print(json.dumps(rec))
