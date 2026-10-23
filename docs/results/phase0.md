@@ -217,7 +217,9 @@ Job 216728 tested this with a pause between `finalize()` and `hpx::disconnect`, 
 A pure C++ reproducer with no Python ([`native/repro_leave.cpp`](https://github.com/RohanOnKeys/langX/blob/phase0-spikes/spikes/phase0/native/repro_leave.cpp), job 216729) gives the same
 result: a supervised connect-mode locality joined to the root and one running peer aborts in
 `hpx::stop` with the same stack in 5/5 runs without a pause, and exits cleanly in 5/5 runs with a
-1000 ms pause.
+1000 ms pause. The self-contained version is the `leave` case of
+[`bench/hpx_repro/`](../../bench/hpx_repro/), which gave the same 5/5 and 5/5 on `cc2be553`
+(job 217759) and can be built against a patched HPX to check a fix.
 
 The sweep islands in job 216728 (killed worker removed by the root, no pause) shut down
 cleanly as a whole island, 3/3. This is consistent with the abort depending on whether a
