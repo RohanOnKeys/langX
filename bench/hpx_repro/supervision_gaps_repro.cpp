@@ -18,10 +18,15 @@
 ///             snapshot_peers() and find_all_localities() at each step.
 ///   epoch     A joins B. A prints check_admission and the dispatch_work
 ///             outcome for epochs 0, join, join + 1 and join + 100.
+///   leave     hpx#7825. A and B both join until each sees the other. A
+///             keeps running. B then leaves: supervision::finalize(), an
+///             optional pause, posted hpx::disconnect(), hpx::stop(). B
+///             prints "clean" only if hpx::stop() returns.
 ///
 /// Options: --r-role root|a|b, --r-case, --r-dir DIR (handshake files),
 /// --r-poll-ms N (failure-detection poll timeout, testing hook),
-/// --r-b-join 0|1 (observer case only). Everything else goes to HPX.
+/// --r-b-join 0|1 (observer case only), --r-pause-ms N (leave case only:
+/// pause between finalize and disconnect). Everything else goes to HPX.
 
 #include <hpx/hpx.hpp>
 #include <hpx/hpx_start.hpp>
@@ -47,6 +52,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <vector>
 
 int repro_sleep(int ms)
@@ -246,13 +252,30 @@ namespace {
 
     void run_b()
     {
-        bool const joins_a = case_name == "observer" && b_join;
+        bool const joins_a =
+            (case_name == "observer" && b_join) || case_name == "leave";
         init_supervision(case_name == "observer" && !b_join ? 0 : 2000);
         if (joins_a)
             join_b(30);    // B joins A, so B becomes an observer of A
         say("ready locality=%u epoch=%llu joined=%s", hpx::get_locality_id(),
             static_cast<unsigned long long>(own_epoch), snapshot().c_str());
         put("b.ready", "1");
+        if (case_name == "leave")
+        {
+            wait_file("b.leave", 120);
+            return;    // main() runs the departure, outside any HPX thread
+        }
+        for (;;)
+            nap(1000);
+    }
+
+    void a_leave()
+    {
+        init_supervision(2000);
+        join_b(30);    // A joins B too, so each has the other as a peer
+        say("ready locality=%u joined=%s", hpx::get_locality_id(),
+            snapshot().c_str());
+        put("a.ready", "1");
         for (;;)
             nap(1000);
     }
@@ -432,9 +455,27 @@ int main(int argc, char** argv)
             a_inflight();
         else if (case_name == "remove")
             a_remove();
+        else if (case_name == "leave")
+            a_leave();
         else
             a_epoch();
     });
+
+    if (case_name == "leave" && role == "b")
+    {
+        // The sequence from hpx#7825, from the main (non-HPX) thread.
+        int const pause_ms = std::stoi(arg(argc, argv, "--r-pause-ms", "0"));
+        say("finalize");
+        hpx::run_as_hpx_thread([] { hpx::supervision::finalize(); });
+        if (pause_ms > 0)
+            std::this_thread::sleep_for(std::chrono::milliseconds(pause_ms));
+        say("disconnect, pause_ms=%d", pause_ms);
+        hpx::post([] { hpx::disconnect(); });
+        int const rc = hpx::stop();
+        say("clean, hpx::stop rc=%d", rc);
+        return 0;
+    }
+
     say("done");
     std::_Exit(0);    // shutdown is not what is being tested
 }
