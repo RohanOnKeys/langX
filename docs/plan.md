@@ -547,7 +547,7 @@ Exit: results and plots from documented commands, and a subset re-run from a fre
 
 ### Phase 6: write-up
 
-Short report: claim, method, results, limits. Upstream findings filed or updated as HPX issues. Shared with the mentor and the HPX maintainers.
+Short report: claim, method, results, limits. Upstream findings filed or updated as HPX issues.
 
 ---
 

@@ -52,8 +52,3 @@ rayx/
 .vscode/
 .idea/
 
-# Local notes, handoff and agent instruction files
-handoff*
-CLAUDE.md
-CLAUDE.local.md
-rostam_access.md
