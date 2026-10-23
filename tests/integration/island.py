@@ -40,10 +40,12 @@ class Island:
     """Root plus ``n_workers`` workers, started one at a time."""
 
     def __init__(self, workdir, n_workers=2, poll_timeout_ms=500, threads=4,
-                 worker_discovery_ms=0):
+                 worker_discovery_ms=0, worker_args=()):
         self.dir = pathlib.Path(workdir)
         self.n_workers = n_workers
         self.worker_discovery_ms = worker_discovery_ms
+        # Extra worker flags; "{dir}" and "{name}" are filled in per worker.
+        self.worker_args = list(worker_args)
         self.poll_ms = poll_timeout_ms
         self.threads = threads
         self.root_port = free_port()
@@ -84,7 +86,9 @@ class Island:
                 "--discovery-timeout-ms", str(self.worker_discovery_ms),
                 "--preload", "nodes:echo", "nodes:sleep_ms", "nodes:fail",
                 "--ready-file", str(self.dir / f"{name}.ready"),
-                "--stop-file", str(self.dir / f"{name}.stop")], env=env)
+                "--stop-file", str(self.dir / f"{name}.stop"),
+                *(x.format(dir=self.dir, name=name) for x in self.worker_args)],
+                env=env)
             self.ready[name] = wait_json(self.dir / f"{name}.ready", 60)
             if self.ready[name] is None:
                 raise RuntimeError(f"{name} did not start")

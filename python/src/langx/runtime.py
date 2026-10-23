@@ -126,14 +126,18 @@ class Runtime:
 
         On HPX ``cc2be553``, ``supervision::finalize()`` can return while
         failure-detection checks are still pending, and a locality that stops
-        before they resolve aborts in ``hpx::stop``. The pause defaults to
-        twice the poll timeout given to ``init``; pass ``pause_s`` explicitly
-        when the HPX default poll timeout is in use.
+        before they resolve aborts in ``hpx::stop`` (hpx#7825). The pause
+        defaults to twice the poll timeout given to ``init``. With the HPX
+        default poll timeout there is no safe default, so ``pause_s`` must be
+        given.
 
         Returns False if finalize did not finish within ``timeout_s``.
         """
         if pause_s is None:
-            pause_s = 2 * self.poll_timeout_s if self.poll_timeout_s else 0.0
+            if not self.poll_timeout_s:
+                raise ValueError("pass pause_s: init() used the HPX default "
+                                 "poll timeout, so no safe pause is known")
+            pause_s = 2 * self.poll_timeout_s
         done = threading.Event()
 
         def run():
