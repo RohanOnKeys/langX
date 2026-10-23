@@ -44,8 +44,8 @@ aggregate.json
 # tracked (must come after the global aggregate.json ignore above).
 !experiments/**/aggregate.json
 
-# Exception: the RayX reference snapshot keeps its run results as copied.
-!rayx/**
+# A local RayX snapshot must never be committed: RayX has no license yet.
+rayx/
 
 # Local/editor files
 .DS_Store

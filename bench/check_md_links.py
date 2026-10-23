@@ -1,9 +1,8 @@
 """Check that relative markdown links in langX resolve to existing files.
 
-Covers README.md and every markdown file under docs/ and experiments/. Links
-are resolved relative to the linking file. http(s), mailto and pure #anchors
-are skipped. The rayx/ snapshot is excluded: its links point into the RayX
-repository and are known to be broken here.
+Covers README.md and every markdown file under docs/, experiments/,
+hpx_impl/, spikes/ and bench/. Links are resolved relative to the linking
+file. http(s), mailto and pure #anchors are skipped.
 
 Usage: python bench/check_md_links.py
 """
@@ -18,7 +17,7 @@ LINK = re.compile(r"\]\(([^)\s]+)\)")
 
 def markdown_files():
     yield ROOT / "README.md"
-    for folder in ("docs", "experiments", "hpx_impl"):
+    for folder in ("docs", "experiments", "hpx_impl", "spikes", "bench"):
         yield from sorted((ROOT / folder).rglob("*.md"))
 
 

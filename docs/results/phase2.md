@@ -4,7 +4,7 @@
 `cc2be553fac9b1f2a372f4277d7c708e70bf7eb4`. **Plan:** [`docs/plan.md`](../plan.md)
 sections 9.3 and 16, phase 2.
 
-Code: [`bench/coordinator_loss.py`](../../bench/coordinator_loss.py), `--state-log` in
+Code: [`spikes/phase2/coordinator_loss.py`](../../spikes/phase2/coordinator_loss.py), `--state-log` in
 `python/src/langx/worker.py`. Earlier results: [`phase0.md`](phase0.md), [`phase1.md`](phase1.md).
 
 ## Summary

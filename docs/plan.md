@@ -73,7 +73,7 @@ Checkpoints:
 | exp66 | Bita | HPX runtime on background threads inside a Python process, TCP parcelport, cross-node |
 | exp68 | Bita | Exactness methodology: results checked against an independent oracle |
 
-Files derived from RayX carry a header naming the source file and author. A reference snapshot of the RayX experiments is kept in [`rayx/`](../rayx/README.md).
+Files derived from RayX carry a header naming the source file and author. RayX itself is read from its own repository; no copy is kept here.
 
 ### 2.2 What exp70 established
 
@@ -553,7 +553,7 @@ Short report: claim, method, results, limits. Upstream findings filed or updated
 
 ## 17. Repository and conventions
 
-Layout as in the README: `python/` (extension and `langx` package), `hpx_impl/` (root and shared headers), `experiments/NN_name/`, `bench/`, `tests/unit/` (no HPX, run in CI), `tests/integration/` (needs the built extension), `spikes/phase0/` (phase 0 spike code, kept for reproducibility), `docs/`.
+Layout as in the README: `python/` (extension and `langx` package), `hpx_impl/` (root and membership action), `tests/unit/` (no HPX, run in CI), `tests/integration/` (needs the built extension), `experiments/01_durable_langgraph/` (the experiment), `spikes/phaseN/` (code behind each phase write-up), `bench/` (Rostam test job, link check, `hpx_repro/` reproducers), `docs/` (plan and `results/`).
 
 - No duplicate modules with overlapping responsibility; no `utils/`, `helpers/` or empty placeholder directories.
 - Python snake_case modules, PascalCase classes; C++ follows HPX style.

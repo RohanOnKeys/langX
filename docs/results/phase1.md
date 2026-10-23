@@ -78,7 +78,7 @@ The two failures in job 216761:
 
 ### Survivor fenced by a dead observer
 
-`bench/diag_survivor_fence.py`: kill one worker, then dispatch to the other every 100 ms for 4 s,
+[`spikes/phase1/diag_survivor_fence.py`](../../spikes/phase1/diag_survivor_fence.py): kill one worker, then dispatch to the other every 100 ms for 4 s,
 then have the root `force_disconnect` the dead one and dispatch for 2 s more. `w2` starts after
 `w1`.
 

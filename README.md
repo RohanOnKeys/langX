@@ -71,50 +71,51 @@ langX builds on [RayX](https://github.com/byekrang/RayX), a research prototype i
 
 The core failure matrix runs without Ray, so that every recovery can be attributed to HPX supervision and the commit fence rather than to Ray actor restarts. Ray remains the intended outer layer: placement, and whole-island restart for failures HPX cannot recover from, such as loss of the root.
 
-A reference snapshot of the RayX experiments and results is kept in [`rayx/`](rayx/README.md).
+Files derived from RayX name the source file and author in their header.
 
 ## Layout
 
-The layout follows RayX.
-
 ```text
-python/                     _langx pybind11 extension (CMake) and the langx package
+python/                     _langx extension and the langx package (CMake builds both _langx and langx_root)
   src/langx/
-    runtime.py              facade over the HPX extension
-    coordinator.py          proxy nodes, epoch table, commit fence, retry
-    worker.py               run_node serving on one locality
-    effects.py              outbox, effect log, direct sink
-    stub_llm.py             recorded-response LLM stub
-hpx_impl/                   native root locality and shared C++ headers
-experiments/NN_name/        one folder per experiment: write-up, runner, sbatch, curated aggregates
-bench/                      smoke and repo-integrity helpers, Rostam test job, HPX reproducers (bench/hpx_repro/)
-spikes/phase0/              phase 0 spike code behind docs/results/phase0.md (not the langx API)
-tests/unit/                 import-light tests, no HPX needed
-tests/integration/          tests that need the built extension, skipped otherwise
+    _langx.cpp              pybind11 bridge to an in-process HPX locality
+    runtime.py              asyncio facade over _langx: dispatch, fencing, membership, shutdown
+    worker.py               worker entry point: python -m langx.worker
+    coordinator.py          proxy nodes, epoch table, commit fence, retry (phase 3)
+    effects.py              outbox, effect log, direct sink (phase 3)
+    stub_llm.py             recorded-response LLM stub (phase 3)
+hpx_impl/                   native C++ outside Python: the root locality and the membership action
+tests/unit/                 no HPX needed; run in CI
+tests/integration/          live island on one host; needs the built extension
+experiments/01_durable_langgraph/  the experiment: graph, harness, sbatch, curated aggregates (phases 3 to 5)
+spikes/phaseN/              code behind docs/results/phaseN.md; not the langx API
+bench/                      Rostam test job, markdown link check
+bench/hpx_repro/            pure C++ reproducers for HPX issues (#7825, #7834)
 docs/plan.md                experiment plan: claims, design, failure matrix, gates, phases
 docs/results/               one write-up per phase
-rayx/                       reference snapshot of RayX experiments and results
 ```
 
-## Build (once implemented)
+## Build and test
 
 ```bash
 python -m venv .venv && . .venv/bin/activate
-pip install -r requirements.txt -r requirements-python.txt -r requirements-dev.txt
+pip install -r requirements.txt -r requirements-build.txt -r requirements-dev.txt
 cmake -S python -B python/build -G Ninja -DCMAKE_BUILD_TYPE=Release \
   -DPYBIND11_FINDPYTHON=ON \
   -DCMAKE_PREFIX_PATH="<hpx-install>;$(python -m pybind11 --cmakedir)" \
   -DPython_EXECUTABLE="$(which python)"
-cmake --build python/build
+cmake --build python/build          # python/src/langx/_langx*.so and python/build/langx_root
 PYTHONPATH=python/src pytest tests
 ```
 
-Only `tests/unit` and the markdown link check run in CI. Integration tests and experiments need HPX and run locally or on Rostam.
+On Rostam the same build and both test suites run as one job: `HPX_INSTALL=<hpx install> LANGX_VENV=<venv> sbatch bench/rostam_test.sbatch`.
 
-## Requirements (planned)
+Only `tests/unit` and the markdown link check run in CI. Integration tests, spikes and experiments need HPX and run on Rostam.
 
-- HPX master with `supervision_dispatch`, `force_disconnect`, networking and the TCP parcelport enabled (tested target: `cc2be553`)
-- Python 3.12, pybind11, LangGraph (version to be pinned)
+## Requirements
+
+- HPX master with `supervision_dispatch`, `force_disconnect`, networking and the TCP parcelport enabled (tested: `cc2be553`)
+- Python 3.12, pybind11, LangGraph 1.2.16
 - Slurm cluster for multi-node runs (Rostam at LSU)
 
 ## License

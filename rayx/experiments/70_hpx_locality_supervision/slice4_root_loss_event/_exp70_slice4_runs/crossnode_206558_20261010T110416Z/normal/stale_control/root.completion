@@ -1,9 +1,0 @@
-{
-  "epoch_id": "prior-epoch-000",
-  "payload": {},
-  "published_mono": 290186.990664287,
-  "published_wall_ms": 1791648260883,
-  "root_identity": {
-    "pid": 588522
-  }
-}
