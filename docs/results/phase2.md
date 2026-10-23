@@ -9,15 +9,16 @@ Code: [`spikes/phase2/coordinator_loss.py`](../../spikes/phase2/coordinator_loss
 
 ## Summary
 
-* **Losing the coordinator fences every worker, also when it exits cleanly.** Killed, the workers'
-  own state turned `failed` 0.05 to 0.12 s later; after a clean exit (`finalize()`, pause,
-  disconnect), 1.21 to 1.36 s later. 12/12 workers across 6 runs. The new coordinator also saw
-  the root as `failed`. It can join the fenced workers, but every dispatch to them is refused.
+* **Losing the coordinator fences every worker, also when it exits cleanly.** After a SIGKILL the
+  workers' own state turned `failed` 0.03 to 0.12 s later. After a clean exit it turned `failed`
+  0.02 to 0.12 s after the coordinator's disconnect, not at its `finalize()` (1 s and 3 s pauses,
+  job 217788). 42/42 workers across 21 runs. The root's own state turned `failed` the same way.
+  A new coordinator can join the fenced workers, but every dispatch to them is refused.
 * **A fenced worker cannot re-initialize supervision.** `init()` after `finalize()` fails with
   `invalid lifecycle event transition` (2/2 workers).
 * **F7 decision: restart the workers.** The fenced workers are stopped, the root
   `force_disconnect`s them, fresh workers start as new localities and the new coordinator joins
-  them. This recovered in 6/6 runs, in 2.3 to 2.6 s.
+  them. This recovered in 15/15 runs, in 2.3 to 3.0 s.
 
 ## Setup
 
@@ -33,6 +34,7 @@ Code: [`spikes/phase2/coordinator_loss.py`](../../spikes/phase2/coordinator_loss
 | 217756 | C1 killed or clean exit, 3 runs each; tests |
 | 217757 | in-process re-init of a fenced worker, logs kept |
 | 217758 | C1 killed or clean exit with the restart path, 3 runs each; tests |
+| 217787, 217788 | follow-up: rebuild and tests; C1 exit steps timed at 10 ms with 1 s and 3 s pauses, the root's own state, the reason for C2's refusal; 3 runs per arm |
 
 Sequence per run: C1 joins `w1` and `w2` and dispatches to each (`ok` in every run); C1 is
 SIGKILLed or shuts down cleanly; 5 s later C2 starts, joins the old workers and dispatches to
@@ -50,8 +52,34 @@ each; then the restart path runs.
 The workers never joined C1; C1 joined them. Their own state turns `failed` once C1 is
 unreachable. This fits the observer-delivery behaviour found in phase 1 if C1's observer
 registrations on the workers outlive C1, also after `finalize()`; the registrations were not
-inspected directly. C1 had also joined the root, which C2 then saw as `failed`; the root's own
-state was not read.
+inspected directly.
+
+### Follow-up: when the workers are fenced (job 217788)
+
+C1's clean exit was split into its steps and timed from the harness's leave signal, on the same
+clock as the workers' state logs (sampled every 10 ms):
+
+| C1 exit | Runs | `finalize()` returned | Disconnect | Workers `failed` | Root's own state `failed` |
+|---|---|---|---|---|---|
+| clean, 1 s pause | 3 | 0.17 s | 1.17 s | 1.19 to 1.29 s, 6/6 | 1.25 to 1.33 s, 3/3 |
+| clean, 3 s pause | 3 | 0.17 to 0.18 s | 3.17 to 3.18 s | 3.19 to 3.29 s, 6/6 | 3.33 to 3.34 s, 3/3 |
+| SIGKILL | 3 | | | 0.03 to 0.07 s, 6/6 | 0.11 to 0.13 s, 3/3 |
+
+The workers stay `running` between C1's `finalize()` and its disconnect, and turn `failed` 0.02
+to 0.12 s after the disconnect. The 1.2 to 1.4 s seen earlier was the 1 s pause C1 takes before
+disconnecting. `finalize()` itself does not fence the workers; losing C1's connection does.
+
+The root's own state turns `failed` the same way, because C1 had joined it. About 10 s after C1
+leaves, the root's own state shows `failed` again at epoch 2, in 9/9 runs. That is after C2,
+which also joined the root, has finished and exited without shutting down; C2's join opened
+epoch 2 on the root (see below).
+
+**Why C2's dispatch is refused.** When C2 joins a worker whose last state is terminal, HPX
+starts a fresh epoch on C2's shadow (`seed_epoch = epoch + 1` in
+`components/supervision_dispatch/src/server/registry_server.cpp`), so the join epoch is 2. By the
+time C2 dispatches, its own view of each worker is already `failed` at epoch 2, and
+`dispatch_node` refuses without sending ("target already fenced; dispatch not sent"), 18/18. What
+latched epoch 2 as `failed` on C2's shadow was not traced.
 
 ### In-process re-init
 
@@ -68,19 +96,22 @@ in job 217756 also ended with C2 unable to join the workers; their worker logs w
 
 | C1 exit | Runs | Root `force_disconnect` of old workers | Fresh workers | Kill to first dispatch on fresh workers |
 |---|---|---|---|---|
-| SIGKILL | 3 | `rc = 0`, 6/6 | `ok`, 6/6 | 2.52 to 2.57 s |
-| clean | 3 | `rc = 0`, 6/6 | `ok`, 6/6 | 2.32 to 2.33 s |
+| SIGKILL | 3 (job 217758) | `rc = 0`, 6/6 | `ok`, 6/6 | 2.52 to 2.57 s |
+| clean | 3 (job 217758) | `rc = 0`, 6/6 | `ok`, 6/6 | 2.32 to 2.33 s |
+| SIGKILL | 3 (job 217788) | `rc = 0`, 6/6 | `ok`, 6/6 | 2.52 to 3.01 s |
+| clean | 6 (job 217788) | `rc = 0`, 12/12 | `ok`, 12/12 | 2.31 to 2.42 s |
 
 The time runs from the start of the restart to the last dispatch on the fresh workers, after
 C2 is up. After a SIGKILL, C1's locality stayed in membership, because nothing removed it.
 
 ### Tests
 
-Unit 19/19 and integration 8/8 in jobs 217756 and 217758.
+Unit 19/19 and integration 8/8 in jobs 217756, 217758 and 217787. Job 217788 ran the
+measurement script from its current path, `spikes/phase2/`, end to end: 9 runs, no errors.
 
 ## Not established
 
-* why the workers turn `failed` 1.2 to 1.4 s after a clean exit, rather than at once;
+* what latches C2's shadow of a re-joined worker as `failed` at epoch 2 before C2 dispatches;
 * whether a coordinator that leaves the observer registrations can be avoided without losing
   dispatch fencing;
 * recovery of a LangGraph run from its checkpoint after the restart; that needs phase 3;
@@ -93,7 +124,7 @@ Supported:
 > On HPX master `cc2be553`, on one Rostam node, losing the coordinator, by SIGKILL or by a clean
 > exit, left every worker it had joined fenced on its own state, and a fenced worker could not
 > re-initialize supervision. Stopping those workers, removing them through the root and starting
-> fresh workers restored dispatch in 2.3 to 2.6 s.
+> fresh workers restored dispatch in 2.3 to 3.0 s.
 
 Not claimed:
 

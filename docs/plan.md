@@ -131,9 +131,10 @@ langX: worker runtime, coordinator, commit fence, outbox, LangGraph proxies
 | Connector exit right after `finalize()` | Aborts in `hpx::stop`: pending `await_terminal` continuations fire during teardown. Reported as [hpx#7825](https://github.com/TheHPXProject/hpx/issues/7825) | [p0] |
 | Clean island shutdown | Works with: dead worker removed by the root, then `finalize()`, a pause longer than the poll timeout, then posted `hpx::disconnect` and `hpx::stop` | [p0], [p1] |
 | Failed delivery to an observer | `publish_event` calls `record_error(target)`, so a dead observer marks a healthy target `failed` | [p1] |
-| Coordinator loss | Every worker the coordinator joined turns `failed` on its own state: 0.05 to 0.12 s after a SIGKILL, 1.21 to 1.36 s after a clean exit; dispatch from a new coordinator is refused | [p2] |
+| Coordinator loss | Every worker the coordinator joined turns `failed` on its own state: 0.03 to 0.12 s after a SIGKILL, and 0.02 to 0.12 s after a clean exit's disconnect (not at its `finalize()`); the root too; dispatch from a new coordinator is refused | [p2] |
+| Joining a peer whose last state is terminal | Starts a new epoch on the joiner's shadow (`seed_epoch = epoch + 1`), by design | [p2] |
 | `init()` on a fenced worker | Fails with `invalid lifecycle event transition`; no in-process recovery | [p2] |
-| Worker restart after coordinator loss | Root `force_disconnect` of the old workers, fresh workers joined by the new coordinator: dispatch restored in 2.3 to 2.6 s, 6/6 | [p2] |
+| Worker restart after coordinator loss | Root `force_disconnect` of the old workers, fresh workers joined by the new coordinator: dispatch restored in 2.3 to 3.0 s, 15/15 | [p2] |
 
 ### 3.4 Gaps and how this design handles them
 
@@ -382,7 +383,7 @@ Losing the coordinator fences every worker it joined, and a fenced worker cannot
 1. Coordinator is SIGKILLed. In-flight dispatches finish on workers and their replies go nowhere.
 2. Harness confirms the old coordinator PID is gone.
 3. A new coordinator connects as a new locality and asks the root to `force_disconnect` the old coordinator. Not yet done: in phase 2 the dead coordinator stayed in membership [p2].
-4. The harness stops the old workers; the root `force_disconnect`s them; fresh workers start as new localities and the new coordinator joins them (2.3 to 2.6 s on one node [p2]).
+4. The harness stops the old workers; the root `force_disconnect`s them; fresh workers start as new localities and the new coordinator joins them (2.3 to 3.0 s on one node [p2]).
 5. The new coordinator resumes from the checkpointer by `thread_id`. Completed sibling writes are not re-run; the interrupted node is. Outbox keys prevent re-application. Needs phase 3.
 
 Results produced by the old workers after the coordinator loss are lost with them. An HPX change that lets a coordinator leave without fencing its workers would remove step 4. [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834) reports the underlying observer behavior and notes that a crashed coordinator would fence its workers; the clean-exit and re-init results from phase 2 are not reported upstream yet.

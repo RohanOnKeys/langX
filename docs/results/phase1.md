@@ -96,7 +96,7 @@ In the fenced runs the coordinator's own view of the survivor was also fenced.
 delivery fails it calls `record_error(target, ...)`, which sets `target`'s state to `failed`. When
 `w2` joins `w1`, `w2` becomes an observer of `w1`. Once `w2` is dead, the next event `w1`
 publishes on itself fails to reach `w2`, and `w1` is marked failed. The timing (fenced within
-0.1 s) fits the periodic `running` heartbeat, but the triggering publication was not traced. The comment in `record_error` says the transition is deliberate,
+0.1 s) first suggested the periodic `running` heartbeat; a later 10 ms measurement rules that out (see below). The comment in `record_error` says the transition is deliberate,
 so this may be intended rather than a defect.
 
 **Workaround.** Workers call `supervision::init()` with a 0 ms discovery pass and join no peers;
@@ -104,7 +104,8 @@ only the coordinator joins workers.
 
 ## Not established
 
-* which publication triggers it, and how the failure reaches the coordinator's view;
+* which call on the survivor fails when the connection drops, and when the failure reaches the
+  coordinator's view (later than 2 s);
 * any cross-node measurement.
 
 Settled after this write-up:
@@ -114,6 +115,11 @@ Settled after this write-up:
   [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834);
 * killing the coordinator, or a clean coordinator exit, fences every worker it joined
   ([`phase2.md`](phase2.md)).
+* the trigger is not the heartbeat. At 10 ms resolution the survivor's own state turned `failed`
+  10.6 to 12.2 ms after the kill in 8/10 runs (31 and 45 ms in the other two), far inside one
+  166 ms heartbeat period (job 217788). That points to the dropped connection to the dead
+  observer; the failing call was not traced. The coordinator's view did not show the survivor
+  fenced within 2 s.
 
 ## Claims and non-claims
 
