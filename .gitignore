@@ -1,0 +1,54 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Build artifacts
+python/build/
+hpx_impl/build/
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+
+# Compiled extensions / binaries
+*.so
+*.pyd
+*.dylib
+*.o
+*.a
+*.dSYM/
+
+# Run results / generated artifacts
+results/
+!docs/results/
+experiments/**/_runs/
+bench/**/_runs/
+bench/hpx_repro/build_*/
+spikes/**/_runs/
+spikes/**/build/
+spikes/**/*.tgz
+spikes/**/p0_*.out
+spikes/**/repro_*.out
+spikes/**/spike_d*.json
+*.jsonl
+*.summary.json
+*.log
+aggregate.json
+
+# Exception: curated aggregate.json files next to experiment write-ups are
+# tracked (must come after the global aggregate.json ignore above).
+!experiments/**/aggregate.json
+
+# A local RayX snapshot must never be committed: RayX has no license yet.
+rayx/
+
+# Local/editor files
+.DS_Store
+.vscode/
+.idea/
+

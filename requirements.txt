@@ -1,0 +1,4 @@
+# langX runtime dependencies (coordinator and workers).
+# LangGraph is pinned: its executor internals are private and change often.
+# 1.2.16 is the version spike D ran on (docs/results/phase0.md).
+langgraph==1.2.16
