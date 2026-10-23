@@ -91,6 +91,13 @@ async def _await(awaitable):
     return await awaitable
 
 
+def _append_jsonl(path, obj):
+    if not path:
+        return
+    with open(path, "a") as f:
+        f.write(json.dumps(obj) + "\n")
+
+
 def _write_json(path, obj):
     if not path:
         return
@@ -118,6 +125,9 @@ def main(argv=None):
     ap.add_argument("--stop-file", default="")
     ap.add_argument("--finalize-pause-ms", type=int, default=-1,
                     help="pause after finalize; -1 means twice the poll timeout")
+    ap.add_argument("--state-log", default="",
+                    help="append this worker's own supervision state to this "
+                         "JSON lines file whenever it changes")
     a = ap.parse_args(argv)
 
     stop = {"requested": False}
@@ -128,10 +138,13 @@ def main(argv=None):
     signal.signal(signal.SIGTERM, on_signal)
     signal.signal(signal.SIGINT, on_signal)
 
+    discovery_s = a.discovery_timeout_ms / 1000.0
+    poll_s = a.poll_timeout_ms / 1000.0 if a.poll_timeout_ms else None
+    pause = None if a.finalize_pause_ms < 0 else a.finalize_pause_ms / 1000.0
+
     rt = Runtime()
     rt.start(a.agas, a.hpx, a.threads)
-    me = rt.init(a.discovery_timeout_ms / 1000.0,
-                 a.poll_timeout_ms / 1000.0 if a.poll_timeout_ms else None)
+    me = rt.init(discovery_s, poll_s)
     info = {"locality": me.locality, "epoch": me.epoch, "pid": os.getpid()}
     host = NodeHost(info)
     host.preload(a.preload)
@@ -139,11 +152,22 @@ def main(argv=None):
     _write_json(a.ready_file, dict(
         info, joined_at_init=[p.locality for p in rt.snapshot_peers()]))
 
+    # A worker whose own state turned failed cannot init supervision again
+    # (HPX cc2be553: invalid lifecycle event transition), so recovery from
+    # coordinator loss is a worker restart (plan 9.3), not an in-process
+    # re-init. The state log records when this worker was fenced.
+    last = None
     while not stop["requested"] and not (a.stop_file
                                          and os.path.exists(a.stop_file)):
         time.sleep(0.1)
-
-    pause = None if a.finalize_pause_ms < 0 else a.finalize_pause_ms / 1000.0
+        if not a.state_log:
+            continue
+        state = rt.ext.own_state()
+        key = (state["last_event"], state["epoch"])
+        if key != last:
+            last = key
+            _append_jsonl(a.state_log, {"t_ns": time.monotonic_ns(),
+                                        "event": key[0], "epoch": key[1]})
     t0 = time.monotonic()
     finalized, rc = rt.shutdown(pause_s=pause)
     if a.ready_file:

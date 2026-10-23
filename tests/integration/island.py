@@ -40,10 +40,12 @@ class Island:
     """Root plus ``n_workers`` workers, started one at a time."""
 
     def __init__(self, workdir, n_workers=2, poll_timeout_ms=500, threads=4,
-                 worker_discovery_ms=0):
+                 worker_discovery_ms=0, worker_args=()):
         self.dir = pathlib.Path(workdir)
         self.n_workers = n_workers
         self.worker_discovery_ms = worker_discovery_ms
+        # Extra worker flags; "{dir}" and "{name}" are filled in per worker.
+        self.worker_args = list(worker_args)
         self.poll_ms = poll_timeout_ms
         self.threads = threads
         self.root_port = free_port()
@@ -71,24 +73,30 @@ class Island:
         if self.ready["root"] is None:
             raise RuntimeError("root did not start")
 
+        for i in range(1, self.n_workers + 1):
+            self.start_worker(f"w{i}")
+        return self
+
+    def start_worker(self, name):
+        """Start one worker and wait for its ready file. Returns its info."""
         env = dict(os.environ)
         env["PYTHONPATH"] = os.pathsep.join(
             [str(REPO / "python" / "src"), str(REPO / "tests" / "integration"),
              env.get("PYTHONPATH", "")])
-        for i in range(1, self.n_workers + 1):
-            name = f"w{i}"
-            self._popen(name, [
-                sys.executable, "-m", "langx.worker", "--agas", self.agas,
-                "--hpx", f"{HOST}:{free_port()}", "--threads", str(self.threads),
-                "--poll-timeout-ms", str(self.poll_ms),
-                "--discovery-timeout-ms", str(self.worker_discovery_ms),
-                "--preload", "nodes:echo", "nodes:sleep_ms", "nodes:fail",
-                "--ready-file", str(self.dir / f"{name}.ready"),
-                "--stop-file", str(self.dir / f"{name}.stop")], env=env)
-            self.ready[name] = wait_json(self.dir / f"{name}.ready", 60)
-            if self.ready[name] is None:
-                raise RuntimeError(f"{name} did not start")
-        return self
+        self._popen(name, [
+            sys.executable, "-m", "langx.worker", "--agas", self.agas,
+            "--hpx", f"{HOST}:{free_port()}", "--threads", str(self.threads),
+            "--poll-timeout-ms", str(self.poll_ms),
+            "--discovery-timeout-ms", str(self.worker_discovery_ms),
+            "--preload", "nodes:echo", "nodes:sleep_ms", "nodes:fail",
+            "--ready-file", str(self.dir / f"{name}.ready"),
+            "--stop-file", str(self.dir / f"{name}.stop"),
+            *(x.format(dir=self.dir, name=name) for x in self.worker_args)],
+            env=env)
+        self.ready[name] = wait_json(self.dir / f"{name}.ready", 60)
+        if self.ready[name] is None:
+            raise RuntimeError(f"{name} did not start")
+        return self.ready[name]
 
     def workers(self):
         """Worker name -> ready info (locality, epoch, pid)."""

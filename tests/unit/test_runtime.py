@@ -160,6 +160,12 @@ def test_wait_for_peers_repeats_discovery_until_all_joined():
     assert peers == {2: Peer(2, 1), 3: Peer(3, 1)}
 
 
+def test_finalize_needs_a_pause_with_the_default_poll_timeout():
+    rt = Runtime(FakeExt())
+    with pytest.raises(ValueError):
+        rt.finalize()
+
+
 def test_wait_for_peers_times_out():
     rt = Runtime(FakeExt())
     with pytest.raises(TimeoutError):

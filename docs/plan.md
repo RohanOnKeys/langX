@@ -2,7 +2,7 @@
 
 Working title: durable LangGraph on HPX supervision dispatch.
 
-Status: phases 0 and 1 are done (results in [`docs/results/`](results/)). Phase 2 is next. This plan is the single source of truth for scope; findings from each phase are folded back into it.
+Status: phases 0 to 2 are done (results in [`docs/results/`](results/)). Phase 3 is next. This plan is the single source of truth for scope; findings from each phase are folded back into it.
 
 ---
 
@@ -15,9 +15,9 @@ Status: phases 0 and 1 are done (results in [`docs/results/`](results/)). Phase 
 | RayX README and exp70 (README, gap matrix, evidence index, Slice 3B sources) | Read | exp70 by Bita; reproduction on `cc2be553` by Rohan |
 | RayX exp66 | Partly | In-process hosting model and transport |
 | LangGraph runtime, checkpointer and durable execution docs | Read | Behavior needed here checked in spike D on 1.2.16 |
-| langX phase 0 and phase 1 results | Fully | [`phase0.md`](results/phase0.md), [`phase1.md`](results/phase1.md) |
+| langX phase 0 to phase 2 results | Fully | [`phase0.md`](results/phase0.md), [`phase1.md`](results/phase1.md), [`phase2.md`](results/phase2.md) |
 
-Rule: a statement marked **[VERIFY]** is an assumption that must be checked before code depends on it. Statements marked **[p0]** or **[p1]** were measured in that phase.
+Rule: a statement marked **[VERIFY]** is an assumption that must be checked before code depends on it. Statements marked **[p0]**, **[p1]** or **[p2]** were measured in that phase.
 
 ---
 
@@ -131,6 +131,9 @@ langX: worker runtime, coordinator, commit fence, outbox, LangGraph proxies
 | Connector exit right after `finalize()` | Aborts in `hpx::stop`: pending `await_terminal` continuations fire during teardown. Reported as [hpx#7825](https://github.com/TheHPXProject/hpx/issues/7825) | [p0] |
 | Clean island shutdown | Works with: dead worker removed by the root, then `finalize()`, a pause longer than the poll timeout, then posted `hpx::disconnect` and `hpx::stop` | [p0], [p1] |
 | Failed delivery to an observer | `publish_event` calls `record_error(target)`, so a dead observer marks a healthy target `failed` | [p1] |
+| Coordinator loss | Every worker the coordinator joined turns `failed` on its own state: 0.05 to 0.12 s after a SIGKILL, 1.21 to 1.36 s after a clean exit; dispatch from a new coordinator is refused | [p2] |
+| `init()` on a fenced worker | Fails with `invalid lifecycle event transition`; no in-process recovery | [p2] |
+| Worker restart after coordinator loss | Root `force_disconnect` of the old workers, fresh workers joined by the new coordinator: dispatch restored in 2.3 to 2.6 s, 6/6 | [p2] |
 
 ### 3.4 Gaps and how this design handles them
 
@@ -144,7 +147,7 @@ langX: worker runtime, coordinator, commit fence, outbox, LangGraph proxies
 | Fence guards dispatch, not external effects | Effects survive worker death | Outbox and idempotency keys (6.6) |
 | Fencing does not trigger `force_disconnect`, and a connector cannot call it | Dead locality stays in membership and blocks clean shutdown | Root membership action on the coordinator's request (6.1) |
 | Failed observer delivery fails the target | A worker that joined another worker and then died fences the healthy one | Workers join no peers; only the coordinator joins workers |
-| Same mechanism applied to the coordinator | A dead coordinator, which observes every worker, likely fences all of them **[VERIFY]** | F7 needs a design (9.3); question for maintainers (19) |
+| Same mechanism applied to the coordinator | A lost coordinator, killed or exiting cleanly, fences every worker it joined [p2] | F7 restarts the workers (9.3); question for maintainers (19) |
 | Production detection timeout is 60 s plus grace | Slow recovery without the testing hook | Use the hook, always report its value |
 
 ### 3.5 Design rules that follow
@@ -184,7 +187,7 @@ Root loss is out of scope. One coordinator at a time is assumed; split-brain coo
 | H6 | Throughput scales with worker count for I/O-bound parallel branches | No scaling from 1 to 4 workers |
 | H7 | A coordinator crash is recoverable without a root restart: a new coordinator joins as a new locality and resumes from checkpoint | Root restart required, or resume fails |
 
-H7 depends on resolving the coordinator-as-observer issue (3.4, 9.3) and may be reported as a documented limit instead.
+H7 is tested with the worker restart path (9.3): a coordinator crash needs no root restart, but it does need a worker restart [p2].
 
 ---
 
@@ -372,16 +375,17 @@ LangGraph keeps supersteps, conditional edges, fan-out and checkpointing.
 
 Async graphs (`ainvoke`) and async proxies, so HPX waits do not exhaust a sync thread pool. Width 32 ran concurrently, and resume after a branch failure re-ran only that branch [p0].
 
-### 9.3 Coordinator crash recovery (needs design)
+### 9.3 Coordinator crash recovery
 
-Intended sequence:
+Losing the coordinator fences every worker it joined, and a fenced worker cannot re-init supervision [p2]. F7 therefore restarts the workers. Steps 1, 2 and 4 were run in phase 2; steps 3 and 5 are planned for phase 4:
 
 1. Coordinator is SIGKILLed. In-flight dispatches finish on workers and their replies go nowhere.
 2. Harness confirms the old coordinator PID is gone.
-3. A new coordinator connects as a new locality, joins the workers and resumes from the checkpointer by `thread_id`.
-4. Completed sibling writes are not re-run; the interrupted node is. Outbox keys prevent re-application.
+3. A new coordinator connects as a new locality and asks the root to `force_disconnect` the old coordinator. Not yet done: in phase 2 the dead coordinator stayed in membership [p2].
+4. The harness stops the old workers; the root `force_disconnect`s them; fresh workers start as new localities and the new coordinator joins them (2.3 to 2.6 s on one node [p2]).
+5. The new coordinator resumes from the checkpointer by `thread_id`. Completed sibling writes are not re-run; the interrupted node is. Outbox keys prevent re-application. Needs phase 3.
 
-Open problem [p1]: the coordinator observes every worker, so by the observer-delivery behavior in 3.3 its death probably marks every worker `failed` **[VERIFY]**. Options: workers re-init with a new epoch after coordinator loss, a worker restart policy in the harness, or an HPX change. Phase 2 measures what actually happens before choosing.
+Results produced by the old workers after the coordinator loss are lost with them. An HPX change that lets a coordinator leave without fencing its workers would remove step 4. [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834) reports the underlying observer behavior and notes that a crashed coordinator would fence its workers; the clean-exit and re-init results from phase 2 are not reported upstream yet.
 
 Run F7 with `sync` durability; report `async` separately.
 
@@ -519,16 +523,9 @@ Python `dispatch_work`, SIGKILL and SIGSTOP behavior, connector-side membership 
 
 `_langx`, `langx_root`, membership action, `Runtime` with abandonment and bounded finalize, worker with dotted-path nodes and errors as values. Exit met: a Python coordinator joins workers, reads epochs and dispatches nodes; unit 18/18, integration 8/8. Results: [`phase1.md`](results/phase1.md).
 
-### Phase 2: worker lifecycle and coordinator loss
+### Phase 2: worker lifecycle and coordinator loss (done)
 
-Partly covered by phase 1 (dotted-path import, JSON, error values, attempt id tagging). Remaining:
-
-- worker lifecycle publishing and graceful exit under the 8.4 sequence;
-- measure what happens to workers when the coordinator is killed (3.4, 9.3);
-- choose and implement the F7 recovery path, or record it as a limit;
-- pure C++ reproducer of the observer-delivery behavior, if it is to be reported upstream.
-
-Exit: a coordinator kill and restart on one node, with the workers' state after the kill recorded, and a written F7 decision.
+Coordinator loss, by SIGKILL or clean exit, fences every worker; a fenced worker cannot re-init; F7 restarts the workers, which recovered in 6/6 runs. C++ reproducers for the observer and related behaviors filed as [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834). LangGraph pinned to 1.2.16. Results: [`phase2.md`](results/phase2.md).
 
 ### Phase 3: coordinator, fence and effects
 
@@ -571,7 +568,7 @@ Layout as in the README: `python/` (extension and `langx` package), `hpx_impl/` 
 
 | Risk | Likelihood | Impact | Mitigation |
 | --- | --- | --- | --- |
-| Coordinator death fences every worker | High (mechanism seen in phase 1) | High for F7 | Phase 2 measures it; re-init path or documented limit; ask maintainers |
+| Coordinator loss fences every worker | Certain (phase 2) | High for F7 | Worker restart path (9.3); crash case noted in hpx#7834, clean-exit and re-init results not reported yet |
 | Detection too slow without the testing hook | High | Medium | Report the hook value; ask for a production knob |
 | Shutdown aborts or hangs | Medium (workaround in place) | Medium | 8.4 sequence; harness bounds every exit and records it; track hpx#7825 |
 | Dispatch error shapes change between HPX commits | Medium | Medium | Map every exception to retry; never match strings |

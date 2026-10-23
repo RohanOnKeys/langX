@@ -4,7 +4,7 @@
 
 Research prototype: LangGraph agent steps executed on HPX localities, with HPX supervision fencing and a coordinator-side commit fence, so that a worker failure neither loses nor double-commits a step.
 
-**Status:** phase 0 (spikes) is done and phase 1 (bindings core) is in review. The full experiment plan is in [`docs/plan.md`](docs/plan.md).
+**Status:** phases 0 to 2 are done; phase 3 (coordinator, fence and effects) is next. The full experiment plan is in [`docs/plan.md`](docs/plan.md).
 
 ## Results
 
@@ -12,8 +12,9 @@ Research prototype: LangGraph agent steps executed on HPX localities, with HPX s
 | --- | --- |
 | 0: spikes on HPX supervision | [`docs/results/phase0.md`](docs/results/phase0.md) |
 | 1: bindings core | [`docs/results/phase1.md`](docs/results/phase1.md) |
+| 2: coordinator loss | [`docs/results/phase2.md`](docs/results/phase2.md) |
 
-Upstream report from these results: [TheHPXProject/hpx#7825](https://github.com/TheHPXProject/hpx/issues/7825).
+Upstream reports from these results: [hpx#7825](https://github.com/TheHPXProject/hpx/issues/7825) and the tracking issue [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834).
 
 ## The question
 
