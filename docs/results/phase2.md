@@ -11,8 +11,8 @@ Code: [`bench/coordinator_loss.py`](../../bench/coordinator_loss.py), `--state-l
 
 * **Losing the coordinator fences every worker, also when it exits cleanly.** Killed, the workers'
   own state turned `failed` 0.05 to 0.12 s later; after a clean exit (`finalize()`, pause,
-  disconnect), 1.21 to 1.36 s later. 12/12 workers across 6 runs. The root was fenced the same
-  way. A new coordinator can join the fenced workers, but every dispatch to them is refused.
+  disconnect), 1.21 to 1.36 s later. 12/12 workers across 6 runs. The new coordinator also saw
+  the root as `failed`. It can join the fenced workers, but every dispatch to them is refused.
 * **A fenced worker cannot re-initialize supervision.** `init()` after `finalize()` fails with
   `invalid lifecycle event transition` (2/2 workers).
 * **F7 decision: restart the workers.** The fenced workers are stopped, the root
@@ -48,9 +48,10 @@ each; then the restart path runs.
 | clean | 6 (jobs 217756, 217758) | 1.21 to 1.36 s, 12/12 | joins, epoch 2 | `fenced`, 12/12 | `failed` |
 
 The workers never joined C1; C1 joined them. Their own state turns `failed` once C1 is
-unreachable, which fits the observer-delivery behaviour found in phase 1: C1's observer
-registrations on the workers outlive C1, also after `finalize()`. The root is fenced the same way,
-because C1 joined it.
+unreachable. This fits the observer-delivery behaviour found in phase 1 if C1's observer
+registrations on the workers outlive C1, also after `finalize()`; the registrations were not
+inspected directly. C1 had also joined the root, which C2 then saw as `failed`; the root's own
+state was not read.
 
 ### In-process re-init
 
@@ -96,8 +97,10 @@ Supported:
 
 Not claimed:
 
-* no claim that this is an HPX defect; it is reported in
-  [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834) as a question;
+* no claim that this is an HPX defect. The observer behaviour behind it is reported in
+  [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834), which notes that a crashed
+  coordinator would fence its workers; the clean-exit and re-init results here are not reported
+  upstream yet;
 * no claim about run recovery from a checkpoint;
 * no performance claim.
 

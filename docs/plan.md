@@ -377,15 +377,15 @@ Async graphs (`ainvoke`) and async proxies, so HPX waits do not exhaust a sync t
 
 ### 9.3 Coordinator crash recovery
 
-Losing the coordinator fences every worker it joined, and a fenced worker cannot re-init supervision [p2]. F7 therefore restarts the workers:
+Losing the coordinator fences every worker it joined, and a fenced worker cannot re-init supervision [p2]. F7 therefore restarts the workers. Steps 1, 2 and 4 were run in phase 2; steps 3 and 5 are planned for phase 4:
 
 1. Coordinator is SIGKILLed. In-flight dispatches finish on workers and their replies go nowhere.
 2. Harness confirms the old coordinator PID is gone.
-3. A new coordinator connects as a new locality and asks the root to `force_disconnect` the old coordinator.
+3. A new coordinator connects as a new locality and asks the root to `force_disconnect` the old coordinator. Not yet done: in phase 2 the dead coordinator stayed in membership [p2].
 4. The harness stops the old workers; the root `force_disconnect`s them; fresh workers start as new localities and the new coordinator joins them (2.3 to 2.6 s on one node [p2]).
-5. The new coordinator resumes from the checkpointer by `thread_id`. Completed sibling writes are not re-run; the interrupted node is. Outbox keys prevent re-application.
+5. The new coordinator resumes from the checkpointer by `thread_id`. Completed sibling writes are not re-run; the interrupted node is. Outbox keys prevent re-application. Needs phase 3.
 
-Results produced by the old workers after the coordinator loss are lost with them. An HPX change that lets a coordinator leave without fencing its workers would remove step 4; asked in [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834).
+Results produced by the old workers after the coordinator loss are lost with them. An HPX change that lets a coordinator leave without fencing its workers would remove step 4. [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834) reports the underlying observer behavior and notes that a crashed coordinator would fence its workers; the clean-exit and re-init results from phase 2 are not reported upstream yet.
 
 Run F7 with `sync` durability; report `async` separately.
 
@@ -568,7 +568,7 @@ Layout as in the README: `python/` (extension and `langx` package), `hpx_impl/` 
 
 | Risk | Likelihood | Impact | Mitigation |
 | --- | --- | --- | --- |
-| Coordinator loss fences every worker | Certain (phase 2) | High for F7 | Worker restart path (9.3); asked in hpx#7834 |
+| Coordinator loss fences every worker | Certain (phase 2) | High for F7 | Worker restart path (9.3); crash case noted in hpx#7834, clean-exit and re-init results not reported yet |
 | Detection too slow without the testing hook | High | Medium | Report the hook value; ask for a production knob |
 | Shutdown aborts or hangs | Medium (workaround in place) | Medium | 8.4 sequence; harness bounds every exit and records it; track hpx#7825 |
 | Dispatch error shapes change between HPX commits | Medium | Medium | Map every exception to retry; never match strings |

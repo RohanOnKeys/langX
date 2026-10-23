@@ -104,10 +104,16 @@ only the coordinator joins workers.
 
 ## Not established
 
-* the same behaviour in a pure C++ reproducer;
 * which publication triggers it, and how the failure reaches the coordinator's view;
-* what happens to the workers when the coordinator, which observes all of them, is killed;
 * any cross-node measurement.
+
+Settled after this write-up:
+
+* the same behaviour reproduces in pure C++, 5/5 with B joining A and 0/5 without (job 217755,
+  [`bench/hpx_repro/`](../../bench/hpx_repro/)); reported in
+  [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834);
+* killing the coordinator, or a clean coordinator exit, fences every worker it joined
+  ([`phase2.md`](phase2.md)).
 
 ## Claims and non-claims
 
