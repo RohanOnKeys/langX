@@ -27,6 +27,7 @@ compile_commands.json
 results/
 !docs/results/
 experiments/**/_runs/
+bench/**/_runs/
 *.jsonl
 *.summary.json
 *.log
