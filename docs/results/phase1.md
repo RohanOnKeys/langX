@@ -4,7 +4,7 @@
 `cc2be553fac9b1f2a372f4277d7c708e70bf7eb4`. **Plan:** [`docs/plan.md`](../plan.md)
 section 16, phase 1.
 
-Code: branch `phase1-bindings`, [pull request #2](https://github.com/RohanOnKeys/langX/pull/2).
+Code: [`python/`](../../python/), [`hpx_impl/`](../../hpx_impl/), [`tests/`](../../tests/).
 Phase 0 results: [`phase0.md`](phase0.md).
 
 ## Summary

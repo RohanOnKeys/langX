@@ -4,7 +4,7 @@
 `cc2be553fac9b1f2a372f4277d7c708e70bf7eb4`. **Plan:** [`docs/plan.md`](../plan.md)
 section 16, phase 0.
 
-Code: [`spikes/phase0/`](../../spikes/phase0/), run from branch `phase0-spikes`. Raw run directories stay on Rostam under `spikes/phase0/_runs/<job>/`.
+Code: [`spikes/phase0/`](../../spikes/phase0/). Raw run directories stay on Rostam under `spikes/phase0/_runs/<job>/`.
 
 ## Summary
 
@@ -49,7 +49,7 @@ depends on them.
 | Transport | TCP parcelport on `localhost` |
 | Detection hook | `set_failure_detection_poll_timeout_for_testing` on every locality before `init()` |
 | Clock | `CLOCK_MONOTONIC` on one node for every timestamp |
-| Repository | `RohanOnKeys/langX`, branch `phase0-spikes`; code now in [`spikes/phase0/`](../../spikes/phase0/) on `main` |
+| Repository | `RohanOnKeys/langX`, code in [`spikes/phase0/`](../../spikes/phase0/) |
 
 **Native build:** one pybind11 module (`_p0`) loaded by the coordinator and every worker, so
 `run_node` and its `make_fenced_action_t` wrapper are registered by the same shared object in
