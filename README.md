@@ -87,7 +87,8 @@ python/                     _langx pybind11 extension (CMake) and the langx pack
     stub_llm.py             recorded-response LLM stub
 hpx_impl/                   native root locality and shared C++ headers
 experiments/NN_name/        one folder per experiment: write-up, runner, sbatch, curated aggregates
-bench/                      smoke and repo-integrity helpers
+bench/                      smoke and repo-integrity helpers, Rostam test job, HPX reproducers (bench/hpx_repro/)
+spikes/phase0/              phase 0 spike code behind docs/results/phase0.md (not the langx API)
 tests/unit/                 import-light tests, no HPX needed
 tests/integration/          tests that need the built extension, skipped otherwise
 docs/plan.md                experiment plan: claims, design, failure matrix, gates, phases

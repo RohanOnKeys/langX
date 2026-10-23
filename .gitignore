@@ -29,6 +29,12 @@ results/
 experiments/**/_runs/
 bench/**/_runs/
 bench/hpx_repro/build_*/
+spikes/**/_runs/
+spikes/**/build/
+spikes/**/*.tgz
+spikes/**/p0_*.out
+spikes/**/repro_*.out
+spikes/**/spike_d*.json
 *.jsonl
 *.summary.json
 *.log

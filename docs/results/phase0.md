@@ -4,7 +4,7 @@
 `cc2be553fac9b1f2a372f4277d7c708e70bf7eb4`. **Plan:** [`docs/plan.md`](../plan.md)
 section 16, phase 0.
 
-Code: [`spikes/phase0` on branch `phase0-spikes`](https://github.com/RohanOnKeys/langX/tree/phase0-spikes/spikes/phase0). Raw run directories stay on Rostam under `spikes/phase0/_runs/<job>/`.
+Code: [`spikes/phase0/`](../../spikes/phase0/), run from branch `phase0-spikes`. Raw run directories stay on Rostam under `spikes/phase0/_runs/<job>/`.
 
 ## Summary
 
@@ -49,7 +49,7 @@ depends on them.
 | Transport | TCP parcelport on `localhost` |
 | Detection hook | `set_failure_detection_poll_timeout_for_testing` on every locality before `init()` |
 | Clock | `CLOCK_MONOTONIC` on one node for every timestamp |
-| Repository | `RohanOnKeys/langX`, branch `phase0-spikes` |
+| Repository | `RohanOnKeys/langX`, branch `phase0-spikes`; code now in [`spikes/phase0/`](../../spikes/phase0/) on `main` |
 
 **Native build:** one pybind11 module (`_p0`) loaded by the coordinator and every worker, so
 `run_node` and its `make_fenced_action_t` wrapper are registered by the same shared object in
@@ -214,7 +214,7 @@ Job 216728 tested this with a pause between `finalize()` and `hpx::disconnect`, 
 | none | 5 | SIGABRT in `hpx::stop`, 15/15 | clean, 5/5 | clean, 5/5 |
 | 1000 ms | 5 | clean, 15/15 | clean, 5/5 | clean, 5/5 |
 
-A pure C++ reproducer with no Python ([`native/repro_leave.cpp`](https://github.com/RohanOnKeys/langX/blob/phase0-spikes/spikes/phase0/native/repro_leave.cpp), job 216729) gives the same
+A pure C++ reproducer with no Python ([`spikes/phase0/native/repro_leave.cpp`](../../spikes/phase0/native/repro_leave.cpp), job 216729) gives the same
 result: a supervised connect-mode locality joined to the root and one running peer aborts in
 `hpx::stop` with the same stack in 5/5 runs without a pause, and exits cleanly in 5/5 runs with a
 1000 ms pause. The self-contained version is the `leave` case of
