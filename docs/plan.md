@@ -553,7 +553,7 @@ Short report: claim, method, results, limits. Upstream findings filed or updated
 
 ## 17. Repository and conventions
 
-Layout as in the README: `python/` (extension and `langx` package), `hpx_impl/` (root and shared headers), `experiments/NN_name/`, `bench/`, `tests/unit/` (no HPX, run in CI), `tests/integration/` (needs the built extension), `docs/`.
+Layout as in the README: `python/` (extension and `langx` package), `hpx_impl/` (root and shared headers), `experiments/NN_name/`, `bench/`, `tests/unit/` (no HPX, run in CI), `tests/integration/` (needs the built extension), `spikes/phase0/` (phase 0 spike code, kept for reproducibility), `docs/`.
 
 - No duplicate modules with overlapping responsibility; no `utils/`, `helpers/` or empty placeholder directories.
 - Python snake_case modules, PascalCase classes; C++ follows HPX style.
