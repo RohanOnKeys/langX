@@ -228,11 +228,20 @@ killed, but that was not tested directly.
 
 ## Not established
 
-* why the sweep islands had no outstanding detection sweep at shutdown;
-* why `hpx::disconnect` never returns when run on an HPX thread and awaited;
+* why the sweep islands had no outstanding detection sweep at shutdown. A likely reading, not
+  tested: in those islands the dead-observer behaviour found in phase 1 had already fenced the
+  workers' joined peers, leaving no checks pending;
+* why `hpx::disconnect` never returns when run on an HPX thread and awaited. A likely reading,
+  not tested: `hpx::disconnect()` stops the runtime (`runtime::stop`) from the very HPX thread
+  `run_as_hpx_thread` is waiting on; the posted form, as used by RayX exp70, works;
 * detection latency at the production default (60 s) without the testing hook;
 * detection across nodes, and any measurement that needs more than one clock;
-* why SIGSTOP was detected faster than SIGKILL at 250 and 500 ms.
+* why SIGSTOP was detected faster than SIGKILL at 250 and 500 ms. Detection is by construction
+  one poll timeout waiting on `await_terminal`, then three grace probes of a third of the poll
+  timeout each, plus up to one poll of alignment with the sweep, which bounds it at about 2 to 3
+  poll timeouts (`failure_detection_loop` and `stalled_after_grace` in
+  `components/supervision_dispatch/src/dispatch_api.cpp`). Both measurements fall in that range;
+  why SIGKILL lands at the top of it was not tested.
 
 ## Claims and non-claims
 

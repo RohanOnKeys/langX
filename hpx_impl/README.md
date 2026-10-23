@@ -17,5 +17,6 @@ The root's startup sequence follows RayX exp70 Slice 3B `native/root_supervised.
 | `--langx-stop-file PATH` | exit when this file appears (SIGTERM and SIGINT also work) |
 | `--langx-poll-timeout-ms N` | failure-detection poll timeout through the HPX testing hook; 0 keeps the HPX default |
 | `--langx-shutdown-timeout-s N` | bound on shutdown, default 10 |
+| `--langx-state-log PATH` | optional; append the root's own lifecycle state as JSON lines whenever it changes |
 
 Every other option goes to HPX, for example `--hpx:agas=HOST:PORT --hpx:hpx=HOST:PORT --hpx:expect-connecting-localities`.

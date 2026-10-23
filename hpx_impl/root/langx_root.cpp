@@ -20,6 +20,8 @@
 ///   --langx-poll-timeout-ms N      failure-detection poll timeout (testing
 ///                                  hook); 0 keeps the HPX default
 ///   --langx-shutdown-timeout-s N   bound on shutdown, default 10
+///   --langx-state-log PATH         optional; append this root's own
+///                                  lifecycle state as JSON lines on change
 
 #include <hpx/hpx.hpp>
 #include <hpx/hpx_start.hpp>
@@ -90,6 +92,29 @@ namespace {
             .count();
     }
 
+    char const* event_name(hpx::supervision::event ev)
+    {
+        using hpx::supervision::event;
+        switch (ev)
+        {
+        case event::unknown:
+            return "unknown";
+        case event::started:
+            return "started";
+        case event::running:
+            return "running";
+        case event::suspending:
+            return "suspending";
+        case event::completed:
+            return "completed";
+        case event::failed:
+            return "failed";
+        case event::losing_locality:
+            return "losing_locality";
+        }
+        return "invalid";
+    }
+
     /// Drops --langx-* options and their values so HPX does not reject them.
     std::vector<char*> hpx_args(int argc, char** argv)
     {
@@ -117,6 +142,7 @@ int main(int argc, char** argv)
         std::stoi(option(argc, argv, "--langx-poll-timeout-ms", "0"));
     int const shutdown_s =
         std::stoi(option(argc, argv, "--langx-shutdown-timeout-s", "10"));
+    std::string const state_log = option(argc, argv, "--langx-state-log", "");
 
     std::signal(SIGTERM, on_signal);
     std::signal(SIGINT, on_signal);
@@ -132,6 +158,7 @@ int main(int argc, char** argv)
 
     std::uint64_t epoch = 0;
     std::string err;
+    hpx::supervision::registry handle;
     hpx::run_as_hpx_thread([&] {
         try
         {
@@ -141,7 +168,7 @@ int main(int argc, char** argv)
                     set_failure_detection_poll_timeout_for_testing(
                         std::chrono::milliseconds(poll_ms));
             }
-            auto const handle = hpx::supervision::init(
+            handle = hpx::supervision::init(
                 hpx::launch::sync, std::chrono::milliseconds(2000));
             epoch = hpx::supervision::query_state(hpx::launch::sync, handle)
                         .epoch;
@@ -166,8 +193,28 @@ int main(int argc, char** argv)
     if (!err.empty())
         return 3;
 
+    // Optional: log this root's own lifecycle state whenever it changes.
+    std::string last_state;
     while (!stop_requested.load() && !exists(stop_file))
+    {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        if (state_log.empty())
+            continue;
+        auto const st = hpx::run_as_hpx_thread([&] {
+            hpx::error_code ec(hpx::throwmode::lightweight);
+            return hpx::supervision::query_state(hpx::launch::sync, handle, ec);
+        });
+        std::string const now = std::to_string(static_cast<int>(st.last_event)) +
+            "/" + std::to_string(st.epoch);
+        if (now != last_state)
+        {
+            last_state = now;
+            std::ofstream(state_log, std::ios::app)
+                << "{\"t_ns\":" << steady_ns() << ",\"event\":\""
+                << event_name(st.last_event) << "\",\"epoch\":" << st.epoch
+                << "}\n";
+        }
+    }
 
     long long const t0 = steady_ns();
     std::thread([exit_file, shutdown_s, t0] {
