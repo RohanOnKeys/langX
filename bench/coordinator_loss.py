@@ -84,6 +84,7 @@ def main():
     ap.add_argument("--agas", default="")
     ap.add_argument("--localities", default="")
     ap.add_argument("--out", default="")
+    ap.add_argument("--workdir", default="", help="keep logs here instead of a temp dir")
     a = ap.parse_args()
     if a.role == "c1":
         run_c1(a)
@@ -92,9 +93,9 @@ def main():
     wargs = ["--state-log", "{dir}/{name}.state.jsonl"]
     if a.reinit:
         wargs.append("--reinit-on-self-fence")
-    isl = Island(tempfile.mkdtemp(), n_workers=2, poll_timeout_ms=int(POLL_S * 1000),
+    isl = Island(a.workdir or tempfile.mkdtemp(), n_workers=2, poll_timeout_ms=int(POLL_S * 1000),
                  worker_args=wargs).start()
-    rec = {"c1_exit": a.c1_exit, "reinit": a.reinit}
+    rec = {"c1_exit": a.c1_exit, "reinit": a.reinit, "dir": str(isl.dir)}
     try:
         workers = isl.workers()
         locs = ",".join(str(w["locality"]) for w in workers.values())
