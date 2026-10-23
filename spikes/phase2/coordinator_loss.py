@@ -46,7 +46,11 @@ async def probe(rt, peer):
                                         timeout_s=10)).json()
         return {"status": "ok", "worker_epoch": reply["worker"]["epoch"]}
     except TargetFenced as ex:
-        return {"status": "fenced", "abandoned": ex.abandoned}
+        # The message tells which side refused: "not sent" is this
+        # coordinator's own view, "client-side" is dispatch_work's caller
+        # check, "since the client-side admission check" is the target.
+        return {"status": "fenced", "abandoned": ex.abandoned,
+                "error": str(ex)[:160]}
     except DispatchFailed as ex:
         return {"status": "failed", "error": str(ex)[:120]}
     except TimeoutError:
@@ -66,9 +70,17 @@ def run_c1(a):
                    "dispatch": results}, f)
     while not os.path.exists(a.out + ".leave"):
         time.sleep(0.05)
-    rt.shutdown()
+    # The steps of Runtime.shutdown(), timed one by one (CLOCK_MONOTONIC,
+    # shared with the harness on one node).
+    t = {"leave_ns": time.monotonic_ns()}
+    rt.finalize(pause_s=0)
+    t["finalized_ns"] = time.monotonic_ns()
+    time.sleep(a.c1_pause_s)
+    t["disconnect_ns"] = time.monotonic_ns()
+    t["stop_rc"] = rt.stop()
+    t["stopped_ns"] = time.monotonic_ns()
     with open(a.out + ".left", "w") as f:
-        f.write("1")
+        json.dump(t, f)
 
 
 def read_log(path):
@@ -85,15 +97,18 @@ def main():
     ap.add_argument("--localities", default="")
     ap.add_argument("--out", default="")
     ap.add_argument("--workdir", default="", help="keep logs here instead of a temp dir")
+    ap.add_argument("--c1-pause-s", type=float, default=1.0,
+                    help="clean exit: pause between C1's finalize and disconnect")
     a = ap.parse_args()
     if a.role == "c1":
         run_c1(a)
         return
 
-    wargs = ["--state-log", "{dir}/{name}.state.jsonl"]
+    wargs = ["--state-log", "{dir}/{name}.state.jsonl", "--state-poll-ms", "10"]
     isl = Island(a.workdir or tempfile.mkdtemp(), n_workers=2,
-                 poll_timeout_ms=int(POLL_S * 1000), worker_args=wargs).start()
-    rec = {"c1_exit": a.c1_exit, "dir": str(isl.dir)}
+                 poll_timeout_ms=int(POLL_S * 1000), worker_args=wargs,
+                 root_args=["--langx-state-log", "{dir}/root.state.jsonl"]).start()
+    rec = {"c1_exit": a.c1_exit, "c1_pause_s": a.c1_pause_s, "dir": str(isl.dir)}
     try:
         workers = isl.workers()
         locs = ",".join(str(w["locality"]) for w in workers.values())
@@ -103,7 +118,8 @@ def main():
             [str(REPO / "python" / "src"), str(REPO / "tests" / "integration")])
         c1 = subprocess.Popen(
             [sys.executable, __file__, "--role", "c1", "--agas", isl.agas,
-             "--localities", locs, "--out", str(c1_out)],
+             "--localities", locs, "--out", str(c1_out),
+             "--c1-pause-s", str(a.c1_pause_s)],
             stdout=open(isl.dir / "c1.log", "w"), stderr=subprocess.STDOUT, env=env)
         rec["c1"] = wait_json(c1_out, 90)
 
@@ -112,7 +128,12 @@ def main():
             os.kill(c1.pid, signal.SIGKILL)
         else:
             (isl.dir / "c1.json.leave").touch()
-            rec["c1_left_clean"] = wait_json(isl.dir / "c1.json.left", 30) is not None
+            left = wait_json(isl.dir / "c1.json.left", 30)
+            rec["c1_left_clean"] = left is not None
+            if left:
+                rec["c1_steps_s"] = {k[:-3]: round((v - t_exit) / 1e9, 3)
+                                     for k, v in left.items() if k.endswith("_ns")}
+                rec["c1_stop_rc"] = left["stop_rc"]
         c1.wait(30)
         time.sleep(5.0)
 
@@ -124,7 +145,7 @@ def main():
                 "initial_epoch": info["epoch"],
                 "log": [(round((e["t_ns"] - t_exit) / 1e9, 2), e["event"], e["epoch"])
                         for e in log],
-                "failed_after_s": round((first_failed["t_ns"] - t_exit) / 1e9, 2)
+                "failed_after_s": round((first_failed["t_ns"] - t_exit) / 1e9, 3)
                 if first_failed else None,
             }
 
@@ -135,8 +156,13 @@ def main():
         for name, info in workers.items():
             p = joined[info["locality"]]
             rec["workers"][name]["c2_join_epoch"] = p.epoch
+            rec["workers"][name]["c2_admitted_before_dispatch"] = rt.admitted(p)
+            rec["workers"][name]["c2_shadow"] = rt.peer_state(p.locality)
             rec["workers"][name]["c2_dispatch"] = asyncio.run(probe(rt, p))
         rec["c2_view_of_root"] = rt.peer_state(0)["last_event"]
+        rec["root_own_state"] = [
+            (round((e["t_ns"] - t_exit) / 1e9, 3), e["event"], e["epoch"])
+            for e in read_log(isl.dir / "root.state.jsonl")]
 
         # Restart path: remove the fenced workers and start fresh ones.
         t_rec = time.monotonic_ns()

@@ -40,12 +40,14 @@ class Island:
     """Root plus ``n_workers`` workers, started one at a time."""
 
     def __init__(self, workdir, n_workers=2, poll_timeout_ms=500, threads=4,
-                 worker_discovery_ms=0, worker_args=()):
+                 worker_discovery_ms=0, worker_args=(), root_args=()):
         self.dir = pathlib.Path(workdir)
         self.n_workers = n_workers
         self.worker_discovery_ms = worker_discovery_ms
         # Extra worker flags; "{dir}" and "{name}" are filled in per worker.
         self.worker_args = list(worker_args)
+        # Extra root flags; "{dir}" is filled in.
+        self.root_args = [x.format(dir=workdir) for x in root_args]
         self.poll_ms = poll_timeout_ms
         self.threads = threads
         self.root_port = free_port()
@@ -68,7 +70,7 @@ class Island:
             "--hpx:bind=none", "--hpx:ignore-batch-env",
             "--langx-ready-file", str(self.dir / "root.ready"),
             "--langx-stop-file", str(self.dir / "root.stop"),
-            "--langx-poll-timeout-ms", str(self.poll_ms)])
+            "--langx-poll-timeout-ms", str(self.poll_ms), *self.root_args])
         self.ready["root"] = wait_json(self.dir / "root.ready", 30)
         if self.ready["root"] is None:
             raise RuntimeError("root did not start")

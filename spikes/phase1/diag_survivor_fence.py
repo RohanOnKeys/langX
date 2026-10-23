@@ -53,7 +53,9 @@ def main():
     a = ap.parse_args()
     survivor = "w1" if a.kill == "w2" else "w2"
     isl = Island(tempfile.mkdtemp(), n_workers=2, poll_timeout_ms=500,
-                 worker_discovery_ms=a.worker_discovery_ms).start()
+                 worker_discovery_ms=a.worker_discovery_ms,
+                 worker_args=["--state-log", "{dir}/{name}.state.jsonl",
+                              "--state-poll-ms", "10"]).start()
     rec = {"kill": a.kill, "survivor": survivor,
            "worker_discovery_ms": a.worker_discovery_ms,
            "joined_at_init": {n: w.get("joined_at_init")
@@ -66,8 +68,23 @@ def main():
         joined = rt.wait_for_peers([w["locality"] for w in info.values()])
         peers = {n: joined[w["locality"]] for n, w in info.items()}
         rec["before_kill"] = asyncio.run(probe(rt, peers[survivor]))
+        # Timing at 10 ms: when the survivor's own state turns failed (its
+        # state log) and when this coordinator's view shows it fenced.
+        t_kill = time.monotonic_ns()
         isl.kill(a.kill)
-        rec["after_kill"] = asyncio.run(series(rt, peers[survivor], 4.0))
+        coord_fenced = None
+        while time.monotonic_ns() - t_kill < 2e9:
+            if not rt.admitted(peers[survivor]):
+                coord_fenced = time.monotonic_ns()
+                break
+            time.sleep(0.01)
+        log = [json.loads(x) for x in
+               (isl.dir / f"{survivor}.state.jsonl").read_text().splitlines()]
+        self_failed = next((e["t_ns"] for e in log if e["event"] == "failed"), None)
+        ms = lambda ns: None if ns is None else round((ns - t_kill) / 1e6, 1)
+        rec["survivor_self_failed_ms"] = ms(self_failed)
+        rec["coordinator_view_fenced_ms"] = ms(coord_fenced)
+        rec["after_kill"] = asyncio.run(series(rt, peers[survivor], 2.0))
         rec["dead_admitted_after_4s"] = rt.admitted(peers[a.kill])
         rec["force_disconnect"] = asyncio.run(rt.force_disconnect(peers[a.kill].locality))
         rec["after_force_disconnect"] = asyncio.run(series(rt, peers[survivor], 2.0))

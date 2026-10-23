@@ -128,6 +128,8 @@ def main(argv=None):
     ap.add_argument("--state-log", default="",
                     help="append this worker's own supervision state to this "
                          "JSON lines file whenever it changes")
+    ap.add_argument("--state-poll-ms", type=int, default=100,
+                    help="how often the state log samples this worker's state")
     a = ap.parse_args(argv)
 
     stop = {"requested": False}
@@ -159,7 +161,7 @@ def main(argv=None):
     last = None
     while not stop["requested"] and not (a.stop_file
                                          and os.path.exists(a.stop_file)):
-        time.sleep(0.1)
+        time.sleep(a.state_poll_ms / 1000.0 if a.state_log else 0.1)
         if not a.state_log:
             continue
         state = rt.ext.own_state()
