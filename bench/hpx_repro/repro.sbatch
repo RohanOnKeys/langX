@@ -25,7 +25,7 @@ B=bench/hpx_repro/build_$(echo "$HPX_INSTALL" | md5sum | cut -c1-8)   # one per 
 cmake -S bench/hpx_repro -B $B -G Ninja -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_PREFIX_PATH="$HPX_INSTALL" || { echo "CONFIGURE FAILED"; exit 11; }
 cmake --build $B -j"$(nproc)" || { echo "BUILD FAILED"; exit 12; }
-echo "=== linked: $(ldd $B/supervision_gaps_repro | grep -o "[^ ]*libhpx_core[^ ]*" | head -1)"
+echo "=== linked: $(ldd $B/supervision_gaps_repro | awk '/libhpx_core/ {print $3; exit}')"
 
 OUT=bench/hpx_repro/_runs/${SLURM_JOB_ID:-local}
 R=bench/hpx_repro/run_repro.sh
