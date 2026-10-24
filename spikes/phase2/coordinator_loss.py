@@ -26,9 +26,11 @@ import tempfile
 import time
 
 REPO = pathlib.Path(__file__).resolve().parents[2]
-sys.path[:0] = [str(REPO / "python" / "src"), str(REPO / "tests" / "integration")]
+sys.path[:0] = [str(REPO / "python" / "src")]
+TEST_NODES = ["nodes:echo", "nodes:sleep_ms", "nodes:fail"]
+TEST_NODE_DIR = REPO / "tests" / "integration"
 
-from island import Island, free_port, wait_json  # noqa: E402
+from langx.island import Island, free_port, wait_json  # noqa: E402
 
 from langx.runtime import DispatchFailed, Runtime, TargetFenced  # noqa: E402
 
@@ -106,6 +108,7 @@ def main():
 
     wargs = ["--state-log", "{dir}/{name}.state.jsonl", "--state-poll-ms", "10"]
     isl = Island(a.workdir or tempfile.mkdtemp(), n_workers=2,
+                 preload=TEST_NODES, pythonpath=[TEST_NODE_DIR],
                  poll_timeout_ms=int(POLL_S * 1000), worker_args=wargs,
                  root_args=["--langx-state-log", "{dir}/root.state.jsonl"]).start()
     rec = {"c1_exit": a.c1_exit, "c1_pause_s": a.c1_pause_s, "dir": str(isl.dir)}

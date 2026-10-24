@@ -1,7 +1,8 @@
-"""Launch a test island: root, workers, all on this host in connect mode.
+"""Launch an island on this host: langx_root and workers, in connect mode.
 
-The test process itself is the coordinator. Root and workers write ready
+The calling process is usually the coordinator. Root and workers write ready
 files with their PIDs and epochs, and ``<ready>.exit`` files on shutdown.
+Used by the integration tests, the phase spikes and the experiment.
 """
 
 import json
@@ -13,7 +14,7 @@ import subprocess
 import sys
 import time
 
-REPO = pathlib.Path(__file__).resolve().parents[2]
+REPO = pathlib.Path(__file__).resolve().parents[3]
 HOST = "localhost"
 
 
@@ -37,10 +38,15 @@ def wait_json(path, timeout_s):
 
 
 class Island:
-    """Root plus ``n_workers`` workers, started one at a time."""
+    """Root plus ``n_workers`` workers, started one at a time.
+
+    ``preload`` lists the ``module:function`` nodes each worker resolves at
+    startup; ``pythonpath`` adds directories where those modules live.
+    """
 
     def __init__(self, workdir, n_workers=2, poll_timeout_ms=500, threads=4,
-                 worker_discovery_ms=0, worker_args=(), root_args=()):
+                 worker_discovery_ms=0, worker_args=(), root_args=(),
+                 preload=(), pythonpath=(), env=None):
         self.dir = pathlib.Path(workdir)
         self.n_workers = n_workers
         self.worker_discovery_ms = worker_discovery_ms
@@ -48,6 +54,9 @@ class Island:
         self.worker_args = list(worker_args)
         # Extra root flags; "{dir}" is filled in.
         self.root_args = [x.format(dir=workdir) for x in root_args]
+        self.preload = list(preload)
+        self.pythonpath = [str(x) for x in pythonpath]
+        self.extra_env = dict(env or {})
         self.poll_ms = poll_timeout_ms
         self.threads = threads
         self.root_port = free_port()
@@ -62,6 +71,7 @@ class Island:
             start_new_session=True)
 
     def start(self):
+        """Start the root, then each worker, and wait for them. Returns self."""
         root_bin = os.environ.get("LANGX_ROOT_BIN",
                                   str(REPO / "python" / "build" / "langx_root"))
         self._popen("root", [
@@ -81,16 +91,16 @@ class Island:
 
     def start_worker(self, name):
         """Start one worker and wait for its ready file. Returns its info."""
-        env = dict(os.environ)
+        env = dict(os.environ, **self.extra_env)
         env["PYTHONPATH"] = os.pathsep.join(
-            [str(REPO / "python" / "src"), str(REPO / "tests" / "integration"),
+            [str(REPO / "python" / "src"), *self.pythonpath,
              env.get("PYTHONPATH", "")])
         self._popen(name, [
             sys.executable, "-m", "langx.worker", "--agas", self.agas,
             "--hpx", f"{HOST}:{free_port()}", "--threads", str(self.threads),
             "--poll-timeout-ms", str(self.poll_ms),
             "--discovery-timeout-ms", str(self.worker_discovery_ms),
-            "--preload", "nodes:echo", "nodes:sleep_ms", "nodes:fail",
+            *(["--preload", *self.preload] if self.preload else []),
             "--ready-file", str(self.dir / f"{name}.ready"),
             "--stop-file", str(self.dir / f"{name}.stop"),
             *(x.format(dir=self.dir, name=name) for x in self.worker_args)],
