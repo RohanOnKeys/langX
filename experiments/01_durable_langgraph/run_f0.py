@@ -59,6 +59,11 @@ def main():
     ap.add_argument("--reps", type=int, default=3)
     ap.add_argument("--poll-ms", type=int, default=500)
     args = ap.parse_args()
+    # The stub LLM only knows the recorded parameter points (make_fixtures).
+    import make_fixtures  # noqa: PLC0415
+    if args.width not in make_fixtures.WIDTHS or args.loops not in make_fixtures.LOOPS:
+        ap.error(f"--width must be one of {make_fixtures.WIDTHS} and --loops one of "
+                 f"{make_fixtures.LOOPS}: only those prompts are recorded")
     out = pathlib.Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
 

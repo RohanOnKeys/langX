@@ -21,7 +21,7 @@ RUN_F0 = REPO / "experiments" / "01_durable_langgraph" / "run_f0.py"
 def test_f0_hpx_run_matches_baseline(tmp_path):
     proc = subprocess.run(
         [sys.executable, str(RUN_F0), "--out", str(tmp_path), "--reps", "2",
-         "--width", "4", "--loops", "2", "--latency-ms", "20"],
+         "--width", "3", "--loops", "2", "--latency-ms", "20"],
         capture_output=True, text=True, timeout=600)
     result = tmp_path / "f0.json"
     assert result.exists(), (f"run_f0.py exited {proc.returncode}\n"
