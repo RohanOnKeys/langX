@@ -23,7 +23,11 @@ def test_f0_hpx_run_matches_baseline(tmp_path):
         [sys.executable, str(RUN_F0), "--out", str(tmp_path), "--reps", "2",
          "--width", "4", "--loops", "2", "--latency-ms", "20"],
         capture_output=True, text=True, timeout=600)
-    rec = json.loads((tmp_path / "f0.json").read_text())
+    result = tmp_path / "f0.json"
+    assert result.exists(), (f"run_f0.py exited {proc.returncode}\n"
+                             f"stdout:\n{proc.stdout[-3000:]}\n"
+                             f"stderr:\n{proc.stderr[-3000:]}")
+    rec = json.loads(result.read_text())
     checks = rec["checks"]
     assert all(checks["hash_equal"]), proc.stdout[-2000:]
     assert checks["outbox_keys_equal"]
