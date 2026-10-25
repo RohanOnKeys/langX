@@ -10,17 +10,22 @@ import json
 
 import pytest
 
-from island import Island, free_port
+import pathlib
+
+from langx.island import Island, free_port
 
 from langx.runtime import Runtime, TargetFenced
 
 POLL_S = 0.5
+HERE = pathlib.Path(__file__).resolve().parent
+TEST_NODES = ["nodes:echo", "nodes:sleep_ms", "nodes:fail"]
 
 
 @pytest.fixture(scope="module")
 def island(tmp_path_factory):
     isl = Island(tmp_path_factory.mktemp("island"), n_workers=2,
-                 poll_timeout_ms=int(POLL_S * 1000)).start()
+                 poll_timeout_ms=int(POLL_S * 1000), preload=TEST_NODES,
+                 pythonpath=[HERE]).start()
     yield isl
     isl.cleanup()
 

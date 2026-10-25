@@ -18,9 +18,11 @@ import tempfile
 import time
 
 REPO = pathlib.Path(__file__).resolve().parents[2]
-sys.path[:0] = [str(REPO / "python" / "src"), str(REPO / "tests" / "integration")]
+sys.path[:0] = [str(REPO / "python" / "src")]
+TEST_NODES = ["nodes:echo", "nodes:sleep_ms", "nodes:fail"]
+TEST_NODE_DIR = REPO / "tests" / "integration"
 
-from island import Island, free_port  # noqa: E402
+from langx.island import Island, free_port  # noqa: E402
 
 from langx.runtime import DispatchFailed, Runtime, TargetFenced  # noqa: E402
 
@@ -53,6 +55,7 @@ def main():
     a = ap.parse_args()
     survivor = "w1" if a.kill == "w2" else "w2"
     isl = Island(tempfile.mkdtemp(), n_workers=2, poll_timeout_ms=500,
+                 preload=TEST_NODES, pythonpath=[TEST_NODE_DIR],
                  worker_discovery_ms=a.worker_discovery_ms,
                  worker_args=["--state-log", "{dir}/{name}.state.jsonl",
                               "--state-poll-ms", "10"]).start()

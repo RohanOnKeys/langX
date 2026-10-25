@@ -21,7 +21,7 @@ jobs:
       - name: Compile Python sources
         # Syntax only: py_compile never imports, so this needs no HPX and no
         # _langx extension.
-        run: python -m py_compile python/src/langx/*.py bench/*.py spikes/*/*.py tests/unit/*.py tests/integration/*.py
+        run: python -m py_compile python/src/langx/*.py bench/*.py spikes/*/*.py experiments/*/*.py tests/unit/*.py tests/integration/*.py
 
       - name: Install dev test dependencies
         run: python -m pip install -r requirements-dev.txt

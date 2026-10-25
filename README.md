@@ -4,7 +4,7 @@
 
 Research prototype: LangGraph agent steps executed on HPX localities, with HPX supervision fencing and a coordinator-side commit fence, so that a worker failure neither loses nor double-commits a step.
 
-**Status:** phases 0 to 2 are done; phase 3 (coordinator, fence and effects) is next. The full experiment plan is in [`docs/plan.md`](docs/plan.md).
+**Status:** phases 0 to 3 are done; phase 4 (failure harness, F1 to F9) is next. The full experiment plan is in [`docs/plan.md`](docs/plan.md).
 
 ## Results
 
@@ -13,6 +13,7 @@ Research prototype: LangGraph agent steps executed on HPX localities, with HPX s
 | 0: spikes on HPX supervision | [`docs/results/phase0.md`](docs/results/phase0.md) |
 | 1: bindings core | [`docs/results/phase1.md`](docs/results/phase1.md) |
 | 2: coordinator loss | [`docs/results/phase2.md`](docs/results/phase2.md) |
+| 3: coordinator, commit fence, effects; F0 | [`docs/results/phase3.md`](docs/results/phase3.md) |
 
 Upstream reports from these results: [hpx#7825](https://github.com/TheHPXProject/hpx/issues/7825) and the tracking issue [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834).
 
@@ -81,9 +82,10 @@ python/                     _langx extension and the langx package (CMake builds
     _langx.cpp              pybind11 bridge to an in-process HPX locality
     runtime.py              asyncio facade over _langx: dispatch, fencing, membership, shutdown
     worker.py               worker entry point: python -m langx.worker
-    coordinator.py          proxy nodes, epoch table, commit fence, retry (phase 3)
-    effects.py              outbox, effect log, direct sink (phase 3)
-    stub_llm.py             recorded-response LLM stub (phase 3)
+    coordinator.py          proxy nodes, epoch table, commit fence, retry
+    effects.py              outbox, effect log, direct sink
+    stub_llm.py             recorded-response LLM stub
+    island.py               launches langx_root and workers on one host
 hpx_impl/                   native C++ outside Python: the root locality and the membership action
 tests/unit/                 no HPX needed; run in CI
 tests/integration/          live island on one host; needs the built extension

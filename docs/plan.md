@@ -2,7 +2,7 @@
 
 Working title: durable LangGraph on HPX supervision dispatch.
 
-Status: phases 0 to 2 are done (results in [`docs/results/`](results/)). Phase 3 is next. This plan is the single source of truth for scope; findings from each phase are folded back into it.
+Status: phases 0 to 3 are done (results in [`docs/results/`](results/)). Phase 4 is next. This plan is the single source of truth for scope; findings from each phase are folded back into it.
 
 ---
 
@@ -15,7 +15,7 @@ Status: phases 0 to 2 are done (results in [`docs/results/`](results/)). Phase 3
 | RayX README and exp70 (README, gap matrix, evidence index, Slice 3B sources) | Read | exp70 by Bita; reproduction on `cc2be553` by Rohan |
 | RayX exp66 | Partly | In-process hosting model and transport |
 | LangGraph runtime, checkpointer and durable execution docs | Read | Behavior needed here checked in spike D on 1.2.16 |
-| langX phase 0 to phase 2 results | Fully | [`phase0.md`](results/phase0.md), [`phase1.md`](results/phase1.md), [`phase2.md`](results/phase2.md) |
+| langX phase 0 to phase 3 results | Fully | [`phase0.md`](results/phase0.md), [`phase1.md`](results/phase1.md), [`phase2.md`](results/phase2.md), [`phase3.md`](results/phase3.md) |
 
 Rule: a statement marked **[VERIFY]** is an assumption that must be checked before code depends on it. Statements marked **[p0]**, **[p1]** or **[p2]** were measured in that phase.
 
@@ -528,11 +528,9 @@ Python `dispatch_work`, SIGKILL and SIGSTOP behavior, connector-side membership 
 
 Coordinator loss, by SIGKILL or clean exit, fences every worker; a fenced worker cannot re-init; F7 restarts the workers, which recovered in 6/6 runs. C++ reproducers for the observer and related behaviors filed as [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834). LangGraph pinned to 1.2.16. Results: [`phase2.md`](results/phase2.md).
 
-### Phase 3: coordinator, fence and effects
+### Phase 3: coordinator, fence and effects (done)
 
-Proxy factory, worker selection, bounded retry, epoch table, commit fence, outbox and effect log, stub LLM and fixtures, `research_agent`. LangGraph pinned.
-
-Exit: F0 passes with hash equal to baseline on 2 workers.
+Coordinator with epoch table, bounded retry and commit fence; keyed outbox and effect log; stub LLM with recorded fixtures; `research_agent`. F0 on 2 workers equals the baseline in 5/5 runs, one commit per task, no duplicate effect. Results: [`phase3.md`](results/phase3.md).
 
 ### Phase 4: failure harness
 
