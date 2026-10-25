@@ -14,6 +14,7 @@ Research prototype: LangGraph agent steps executed on HPX localities, with HPX s
 | 1: bindings core | [`docs/results/phase1.md`](docs/results/phase1.md) |
 | 2: coordinator loss | [`docs/results/phase2.md`](docs/results/phase2.md) |
 | 3: coordinator, commit fence, effects; F0 | [`docs/results/phase3.md`](docs/results/phase3.md) |
+| dispatch overhead split: HPX vs Python | [`docs/results/overhead.md`](docs/results/overhead.md) |
 
 Upstream reports from these results: [hpx#7825](https://github.com/TheHPXProject/hpx/issues/7825) and the tracking issue [hpx#7834](https://github.com/TheHPXProject/hpx/issues/7834).
 

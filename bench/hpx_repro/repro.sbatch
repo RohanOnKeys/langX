@@ -30,7 +30,7 @@ echo "=== linked: $(ldd $B/supervision_gaps_repro | awk '$1 == "libhpx_core.so" 
 OUT=bench/hpx_repro/_runs/${SLURM_JOB_ID:-local}
 R=bench/hpx_repro/run_repro.sh
 N=${REPS:-5}
-for CASE in ${CASES:-observer inflight remove epoch leave}; do
+for CASE in ${CASES:-observer inflight remove epoch leave rtt}; do
   case $CASE in
     observer)
       bash $R $B/supervision_gaps_repro $OUT observer "$N" --r-b-join 1
