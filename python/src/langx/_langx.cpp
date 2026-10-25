@@ -289,6 +289,21 @@ using langx_fenced_run_node_action =
 HPX_REGISTER_ACTION_DECLARATION(langx_fenced_run_node_action)
 HPX_REGISTER_ACTION(langx_fenced_run_node_action)
 
+/// \brief Echo action that never enters Python on the worker.
+///
+/// Measurement only: comparing it with run_node separates the worker's
+/// Python cost from HPX and the coordinator's Python bridge.
+std::string langx_echo(std::string payload)
+{
+    return payload;
+}
+HPX_PLAIN_ACTION(langx_echo, langx_echo_action)
+
+using langx_fenced_echo_action =
+    hpx::supervision::make_fenced_action_t<langx_echo_action>;
+HPX_REGISTER_ACTION_DECLARATION(langx_fenced_echo_action)
+HPX_REGISTER_ACTION(langx_fenced_echo_action)
+
 namespace langx {
 
     py::dict version_info()
@@ -568,6 +583,31 @@ namespace langx {
         });
     }
 
+    /// Sends langx_echo(payload) under supervision fencing; the outcome
+    /// arrives through drain_completions(). Measurement only.
+    void dispatch_echo(std::uint64_t id, std::uint32_t locality,
+        std::uint64_t epoch, std::string const& payload)
+    {
+        require_supervised();
+        ensure_pipe();
+        py::gil_scoped_release release;
+        hpx::run_as_hpx_thread([&] {
+            std::int64_t const t0 = now_ns();
+            hpx::future<std::string> f;
+            try
+            {
+                f = hpx::supervision::dispatch_work<langx_echo_action>(
+                    locality_gid(locality), epoch, payload);
+            }
+            catch (...)
+            {
+                f = hpx::make_exceptional_future<std::string>(
+                    std::current_exception());
+            }
+            deliver(id, t0, std::move(f));
+        });
+    }
+
     /// Asks the root to force_disconnect \p locality. The outcome (JSON from
     /// langx_root_force_disconnect) arrives through drain_completions().
     void request_force_disconnect(std::uint64_t id, std::uint32_t locality)
@@ -618,6 +658,8 @@ PYBIND11_MODULE(_langx, m)
     m.def("dispatch_node", &langx::dispatch_node, py::arg("id"),
         py::arg("locality"), py::arg("epoch"), py::arg("node"),
         py::arg("payload"));
+    m.def("dispatch_echo", &langx::dispatch_echo, py::arg("id"),
+        py::arg("locality"), py::arg("epoch"), py::arg("payload"));
     m.def("request_force_disconnect", &langx::request_force_disconnect,
         py::arg("id"), py::arg("locality"));
 }

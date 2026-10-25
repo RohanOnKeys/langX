@@ -18,6 +18,9 @@
 ///             snapshot_peers() and find_all_localities() at each step.
 ///   epoch     A joins B. A prints check_admission and the dispatch_work
 ///             outcome for epochs 0, join, join + 1 and join + 100.
+///   rtt       A joins B and times round trips of a small echo action to B:
+///             a plain hpx::async, then the same through dispatch_work. The
+///             HPX-only floor for the langx dispatch overhead.
 ///   leave     hpx#7825. A and B both join until each sees the other. A
 ///             keeps running. B then leaves: supervision::finalize(), an
 ///             optional pause, posted hpx::disconnect(), hpx::stop(). B
@@ -54,6 +57,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <algorithm>
 
 int repro_sleep(int ms)
 {
@@ -66,6 +70,17 @@ using repro_fenced_sleep_action =
     hpx::supervision::make_fenced_action_t<repro_sleep_action>;
 HPX_REGISTER_ACTION_DECLARATION(repro_fenced_sleep_action)
 HPX_REGISTER_ACTION(repro_fenced_sleep_action)
+
+std::string repro_echo(std::string s)
+{
+    return s;
+}
+HPX_PLAIN_ACTION(repro_echo, repro_echo_action)
+
+using repro_fenced_echo_action =
+    hpx::supervision::make_fenced_action_t<repro_echo_action>;
+HPX_REGISTER_ACTION_DECLARATION(repro_fenced_echo_action)
+HPX_REGISTER_ACTION(repro_fenced_echo_action)
 
 namespace {
 
@@ -382,6 +397,47 @@ namespace {
             membership().c_str());
     }
 
+    /// Times ``n`` sequential calls of ``call``; prints p50, p99 and mean in us.
+    template <typename F>
+    void time_calls(char const* label, int n, F&& call)
+    {
+        for (int i = 0; i != 200; ++i)    // warm up connections and caches
+            call();
+        std::vector<double> us;
+        us.reserve(n);
+        for (int i = 0; i != n; ++i)
+        {
+            auto const t0 = clk::now();
+            call();
+            us.push_back(
+                std::chrono::duration<double, std::micro>(clk::now() - t0)
+                    .count());
+        }
+        double sum = 0;
+        for (double v : us)
+            sum += v;
+        std::sort(us.begin(), us.end());
+        say("%s n=%d p50_us=%.1f p99_us=%.1f mean_us=%.1f", label, n,
+            us[us.size() / 2], us[us.size() * 99 / 100], sum / n);
+    }
+
+    void a_rtt()
+    {
+        init_supervision(2000);
+        auto const b = join_b(30);
+        put("a.ready", "1");
+        std::string const payload(100, 'x');
+        int const n = 2000;
+        time_calls("plain_async", n, [&] {
+            hpx::async(repro_echo_action(), b.locality, payload).get();
+        });
+        time_calls("dispatch_work", n, [&] {
+            hpx::supervision::dispatch_work<repro_echo_action>(
+                b.locality, b.join_epoch, payload)
+                .get();
+        });
+    }
+
     void a_epoch()
     {
         init_supervision(2000);
@@ -455,6 +511,8 @@ int main(int argc, char** argv)
             a_inflight();
         else if (case_name == "remove")
             a_remove();
+        else if (case_name == "rtt")
+            a_rtt();
         else if (case_name == "leave")
             a_leave();
         else

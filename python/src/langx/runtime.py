@@ -285,6 +285,18 @@ class Runtime:
         raise TimeoutError(f"no result from locality {peer.locality} "
                            f"within {timeout_s} s")
 
+    async def dispatch_echo(self, peer, payload):
+        """Round trip of a C++ echo action under ``dispatch_work``.
+
+        Measurement only: the worker never enters Python, so comparing it
+        with ``dispatch_node`` isolates the worker's Python cost.
+        """
+        c = await self._submit(lambda i: self.ext.dispatch_echo(
+            i, peer.locality, peer.epoch, payload))
+        if c["status"] != "ok":
+            raise DispatchFailed(c["error"], c["error_code"])
+        return c["result"]
+
     async def force_disconnect(self, locality):
         """Ask the root to ``force_disconnect`` ``locality``.
 

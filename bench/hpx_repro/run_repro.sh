@@ -63,7 +63,7 @@ for REP in $(seq 1 "$REPS"); do
     if [ "$CASE" = inflight ]; then wait_f "$D/a.dispatched"; sleep 0.3; else sleep 0.5; fi
   fi
 
-  if [ "$CASE" != epoch ]; then
+  if [ "$CASE" != epoch ] && [ "$CASE" != rtt ]; then
     kill -9 $B
     touch "$D/b.killed"
   fi
