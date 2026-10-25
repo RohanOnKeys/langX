@@ -1,6 +1,6 @@
 # exp01: durable LangGraph on HPX supervision dispatch
 
-**Status:** phase 3 (coordinator, commit fence, effects, F0). Design and gates are in [`docs/plan.md`](../../docs/plan.md).
+**Status:** F0 passes on 2 workers ([`phase3.md`](../../docs/results/phase3.md)); F1 to F9 are phase 4. Design and gates are in [`docs/plan.md`](../../docs/plan.md).
 
 ## Question
 
