@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/assets/banner.png" alt="langX" width="600"></p>
+<p align="center"><img src="docs/assets/banner.png" alt="langX" width="100%"></p>
 
 # langX
 
