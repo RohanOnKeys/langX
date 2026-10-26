@@ -2,3 +2,6 @@
 # LangGraph is pinned: its executor internals are private and change often.
 # 1.2.16 is the version spike D ran on (docs/results/phase0.md).
 langgraph==1.2.16
+# F7 resumes a run from a durable checkpoint. 3.1.2 needs langgraph-checkpoint
+# >=4.3,<5, the same range as langgraph 1.2.16.
+langgraph-checkpoint-sqlite==3.1.2
