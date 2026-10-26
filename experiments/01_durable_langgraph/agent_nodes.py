@@ -59,8 +59,13 @@ def plan(state):
 def search(task):
     """One fan-out branch: simulated tool latency, then a result.
 
+    The result is also returned as one outbox intent (Tier A), so a retried
+    search shows whether its effect is applied exactly once.
+
     With ``task["direct"]`` set to ``{"path", "mode"}`` it also writes one
-    Tier B effect itself.
+    Tier B effect itself, then waits ``direct["post_ms"]`` (default 0) before
+    returning, which leaves a window to kill the worker after the effect and
+    before the reply (F3).
     """
     time.sleep(task.get("latency_ms", 0) / 1000.0)
     result = digest("search", task["query"])
@@ -71,8 +76,10 @@ def search(task):
                   task["run_id"], task["loop"], f"search:{task['i']}", "",
                   -1, -1, "record_hit", {"query": task["query"]})
         sink.log.close()
+        time.sleep(direct.get("post_ms", 0) / 1000.0)
     return {"update": {"results": {f"{task['loop']}:{task['i']}": result}},
-            "effects": []}
+            "effects": [{"kind": "record_hit",
+                         "payload": {"query": task["query"], "result": result}}]}
 
 
 def reduce(state):

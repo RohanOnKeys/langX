@@ -21,6 +21,7 @@ Node errors come back from the worker as values and are raised as
 import asyncio
 import itertools
 import json
+import time
 
 from langx.runtime import DispatchFailed, TargetFenced
 
@@ -85,11 +86,15 @@ class Coordinator:
     """Dispatches LangGraph tasks to workers behind a commit fence."""
 
     def __init__(self, runtime, outbox=None, max_attempts=4,
-                 dispatch_timeout_s=None):
+                 dispatch_timeout_s=None, on_dispatch=None):
         self.rt = runtime
         self.outbox = outbox
         self.max_attempts = max_attempts
         self.dispatch_timeout_s = dispatch_timeout_s
+        # Test hook: on_dispatch(key, attempt, peer) runs right before each
+        # dispatch and may return a timeout for that attempt. The failure
+        # harness uses it to inject faults; it never fences a worker.
+        self.on_dispatch = on_dispatch
         self.epochs = EpochTable()
         self.accepted = {}
         self.events = []
@@ -113,7 +118,7 @@ class Coordinator:
                             "node": key[2], "attempt_id": attempt_id,
                             "locality": peer.locality if peer else None,
                             "epoch": peer.epoch if peer else None,
-                            "detail": detail})
+                            "detail": detail, "t": time.monotonic()})
 
     async def execute(self, run_id, step, node_key, node_path, node_input):
         """Run one task and return the committed node value."""
@@ -125,9 +130,15 @@ class Coordinator:
             attempt_id = f"{run_id}/{step}/{node_key}/{n}"
             payload = json.dumps({"attempt_id": attempt_id, "input": node_input},
                                  sort_keys=True)
+            timeout_s = self.dispatch_timeout_s
+            if self.on_dispatch is not None:
+                override = self.on_dispatch(key, n, peer)
+                if override is not None:
+                    timeout_s = override
+            self._event("dispatched", key, attempt_id, peer)
             try:
                 res = await self.rt.dispatch_node(
-                    peer, node_path, payload, timeout_s=self.dispatch_timeout_s)
+                    peer, node_path, payload, timeout_s=timeout_s)
             except TargetFenced as ex:
                 self.epochs.fence(peer.locality, "target_fenced")
                 self._event("retry", key, attempt_id, peer,

@@ -117,11 +117,20 @@ def initial_state(run_id, width, loops, latency_ms, direct=None):
 
 
 def state_hash(state):
-    """SHA-256 of the canonical JSON of the final state (plan 6.7)."""
-    return hashlib.sha256(canonical(state).encode()).hexdigest()
+    """SHA-256 of the canonical JSON of the final state (plan 6.7).
+
+    ``direct`` only says where Tier B effects go, so it is left out: runs
+    that write them to different files still compare equal.
+    """
+    kept = {k: v for k, v in state.items() if k != "direct"}
+    return hashlib.sha256(canonical(kept).encode()).hexdigest()
 
 
-async def run(graph, run_id, state):
-    """Run one agent to completion; returns the final state."""
+async def run(graph, run_id, state, durability=None):
+    """Run one agent to completion; returns the final state.
+
+    ``state`` None resumes ``run_id`` from the graph's checkpointer.
+    """
+    kw = {"durability": durability} if durability else {}
     return await graph.ainvoke(state, {"configurable": {"thread_id": run_id},
-                                       "recursion_limit": 100})
+                                       "recursion_limit": 100}, **kw)

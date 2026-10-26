@@ -90,6 +90,7 @@ class Runtime:
         self._ext = ext
         self._ids = itertools.count(1)
         self._pending = {}
+        self.late = []
         self._loop = None
         self.poll_timeout_s = None
         self.self_peer = None
@@ -225,6 +226,17 @@ class Runtime:
             fut = self._pending.pop(c["id"], None)
             if fut is not None and not fut.done():
                 fut.set_result(c)
+            else:
+                # The request was abandoned or timed out; its result is
+                # dropped here, never reaching the caller or the commit fence.
+                late = {"id": c["id"], "status": c["status"],
+                        "t": time.monotonic(), "attempt_id": None}
+                if c["status"] == "ok":
+                    try:
+                        late["attempt_id"] = json.loads(c["result"]).get("attempt_id")
+                    except (ValueError, AttributeError):
+                        pass
+                self.late.append(late)
 
     async def _submit(self, send):
         loop = self._attach()

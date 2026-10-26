@@ -27,10 +27,12 @@ class FakeRuntime:
     def __init__(self, script, fenced=()):
         self.script = list(script)
         self.calls = []
+        self.timeouts = []
         self.fenced = set(fenced)
 
     async def dispatch_node(self, peer, node, payload, timeout_s=None):
         self.calls.append((peer.locality, json.loads(payload)["attempt_id"]))
+        self.timeouts.append(timeout_s)
         step = self.script.pop(0)
         if isinstance(step, Exception):
             raise step
@@ -147,6 +149,30 @@ def test_outbox_applied_only_on_commit(tmp_path):
     rows = log.rows()
     assert len(rows) == 1
     assert rows[0]["attempt_id"].endswith("/2")
+
+
+def test_on_dispatch_hook_sees_every_attempt_and_can_set_its_timeout():
+    seen = []
+
+    def hook(key, attempt, peer):
+        seen.append((key, attempt, peer.locality))
+        return 0.5 if attempt == 1 else None
+
+    c = coordinator([TimeoutError(), ok()], dispatch_timeout_s=9.0,
+                    on_dispatch=hook)
+    run(c)
+    assert seen == [(("r", 1, "plan"), 1, 1), (("r", 1, "plan"), 2, 2)]
+    assert c.rt.timeouts == [0.5, 9.0]
+    assert c.epochs.fenced() == {}
+
+
+def test_events_are_timestamped_in_order():
+    c = coordinator([TimeoutError(), ok()])
+    run(c)
+    assert [e["event"] for e in c.events] == ["dispatched", "retry",
+                                              "dispatched", "committed"]
+    ts = [e["t"] for e in c.events]
+    assert ts == sorted(ts)
 
 
 def test_epoch_table_never_unfences():

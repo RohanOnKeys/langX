@@ -128,11 +128,13 @@ def test_late_completion_for_abandoned_request_is_dropped():
         with pytest.raises(TimeoutError):
             await rt.dispatch_node(PEER, "m:f", "{}", timeout_s=0.02,
                                    abandon_on_fence=False)
-        ext.post(ext.sent[0][0], "ok", b"late")
+        ext.post(ext.sent[0][0], "ok", b'{"attempt_id": "r/1/plan/1"}')
         await asyncio.sleep(0.02)   # _drain runs; nothing is waiting
         return rt._pending
 
     assert run(go()) == {}
+    assert [(x["status"], x["attempt_id"]) for x in rt.late] == [
+        ("ok", "r/1/plan/1")]
 
 
 def test_force_disconnect_reports_root_errors():
