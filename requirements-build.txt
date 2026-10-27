@@ -1,3 +1,4 @@
 # Build dependencies for the _langx HPX extension.
 # Kept separate from requirements.txt, which holds the Python runtime deps.
-pybind11
+# The version in the Rostam venv (build log of job 219490).
+pybind11==3.1.0

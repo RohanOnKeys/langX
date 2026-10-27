@@ -1,3 +1,4 @@
 # Dev / test-only dependencies (NOT needed to build or run langx).
 # Installed in CI only in the jobs that run the test suite.
-pytest==8.4.2
+# The version in the Rostam venv (test log of job 219490).
+pytest==9.1.1
