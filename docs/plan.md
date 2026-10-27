@@ -552,7 +552,7 @@ Short report: claim, method, results, limits. Upstream findings filed or updated
 
 ## 17. Repository and conventions
 
-Layout as in the README: `python/` (extension and `langx` package), `hpx_impl/` (root and membership action), `tests/unit/` (no HPX, run in CI), `tests/integration/` (needs the built extension), `experiments/01_durable_langgraph/` (the experiment), `spikes/phaseN/` (code behind each phase write-up), `bench/` (Rostam test job, link check, `hpx_repro/` reproducers), `docs/` (plan and `results/`).
+Layout as in the README: `python/` (extension and `langx` package), `hpx_impl/` (root and membership action), `tests/unit/` (no HPX, run in CI), `tests/integration/` (needs the built extension), `experiments/01_durable_langgraph/` (the experiment), `spikes/phaseN/` (code behind each phase write-up), `bench/` (Rostam test job, link check, `setup/` for HPX, venv and environment, `hpx_repro/` reproducers), `docs/` (plan, `results/`, `reproduce.md`).
 
 - No duplicate modules with overlapping responsibility; no `utils/`, `helpers/` or empty placeholder directories.
 - Python snake_case modules, PascalCase classes; C++ follows HPX style.
