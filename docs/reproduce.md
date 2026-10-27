@@ -13,7 +13,7 @@ Every result in [`docs/results/`](results/) comes from a script in this reposito
 
 Source `bench/setup/rostam_env.sh` in the shell before `sbatch`; Slurm passes the environment on. Every job script sources `bench/setup/rostam_env.sh` or loads the same modules, and reads `HPX_INSTALL` and `LANGX_VENV` from the environment. Jobs that need the langX build depend on the last step; chain them with `sbatch -d afterok:<job>`.
 
-Versions on Rostam when the results were taken: HPX `cc2be553`, gcc 15.1.0, Python 3.12.3, pybind11 3.1.0, pytest 9.1.1, LangGraph 1.2.16. `requirements-dev.txt` pins pytest 8.4.2 for CI.
+Versions on Rostam when the results were taken: HPX `cc2be553`, gcc 15.1.0, Python 3.12.3, and the pins in `requirements*.txt`: LangGraph 1.2.16, pybind11 3.1.0, pytest 9.1.1.
 
 ## Per result
 
