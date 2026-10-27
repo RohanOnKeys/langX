@@ -92,10 +92,12 @@ tests/unit/                 no HPX needed; run in CI
 tests/integration/          live island on one host; needs the built extension
 experiments/01_durable_langgraph/  the experiment: graph, harness, sbatch, curated aggregates (phases 3 to 5)
 spikes/phaseN/              code behind docs/results/phaseN.md; not the langx API
-bench/                      Rostam test job, markdown link check
+bench/                      Rostam test job, overhead benchmark, markdown link check
+bench/setup/                Rostam environment, HPX build, venv setup
 bench/hpx_repro/            pure C++ reproducers for HPX issues (#7825, #7834)
 docs/plan.md                experiment plan: claims, design, failure matrix, gates, phases
 docs/results/               one write-up per phase
+docs/reproduce.md           the command and jobs behind every result
 ```
 
 ## Build and test
@@ -111,7 +113,7 @@ cmake --build python/build          # python/src/langx/_langx*.so and python/bui
 PYTHONPATH=python/src pytest tests
 ```
 
-On Rostam the same build and both test suites run as one job: `HPX_INSTALL=<hpx install> LANGX_VENV=<venv> sbatch bench/rostam_test.sbatch`.
+On Rostam, set up once with `bench/setup/` (HPX, venv, environment); [`docs/reproduce.md`](docs/reproduce.md) lists the command behind every result. The same build and both test suites run as one job: `HPX_INSTALL=<hpx install> LANGX_VENV=<venv> sbatch bench/rostam_test.sbatch`.
 
 Only `tests/unit` and the markdown link check run in CI. Integration tests, spikes and experiments need HPX and run on Rostam.
 
